@@ -93,7 +93,7 @@ return {
 		end,
 		dependencies = { { "nvim-lua/plenary.nvim" } },
 		lazy = true,
-		ft = "neorg",
+		ft = "norg",
 	},
 	{
 		"numToStr/Comment.nvim",
