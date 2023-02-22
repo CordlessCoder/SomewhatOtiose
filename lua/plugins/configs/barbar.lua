@@ -16,7 +16,7 @@ require("bufferline").setup({
 	exclude_name = { "package.json" },
 
 	-- Hide inactive buffers and file extensions. Other options are `alternate`, `current`, and `visible`.
-	hide = { extensions = false, inactive = true },
+	-- hide = { extensions = false, inactive = true },
 
 	-- Disable highlighting file icons in inactive buffers
 	highlight_inactive_file_icons = true,

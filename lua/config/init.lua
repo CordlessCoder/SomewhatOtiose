@@ -28,8 +28,8 @@ end
 
 g.rust_clip_command = "xclip -selection clipboard"
 g.gitblame_enabled = 0
-opt.guifont = "FiraCode Nerd Font:h16"
--- opt.guifont = "JetBrainsMono Nerd Font:h16"
+-- opt.guifont = "FiraCode Nerd Font:h16"
+opt.guifont = "JetBrainsMono Nerd Font:h16"
 -- vim.cmd "set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP"
 -- vim.cmd "set langnoremap"
 vim.cmd("let g:sneak#label = 1")

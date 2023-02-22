@@ -57,7 +57,7 @@ gls.left[2] = {
 }
 gls.left[3] = {
 	FileIcon = {
-		provider = "FileIcon",
+		provider = "FileTypeName",
 		condition = buffer_not_empty,
 		highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, colors.gray },
 		separator = "▋",

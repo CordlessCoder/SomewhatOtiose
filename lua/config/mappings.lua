@@ -17,6 +17,7 @@ local mappings = {
 		["<A-h>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 	},
 	n = {
+		["<leader>e"] = { "<Cmd>NvimTreeFocus<CR>", "Focus NvimTree" },
 		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
 		["<A-h>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
@@ -59,12 +60,6 @@ local mappings = {
 				vim.lsp.buf.hover()
 			end,
 			"Hover action",
-		},
-		["<leader>e"] = {
-			function()
-				require("dapui").eval()
-			end,
-			"Evaluate",
 		},
 		["<leader>dc"] = {
 			function()
@@ -202,9 +197,3 @@ local mappings = {
 }
 local util = require("config.utils.mapping")
 util.apply_map(mappings)
-vim.keymap.set("n", "<leader>n", function()
-	vim.cmd([[NvimTreeToggle]])
-end)
-vim.keymap.set("n", "<leader>e", function()
-	vim.cmd([[NvimTreeFocus]])
-end)
