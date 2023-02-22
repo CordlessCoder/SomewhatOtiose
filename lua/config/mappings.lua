@@ -21,7 +21,7 @@ local mappings = {
 		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
 		["<A-h>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
-		["<C-b>"] = { "<Cmd>BufferPick<CR>", "Magic puffer-picking" },
+		["<A-b>"] = { "<Cmd>BufferPick<CR>", "Magic puffer-picking" },
 		["<A-p>"] = { "<Cmd>BufferPin<CR>", "Pin/unpin buffer" },
 		["<A-c>"] = { "<Cmd>BufferClose<CR>", "Close buffer" },
 		["<leader>cbp"] = { "<Cmd>BufferCloseAllButPinned<CR>", "Close all buffers, only leaving the pinned" },

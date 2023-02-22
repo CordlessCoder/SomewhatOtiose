@@ -1,21 +1,35 @@
 local gl = require("galaxyline")
 local gls = gl.section
 gl.short_line_list = { "LuaTree", "vista", "dbui", "NvimTree" }
+local g = vim.g
 
 local colors = {
-	bg = "#1A1B26",
-	fg = "#C0CAF5",
-	black = "#11121D",
-	gray = "#414868",
-	lgray = "#A9B1D6",
-	color1 = "#EC7188",
-	color2 = "#759BEC",
-	color3 = "#78C6F3",
-	color4 = "#97C566",
-	color5 = "#D6A764",
-	color6 = "#B393EC",
-	color7 = "#D6A764",
-	color8 = "#97C566",
+	bg = g.terminal_color_0,
+	fg = g.terminal_color_15,
+	black = g.terminal_color_0,
+	gray = g.terminal_color_8,
+	lgray = g.terminal_color_7,
+	color1 = g.terminal_color_1,
+	color2 = g.terminal_color_2,
+	color3 = g.terminal_color_3,
+	color4 = g.terminal_color_4,
+	color5 = g.terminal_color_5,
+	color6 = g.terminal_color_6,
+	color7 = g.terminal_color_7,
+	color8 = g.terminal_color_15,
+	-- bg = "#1A1B26",
+	-- fg = "#C0CAF5",
+	-- black = "#11121D",
+	-- gray = "#414868",
+	-- lgray = "#A9B1D6",
+	-- color1 = "#EC7188",
+	-- color2 = "#759BEC",
+	-- color3 = "#78C6F3",
+	-- color4 = "#97C566",
+	-- color5 = "#D6A764",
+	-- color6 = "#B393EC",
+	-- color7 = "#D6A764",
+	-- color8 = "#97C566",
 }
 
 local buffer_not_empty = function()
@@ -208,7 +222,7 @@ gls.short_line_left[1] = {
 gls.short_line_left[2] = {
 	BufferType = {
 		provider = "FileTypeName",
-		separator = "",
+		separator = "▋",
 
 		separator_highlight = {
 			colors.lgray,
@@ -221,8 +235,8 @@ gls.short_line_left[2] = {
 gls.short_line_right[1] = {
 	BufferIcon = {
 		provider = "BufferIcon",
-		separator = "",
-		separator_highlight = { colors.lgray, colors.bg },
+		separator = "▋",
+		separator_highlight = { colors.bg, colors.lgray },
 		highlight = { colors.bg, colors.lgray },
 	},
 }

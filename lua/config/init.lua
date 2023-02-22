@@ -2,7 +2,6 @@ local opt = vim.opt
 local g = vim.g
 
 require("config.mappings")
-require("config.visual")
 
 opt.relativenumber = true
 opt.confirm = true

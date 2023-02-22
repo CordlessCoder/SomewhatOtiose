@@ -38,8 +38,6 @@ opt.updatetime = 250
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append("<>[]hl")
 
-g.mapleader = " "
-
 -- disable some builtin vim plugins
 local default_plugins = {
 	"2html_plugin",
