@@ -6,14 +6,22 @@ return {
 	{
 		"folke/tokyonight.nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 100, -- make sure to load this before all the other start plugins
+		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
 			-- load the colorscheme here
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
 
-	{ "romgrk/barbar.nvim", dependencies = "nvim-tree/nvim-web-devicons", lazy = true, event = "BufEnter" },
+	{
+		"romgrk/barbar.nvim",
+		dependencies = "nvim-tree/nvim-web-devicons",
+		lazy = true,
+		event = "BufEnter",
+		config = function()
+			require("plugins.configs.barbar")
+		end,
+	},
 
 	{
 		"akinsho/toggleterm.nvim",
@@ -72,7 +80,7 @@ return {
 
 	-- you can use the VeryLazy event for things that can
 	-- load later and are not important for the initial UI
-	{ "stevearc/dressing.nvim", event = "VeryLazy" },
+	{ "stevearc/dressing.nvim", event = "VeryLazy", lazy = true },
 
 	{
 		"simrat39/rust-tools.nvim",
@@ -81,8 +89,8 @@ return {
 		config = function()
 			require("plugins.configs.rust-tools")
 		end,
-		lazy = true,
 		event = "BufEnter",
+		lazy = true,
 	},
 	{
 		"monaqa/dial.nvim",
@@ -91,8 +99,6 @@ return {
 		keys = { "<C-a>", "<C-x>" },
 		lazy = true,
 	},
-
-	{ "lewis6991/impatient.nvim" },
 
 	{
 		"Pocco81/TrueZen.nvim",
@@ -174,7 +180,7 @@ return {
 				line_number_text = "Line %s/%s",
 			})
 		end,
-		event = "BufEnter",
+		event = "VeryLazy",
 		lazy = true,
 	},
 

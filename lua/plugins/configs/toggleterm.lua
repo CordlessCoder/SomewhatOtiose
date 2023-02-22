@@ -54,10 +54,10 @@ require("toggleterm").setup({
 		-- height = <value>,
 		winblend = 3,
 	},
-	winbar = {
-		enabled = true,
-		name_formatter = function(term) --  term: Terminal
-			return term.name
-		end,
-	},
+	-- winbar = {
+	-- 	enabled = false,
+	-- 	name_formatter = function(term) --  term: Terminal
+	-- 		return term.name
+	-- 	end,
+	-- },
 })
