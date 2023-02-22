@@ -12,6 +12,28 @@ return {
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
+	{
+		"wakatime/vim-wakatime",
+		lazy = true,
+		event = "BufEnter",
+		cond = function()
+			local f = io.open((os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") or "/root") .. "/.wakatime.cfg", "r")
+			if f ~= nil then
+				io.close(f)
+				return true
+			else
+				return false
+			end
+		end,
+	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		lazy = true,
+		event = "BufEnter",
+		config = function()
+			require("colorizer").setup()
+		end,
+	},
 
 	{
 		"romgrk/barbar.nvim",
