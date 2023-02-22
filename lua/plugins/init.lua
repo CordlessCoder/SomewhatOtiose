@@ -14,32 +14,29 @@ return {
 	},
 
 	{
+		"akinsho/toggleterm.nvim",
+		lazy = true,
+		cmd = {
+			"ToggleTerm",
+			"ToggleTermToggleAll",
+			"TermExec",
+			"ToggleTermSendCurrentLine",
+			"ToggleTermSendVisualLines",
+			"ToggleTermSendVisualSelection",
+			"ToggleTermSetName",
+		},
+		keys = { "<A-v>" },
+		config = function()
+			require("plugins.configs.toggleterm")
+		end,
+	},
+
+	{
 		"nvim-neorg/neorg",
 		build = ":Neorg sync-parsers",
-		opts = {
-			load = {
-				["core.defaults"] = {}, -- Loads default behaviour
-				["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-				["core.norg.dirman"] = { -- Manages Neorg workspaces
-					config = {
-						workspaces = {
-							notes = "~/notes",
-						},
-					},
-				},
-				["core.integrations.treesitter"] = {
-					config = {
-						configure_parsers = true,
-						install_parsers = true,
-					},
-				},
-				["core.norg.completion"] = {
-					config = {
-						engine = "nvim-cmp",
-					},
-				},
-			},
-		},
+		config = function()
+			require("plugins.configs.neorg")
+		end,
 		dependencies = { { "nvim-lua/plenary.nvim" } },
 		lazy = true,
 		ft = "neorg",
