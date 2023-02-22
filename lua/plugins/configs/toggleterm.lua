@@ -7,7 +7,7 @@ require("toggleterm").setup({
 			return vim.o.columns * 0.4
 		end
 	end,
-	open_mapping = [[<A-v>]],
+	-- open_mapping = [[<A-v>]],
 	-- on_create = fun(t: Terminal), -- function to run when the terminal is first created
 	-- on_open = fun(t: Terminal), -- function to run when the terminal opens
 	-- on_close = fun(t: Terminal), -- function to run when the terminal closes
