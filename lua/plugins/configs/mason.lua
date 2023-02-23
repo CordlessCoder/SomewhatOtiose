@@ -5,7 +5,6 @@ if not present then
 end
 
 local options = {
-	ensure_installed = { "lua-language-server" }, -- not an option from mason.nvim
 
 	PATH = "skip",
 
@@ -30,5 +29,36 @@ local options = {
 
 	max_concurrent_installers = 10,
 }
+local ensure_installed = {
+	-- Rust
+	"rust-analyzer",
+	"rustfmt",
+
+	-- Python
+	"python-lsp-server",
+
+	-- lua stuff
+	"lua-language-server",
+	"stylua",
+
+	-- web dev
+	"css-lsp",
+	"html-lsp",
+
+	-- shell
+	"shfmt",
+	"shellcheck",
+
+	-- TOML
+	"taplo",
+
+	-- C/C++/C# etc.
+	"clangd",
+	"clang-format",
+}
+
+vim.api.nvim_create_user_command("MasonInstallAll", function()
+	vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
+end, {})
 
 mason.setup(options)

@@ -163,7 +163,7 @@ return {
 		config = function()
 			require("plugins.configs.mason")
 		end,
-		cmd = { "Mason", "MasonInstall", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
+		cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
 		lazy = true,
 	},
 

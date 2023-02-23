@@ -62,7 +62,7 @@ local servers = {
 	"tsserver",
 	"clangd",
 	"jdtls",
-	-- "taplo",
+	"taplo",
 	"gopls",
 	"solidity",
 	-- "solidity_ls",
