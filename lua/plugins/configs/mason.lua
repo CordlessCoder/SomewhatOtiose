@@ -55,6 +55,12 @@ local ensure_installed = {
 	-- C/C++/C# etc.
 	"clangd",
 	"clang-format",
+
+	-- Zig
+	"zls",
+
+	-- Markdown
+	"marksman",
 }
 
 vim.api.nvim_create_user_command("MasonInstallAll", function()

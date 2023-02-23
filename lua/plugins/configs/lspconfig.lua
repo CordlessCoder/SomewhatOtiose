@@ -58,13 +58,15 @@ local servers = {
 	"lua_ls",
 	"emmet_ls",
 	"bashls",
-	"html",
 	"tsserver",
+	"ccls",
 	"clangd",
 	"jdtls",
 	"taplo",
 	"gopls",
 	"solidity",
+	"zls",
+	"marksman",
 	-- "solidity_ls",
 }
 
