@@ -68,7 +68,7 @@ options.buttons = {
 		button("SPC r s", "  Rust Shell   ", "<cmd>:term irust <CR> :tabonly <CR> i"),
 		button("SPC t h", "  Themes       ", ":Telescope themes<CR>"),
 		button("SPC s e", "  Settings     ", ":e ~/.config/nvim/init.lua|:cd %:p:h <CR>"),
-		button("SPC u p", "ﮮ  Update NvChad", ":NvChadUpdate <CR>"),
+		button("SPC u p", "ﮮ  Update Plugins", ":Lazy update <CR>"),
 		button("SPC q q", "  Exit         ", ":qa!<CR>"),
 	},
 	opts = {

@@ -1,5 +1,6 @@
 return {
 
+	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
 	-- -- the colorscheme should be available when starting Neovim
 	{
 		"folke/tokyonight.nvim",
@@ -11,7 +12,6 @@ return {
 				-- your configuration comes here
 				-- or leave it empty to use the default settings
 				style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-				light_style = "day", -- The theme is used when the background is set to light
 				-- transparent = true, -- Enable this to disable setting the background color
 				terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
 				styles = {
@@ -29,12 +29,22 @@ return {
 				day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
 				hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
 				dim_inactive = false, -- dims inactive windows
-				lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
+				lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
 			})
 			vim.cmd([[colorscheme tokyonight-night]])
 		end,
 	},
-	{ "m4xshen/autoclose.nvim", lazy = true, event = "BufEnter", config = true },
+	{
+		"windwp/nvim-autopairs",
+		lazy = true,
+		event = "BufEnter",
+		config = function()
+			require("nvim-autopairs").setup()
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+			local cmp = require("cmp")
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+		end,
+	},
 	{
 		"wakatime/vim-wakatime",
 		lazy = true,
@@ -221,8 +231,8 @@ return {
 					{ label = "I stole all of your code.", url = "https://github.com/CordlessCoder/OxiiLink" },
 					{ label = "Pipe bomb is attached.", url = "https://github.com/CordlessCoder/Wallpapers" },
 				},
-				enable_line_number = true,
-				line_number_text = "Line %s/%s",
+				-- enable_line_number = true,
+				-- line_number_text = "Line %s/%s",
 			})
 		end,
 		event = "VeryLazy",

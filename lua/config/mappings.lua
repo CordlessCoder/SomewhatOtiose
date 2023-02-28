@@ -1,4 +1,11 @@
 local mappings = {
+	i = {
+		["<C-h>"] = { "<left>", "Move with HJKL in insert mode" },
+		["<C-j>"] = { "<down>", "Move with HJKL in insert mode" },
+		["<C-k>"] = { "<up>", "Move with HJKL in insert mode" },
+		["<C-l>"] = { "<right>", "Move with HJKL in insert mode" },
+	},
+
 	v = {
 		["<leader>p"] = { '"-dP', "paste without replacing buffer" },
 		["<leader>e"] = {

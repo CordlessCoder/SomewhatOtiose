@@ -15,6 +15,7 @@ require("neorg").setup({
 				install_parsers = true,
 			},
 		},
+		["core.export"] = {},
 		["core.norg.completion"] = {
 			config = {
 				engine = "nvim-cmp",

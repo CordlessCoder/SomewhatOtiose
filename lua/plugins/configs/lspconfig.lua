@@ -30,6 +30,62 @@ local on_attach = function(client, bufnr)
 	-- end
 end
 
+local function border(hl_name)
+	return {
+		{ "╭", hl_name },
+		{ "─", hl_name },
+		{ "╮", hl_name },
+		{ "│", hl_name },
+		{ "╯", hl_name },
+		{ "─", hl_name },
+		{ "╰", hl_name },
+		{ "│", hl_name },
+	}
+end
+
+local function goto_definition(split_cmd)
+	local lutil = vim.lsp.util
+	local log = require("vim.lsp.log")
+	local api = vim.api
+
+	-- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
+	local handler = function(_, result, ctx)
+		if result == nil or vim.tbl_isempty(result) then
+			local _ = log.info() and log.info(ctx.method, "No location found")
+			return nil
+		end
+
+		if split_cmd then
+			vim.cmd(split_cmd)
+		end
+
+		if vim.tbl_islist(result) then
+			lutil.jump_to_location(result[1])
+
+			if #result > 1 then
+				lutil.set_qflist(lutil.locations_to_items(result))
+				api.nvim_command("copen")
+				api.nvim_command("wincmd p")
+			end
+		else
+			lutil.jump_to_location(result)
+		end
+	end
+
+	return handler
+end
+
+vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
+
+-- LSP settings (for overriding per client)
+local handlers = {
+	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border("LspInfoBorder") }),
+	["textDocument/signatureHelp"] = vim.lsp.with(
+		vim.lsp.handlers.signature_help,
+		{ border = border("LspSagaSignatureBorder") }
+	),
+}
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities.textDocument.completion.completionItem = {
@@ -67,6 +123,7 @@ local servers = {
 	"solidity",
 	"zls",
 	"marksman",
+	"csharp_ls",
 	-- "solidity_ls",
 }
 
@@ -85,12 +142,14 @@ for _, lsp in ipairs(servers) do
 				end
 			end,
 			capabilities = capabilities,
+			handlers = handlers,
 		})
 	end
 end
 lspconfig.lua_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	handlers = handlers,
 
 	settings = {
 		Lua = {
@@ -110,8 +169,11 @@ lspconfig.lua_ls.setup({
 })
 lspconfig.solidity.setup({
 	root_dir = util.root_pattern(".git", "package.json", "LICENSE", "truffle-config.js"),
+	handlers = handlers,
+	capabilities = capabilities,
 })
 lspconfig.rust_analyzer.setup({
+	handlers = handlers,
 	on_attach = on_attach,
 	capabilities = capabilities,
 
@@ -141,6 +203,7 @@ lspconfig.rust_analyzer.setup({
 lspconfig.pylsp.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	handlers = handlers,
 
 	settings = {
 		pylsp = {

@@ -86,7 +86,7 @@ gls.left[4] = {
 	FileName = {
 		provider = { "FileName", "FileSize" },
 		condition = buffer_not_empty,
-		separator = "▋",
+		separator = "▍",
 		separator_highlight = { colors.bg, colors.gray },
 		highlight = { colors.fg, colors.bg },
 	},
@@ -95,7 +95,7 @@ gls.left[4] = {
 gls.left[5] = {
 	GitIcon = {
 		provider = function()
-			return "  "
+			return " "
 		end,
 		condition = buffer_not_empty,
 		highlight = { colors.fg, colors.gray },
@@ -191,7 +191,7 @@ gls.right[1] = {
 gls.right[2] = {
 	LineInfo = {
 		provider = "LineColumn",
-		separator = " |",
+		separator = " | ",
 		separator_highlight = { colors.color6, colors.gray },
 		highlight = { colors.grey, colors.gray },
 	},
