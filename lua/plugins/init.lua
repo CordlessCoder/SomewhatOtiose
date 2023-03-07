@@ -2,6 +2,7 @@ return {
 
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
 	-- -- the colorscheme should be available when starting Neovim
+	{ "ThePrimeagen/vim-be-good", lazy = true, cmd = { "VimBeGood" } },
 	{
 		"folke/tokyonight.nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -58,6 +59,33 @@ return {
 				return false
 			end
 		end,
+	},
+	{
+		"folke/noice.nvim",
+		config = function()
+			require("noice").setup({
+				lsp = {
+					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+					override = {
+						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+						["vim.lsp.util.stylize_markdown"] = true,
+						["cmp.entry.get_documentation"] = true,
+					},
+				},
+				-- you can enable a preset for easier configuration
+				presets = {
+					bottom_search = true, -- use a classic bottom cmdline for search
+					command_palette = true, -- position the cmdline and popupmenu together
+					long_message_to_split = true, -- long messages will be sent to a split
+					inc_rename = false, -- enables an input dialog for inc-rename.nvim
+					lsp_doc_border = false, -- add a border to hover docs and signature help
+				},
+			})
+		end,
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
@@ -228,8 +256,8 @@ return {
 			require("presence"):setup({
 				neovim_image_text = "I am still in your walls.",
 				buttons = {
-					{ label = "I stole all of your code.", url = "https://github.com/CordlessCoder/OxiiLink" },
-					{ label = "Pipe bomb is attached.", url = "https://github.com/CordlessCoder/Wallpapers" },
+					{ label = "Your codebase are belong to us.", url = "https://github.com/CordlessCoder/OxiiLink" },
+					{ label = "Check package for pipe bomb.", url = "https://github.com/CordlessCoder" },
 				},
 				-- enable_line_number = true,
 				-- line_number_text = "Line %s/%s",
@@ -239,12 +267,12 @@ return {
 		lazy = true,
 	},
 
-	{ "rstacruz/vim-closer", lazy = true, event = "BufEnter" },
-	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
-	{ "hrsh7th/cmp-path", event = "InsertEnter" },
-	{ "hrsh7th/cmp-cmdline", event = "InsertEnter" },
-	{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
+	-- { "rstacruz/vim-closer", lazy = true, event = "BufEnter" },
+	-- { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+	-- { "hrsh7th/cmp-buffer", event = "InsertEnter" },
+	-- { "hrsh7th/cmp-path", event = "InsertEnter" },
+	-- { "hrsh7th/cmp-cmdline", event = "InsertEnter" },
+	-- { "L3MON4D3/LuaSnip", event = "InsertEnter" },
 
 	{
 		"saecki/crates.nvim",

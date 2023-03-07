@@ -124,6 +124,9 @@ local servers = {
 	"zls",
 	"marksman",
 	"csharp_ls",
+	"crystalline",
+	"kotlin_language_server",
+	"vls",
 	-- "solidity_ls",
 }
 
