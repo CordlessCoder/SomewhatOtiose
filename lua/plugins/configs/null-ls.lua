@@ -29,6 +29,10 @@ local sources = {
 
 	-- C/C++/C#/Java/Cuda
 	b.formatting.clang_format,
+
+	-- PHP :disgust:
+	b.formatting.phpcbf,
+	b.diagnostics.phpcs,
 }
 
 local M = {}

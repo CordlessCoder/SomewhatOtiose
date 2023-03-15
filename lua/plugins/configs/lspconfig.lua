@@ -127,6 +127,7 @@ local servers = {
 	"crystalline",
 	"kotlin_language_server",
 	"vls",
+	"phpactor",
 	-- "solidity_ls",
 }
 
