@@ -2,7 +2,25 @@ return {
 
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
 	-- -- the colorscheme should be available when starting Neovim
+	{
+		"axieax/urlview.nvim",
+		lazy = true,
+		cmd = "UrlView",
+		keys = { { "[u", mode = "n" }, { "u]", mode = "n" }, "gx" },
+		config = function()
+			require("urlview").setup({ default_picker = "telescope" })
+		end,
+		dependencies = { "telescope.nvim" },
+	},
+	{ "nathom/filetype.nvim" },
 	{ "ThePrimeagen/vim-be-good", lazy = true, cmd = { "VimBeGood" } },
+	{ "folke/trouble.nvim", lazy = true, event = "UIEnter", config = true },
+	{
+		"folke/todo-comments.nvim",
+		lazy = true,
+		event = "UIEnter",
+		config = true,
+	},
 	{
 		"folke/tokyonight.nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -195,10 +213,22 @@ return {
 	{ "stevearc/dressing.nvim", event = "VeryLazy", lazy = true },
 
 	{
+		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		after = "nvim-lspconfig",
+		config = function()
+			require("lsp_lines").setup()
+		end,
+	},
+
+	{
 		"simrat39/rust-tools.nvim",
 		enable = true,
 		-- after = "nvim-lspconfig",
 		config = function()
+			-- Disable virtual_text since it's redundant due to lsp_lines.
+			vim.diagnostic.config({
+				virtual_text = false,
+			})
 			require("plugins.configs.rust-tools")
 		end,
 		event = "BufEnter",
@@ -292,7 +322,7 @@ return {
 				-- line_number_text = "Line %s/%s",
 			})
 		end,
-		event = "VeryLazy",
+		event = "UIEnter",
 		lazy = true,
 	},
 
@@ -310,7 +340,7 @@ return {
 			require("crates").setup()
 		end,
 		ft = "toml",
-		event = "InsertEnter",
+		-- event = "InsertEnter",
 		lazy = true,
 	},
 	{
@@ -336,11 +366,12 @@ return {
 		tag = "0.1.1",
 		-- or                            , branch = '0.1.x',
 		dependencies = { "plenary.nvim" },
-		init = function()
+		config = function()
 			require("plugins.configs.telescope")
 		end,
 		cmd = { "Telescope" },
 		lazy = true,
+		event = "UIEnter",
 	},
 
 	{
@@ -350,6 +381,7 @@ return {
 		end,
 		cmd = { "LspInfo", "LspRestart", "LspStart" },
 		lazy = false,
+		event = "UIEnter",
 	},
 
 	-- Lazy loading:
