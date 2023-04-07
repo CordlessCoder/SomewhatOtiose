@@ -53,7 +53,7 @@ options.header = {
 	val = ascii,
 	opts = {
 		position = "center",
-		hl = "WinBar",
+		hl = "Function",
 	},
 }
 

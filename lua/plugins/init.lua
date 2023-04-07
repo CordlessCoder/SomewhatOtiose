@@ -22,7 +22,94 @@ return {
 		config = true,
 	},
 	{
+		"decaycs/decay.nvim",
+		enabled = false,
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("decay").setup({
+				style = "cosmic",
+				italics = {
+					code = true,
+					comments = true,
+				},
+				nvim_tree = {
+					contrast = true, -- or false to disable tree contrast
+				},
+				cmp = {
+					block_kind = true,
+				},
+				palette_overrides = {
+					comments = "#4d5768", -- #4d5768
+					-- background = "#101419",
+					-- 	contrast = "#0e1217",
+					-- statusline_bg = "#13171c",
+					-- 	lighter = "#1a1e23",
+					-- 	foreground = "#b6beca",
+					-- 	cursorline = "#242931",
+					-- 	comments = "#4d5768",
+					-- 	cursor = "#b6beca",
+					-- 	black = "#242931",
+					-- 	red = "#e05f65",
+					-- 	orange = "#E89777",
+					-- 	yellow = "#f1cf8a",
+					-- 	pink = "#f6c9d4",
+					-- 	green = "#78dba9",
+					-- 	blue = "#70a5eb",
+					-- 	teal = "#73C0C9",
+					-- 	magenta = "#c68aee",
+					-- 	cyan = "#74bee9",
+					-- 	sky = "#91c7e7",
+					-- 	brightblack = "#485263",
+					-- 	brightred = "#e5646a",
+					-- 	brightgreen = "#94f7c5",
+					-- 	brightyellow = "#f6d48f",
+					-- 	brightblue = "#75aaf0",
+					-- 	brightmagenta = "#cb8ff3",
+					-- 	brightcyan = "#79c3ee",
+					-- 	brightwhite = "#e3e6eb",
+					-- 	lavender = "#a9acdb", -- TODO: Create own lavender for dark decay
+					-- 	accent = "#78dba9",
+				},
+			})
+		end,
+	},
+	{
+		"rebelot/kanagawa.nvim",
+		enabled = false,
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("kanagawa").setup({
+				compile = false, -- enable compiling the colorscheme
+				undercurl = true, -- enable undercurls
+				commentStyle = { italic = true },
+				functionStyle = {},
+				keywordStyle = { italic = true },
+				statementStyle = { bold = true },
+				typeStyle = {},
+				transparent = false, -- do not set background color
+				dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+				terminalColors = true, -- define vim.g.terminal_color_{0,17}
+				-- colors = { -- add/modify theme and palette colors
+				-- 	palette = {},
+				-- 	theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+				-- },
+				-- overrides = function(colors) -- add/modify highlights
+				--     return {}
+				-- end,
+				-- theme = "wave",
+				background = { -- map the value of 'background' option to a theme
+					dark = "wave", -- try "dragon" !
+					-- light = "wave",
+				},
+			})
+			vim.cmd.colorscheme("kanagawa")
+		end,
+	},
+	{
 		"folke/tokyonight.nvim",
+		enabled = true,
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -49,8 +136,67 @@ return {
 				hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
 				dim_inactive = false, -- dims inactive windows
 				lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+				on_colors = function(colors)
+					-- local function dump(o)
+					-- 	if type(o) == "table" then
+					-- 		local s = "{ "
+					-- 		for k, v in pairs(o) do
+					-- 			if type(k) ~= "number" then
+					-- 				k = '"' .. k .. '"'
+					-- 			end
+					-- 			s = s .. "[" .. k .. "] = " .. dump(v) .. ","
+					-- 		end
+					-- 		return s .. "} "
+					-- 	else
+					-- 		return tostring(o)
+					-- 	end
+					-- end
+					-- require("notify")(dump(colors))
+
+					-- { ["bg_popup"] = #16161e,["blue7"] = #394b70,["green"] = #9ece6a,["error"] = #db4b4b,["bg_float"] = #16161e,["red"] = #f7768e,["fg_sidebar"] = #a9b1d6,["bg_highlight"] = #292e42,["bg_dark"] = #16161e,["gitSigns"] = { ["change"] = #536c9e,["delete"] = #b2555b,["add"] = #266d6a,} ,["dark3"] = #545c7e,["git"] = { ["change"] = #6183bb,["ignore"] = #545c7e,["delete"] = #914c54,["add"] = #449dab,} ,["dark5"] = #737aa2,["magenta2"] = #ff007c,["bg_sidebar"] = #16161e,["blue2"] = #0db9d7,["fg_gutter"] = #3b4261,["info"] = #0db9d7,["blue1"] = #2ac3de,["blue5"] = #89ddff,["fg"] = #c0caf5,["hint"] = #1abc9c,["diff"] = { ["change"] = #1f2231,["text"] = #394b70,["delete"] = #37222c,["add"] = #20303b,} ,["fg_float"] = #c0caf5,["bg"] = #1a1b26,["orange"] = #ff9e64,["comment"] = #565f89,["bg_statusline"] = #16161e,["blue0"] = #3d59a1,["border"] = #15161e,["green1"] = #73daca,["purple"] = #9d7cd8,["blue6"] = #b4f9f8,["border_highlight"] = #27a1b9,["black"] = #15161e,["warning"] = #e0af68,["fg_dark"] = #a9b1d6,["red1"] = #db4b4b,["cyan"] = #7dcfff,["none"] = NONE,["bg_search"] = #3d59a1,["magenta"] = #bb9af7,["bg_visual"] = #283457,["green2"] = #41a6b5,["blue"] = #7aa2f7,["teal"] = #1abc9c,["terminal_black"] = #414868,["yellow"] = #e0af68,}
+					--
+					-- comments = "#4d5768", -- #4d5768
+					colors.bg = "#12131c"
+					colors.green = "#78dba9"
+					colors.green1 = "#94f7c5"
+					-- colors.hint = "#78dba9"
+					colors.fg_gutter = "#242637"
+					colors.teal = "#73C0C9"
+					-- colors.magenta = "#c68aee"
+					-- contrast = "#101119",
+					-- statusline_bg = "#1b1d2a",
+					-- lighter = "#242637",
+					-- foreground = "#A5B7D5",
+					-- cursorline = "#2c2f44",
+					-- comments = "#343750",
+					-- 	foreground = "#b6beca",
+					-- 	cursorline = "#242931",
+					-- 	comments = "#4d5768",
+					-- 	cursor = "#b6beca",
+					-- 	black = "#242931",
+					-- 	red = "#e05f65",
+					-- 	orange = "#E89777",
+					-- 	yellow = "#f1cf8a",
+					-- 	pink = "#f6c9d4",
+					-- 	green = "#78dba9",
+					-- 	blue = "#70a5eb",
+					-- 	teal = "#73C0C9",
+					-- 	magenta = "#c68aee",
+					-- 	cyan = "#74bee9",
+					-- 	sky = "#91c7e7",
+					-- 	brightblack = "#485263",
+					-- 	brightred = "#e5646a",
+					-- 	brightgreen = "#94f7c5",
+					-- 	brightyellow = "#f6d48f",
+					-- 	brightblue = "#75aaf0",
+					-- 	brightmagenta = "#cb8ff3",
+					-- 	brightcyan = "#79c3ee",
+					-- 	brightwhite = "#e3e6eb",
+					-- 	lavender = "#a9acdb", -- TODO: Create own lavender for dark decay
+					-- 	accent = "#78dba9",
+				end,
 			})
-			vim.cmd([[colorscheme tokyonight-night]])
+			vim.cmd.colorscheme("tokyonight-night")
 		end,
 	},
 	{
@@ -109,6 +255,7 @@ return {
 	},
 	{
 		"folke/noice.nvim",
+		enabled = true,
 		config = function()
 			require("noice").setup({
 				lsp = {
@@ -133,14 +280,13 @@ return {
 			"MunifTanjim/nui.nvim",
 			"rcarriga/nvim-notify",
 		},
+		cond = vim.g.neovide == nil,
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
 		lazy = true,
-		event = "BufEnter",
-		config = function()
-			require("colorizer").setup()
-		end,
+		event = "UIEnter",
+		config = true,
 	},
 
 	{
@@ -210,7 +356,7 @@ return {
 
 	-- you can use the VeryLazy event for things that can
 	-- load later and are not important for the initial UI
-	{ "stevearc/dressing.nvim", event = "VeryLazy", lazy = true },
+	{ "stevearc/dressing.nvim", event = "UIEnter", lazy = true },
 
 	{
 		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
@@ -283,7 +429,23 @@ return {
 		lazy = false,
 	},
 
-	{ "justinmk/vim-sneak", lazy = true, keys = { { "s", mode = "n" } } },
+	-- {
+	-- 	"justinmk/vim-sneak",
+	-- 	lazy = true,
+	-- 	keys = { { "s", mode = "n" } },
+	-- 	config = function()
+	-- 		vim.cmd("let g:sneak#label = 1")
+	-- 	end,
+	-- },
+	{
+		"ggandor/leap.nvim",
+		lazy = true,
+		keys = { { "s", mode = "n" } },
+		config = function()
+			require("leap").add_default_mappings()
+		end,
+	},
+
 	{ "f-person/git-blame.nvim", lazy = true, event = "VeryLazy" },
 
 	-- The tree file manager

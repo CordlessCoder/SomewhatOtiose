@@ -27,7 +27,7 @@ require("bufferline").setup({
 	-- Enable/disable icons
 	-- if set to 'numbers', will show buffer index in the tabline
 	-- if set to 'both', will show buffer index and icons in the tabline
-	icons = true,
+	-- icons = {},
 
 	-- icon_separator_active = "▎",
 	-- icon_separator_inactive = "▎",
