@@ -131,8 +131,8 @@ return {
 					sidebars = "dark", -- style for sidebars, see below
 					floats = "dark", -- style for floating windows
 				},
-				sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-				day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+				sidebars = { "qf", "help", "NvimTree", "nvim_tree", "nvimtree", "tree" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+				day_brightness = 0.4, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
 				hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
 				dim_inactive = false, -- dims inactive windows
 				lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
@@ -192,7 +192,7 @@ return {
 					-- 	brightmagenta = "#cb8ff3",
 					-- 	brightcyan = "#79c3ee",
 					-- 	brightwhite = "#e3e6eb",
-					-- 	lavender = "#a9acdb", -- TODO: Create own lavender for dark decay
+					-- 	lavender = "#a9acdb",
 					-- 	accent = "#78dba9",
 				end,
 			})
@@ -201,6 +201,7 @@ return {
 	},
 	{
 		"windwp/nvim-autopairs",
+		enabled = false,
 		lazy = true,
 		event = "BufEnter",
 		config = function()
@@ -280,7 +281,7 @@ return {
 			"MunifTanjim/nui.nvim",
 			"rcarriga/nvim-notify",
 		},
-		cond = vim.g.neovide == nil,
+		cond = vim.g.multigrid ~= 1,
 	},
 	{
 		"norcalli/nvim-colorizer.lua",

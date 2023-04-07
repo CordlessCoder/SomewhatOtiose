@@ -12,6 +12,16 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
+
+-- Check for multigrid
+vim.g.multigrid = 0
+local uis = vim.api.nvim_list_uis()
+for _, ui in ipairs(uis) do
+	if ui["ext_multigrid"] then
+		vim.g.multigrid = 1
+	end
+end
+
 require("options")
 require("lazy").setup("plugins", {
 	concurrency = 16, ---@type number limit the maximum amount of concurrent tasks
