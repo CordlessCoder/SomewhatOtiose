@@ -1,3 +1,4 @@
+local LSP_EVENT = "BufNew"
 return {
 
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
@@ -10,15 +11,21 @@ return {
 		config = function()
 			require("urlview").setup({ default_picker = "telescope" })
 		end,
-		dependencies = { "telescope.nvim" },
+		-- dependencies = { "telescope.nvim" },
 	},
 	{ "nathom/filetype.nvim" },
 	{ "ThePrimeagen/vim-be-good", lazy = true, cmd = { "VimBeGood" } },
-	{ "folke/trouble.nvim", lazy = true, event = "UIEnter", config = true },
+	{
+		"folke/trouble.nvim",
+		lazy = true,
+		event = "VeryLazy",
+		config = true,
+		cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
+	},
 	{
 		"folke/todo-comments.nvim",
 		lazy = true,
-		event = "UIEnter",
+		event = LSP_EVENT,
 		config = true,
 	},
 	{
@@ -215,16 +222,16 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		lazy = true,
-		event = "BufEnter",
+		event = LSP_EVENT,
 		config = function()
+			vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75", nocombine = true })
+			vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#E5C07B", nocombine = true })
+			vim.api.nvim_set_hl(0, "IndentBlanklineIndent3", { fg = "#98C379", nocombine = true })
+			vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#56B6C2", nocombine = true })
+			vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#61AFEF", nocombine = true })
+			vim.api.nvim_set_hl(0, "IndentBlanklineIndent6", { fg = "#C678DD", nocombine = true })
 			require("indent_blankline").setup({
 
-				vim.cmd([[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]),
-				vim.cmd([[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]),
-				vim.cmd([[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]),
-				vim.cmd([[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]),
-				vim.cmd([[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]),
-				vim.cmd([[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]),
 				-- for example, context is off by default, use this to turn it on
 				show_current_context = true,
 				char_highlight_list = {
@@ -238,7 +245,7 @@ return {
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-context", lazy = true, event = "BufEnter" },
+	{ "nvim-treesitter/nvim-treesitter-context", lazy = true },
 
 	{
 		"wakatime/vim-wakatime",
@@ -257,6 +264,8 @@ return {
 	{
 		"folke/noice.nvim",
 		enabled = true,
+		lazy = true,
+		event = "VeryLazy",
 		config = function()
 			require("noice").setup({
 				lsp = {
@@ -286,8 +295,15 @@ return {
 	{
 		"norcalli/nvim-colorizer.lua",
 		lazy = true,
-		event = "UIEnter",
-		config = true,
+		event = "BufEnter",
+		config = function ()
+            require 'colorizer'.setup {
+              html = {
+                mode = 'background';
+              }
+            }
+            vim.cmd.ColorizerAttachToBuffer()
+		end,
 	},
 
 	{
@@ -365,12 +381,14 @@ return {
 		config = function()
 			require("lsp_lines").setup()
 		end,
+		lazy = true,
+		event = LSP_EVENT,
 	},
 
 	{
 		"simrat39/rust-tools.nvim",
 		enable = true,
-		-- after = "nvim-lspconfig",
+		after = "nvim-lspconfig",
 		config = function()
 			-- Disable virtual_text since it's redundant due to lsp_lines.
 			vim.diagnostic.config({
@@ -378,7 +396,7 @@ return {
 			})
 			require("plugins.configs.rust-tools")
 		end,
-		event = "BufEnter",
+		event = LSP_EVENT,
 		lazy = true,
 	},
 	{
@@ -416,10 +434,13 @@ return {
 		"jose-elias-alvarez/null-ls.nvim",
 		dependencies = { "nvim-lspconfig" },
 		config = function()
-			require("plugins.configs.null-ls").setup()
+			require("plugins.configs.null_ls").setup()
 		end,
-		event = "BufEnter",
+		-- event = "BufEnter",
 		lazy = true,
+		cmd = { "NullLsLog", "NullLsInfo" },
+		module = true,
+		keys = { { "<leader>f", mode = "n" } },
 	},
 
 	{
@@ -457,6 +478,29 @@ return {
 		},
 		config = function()
 			require("plugins.configs.nvim-tree")
+
+			-- Bufferline api on resize
+			local nvim_tree_events = require("nvim-tree.events")
+			local present, bufferline_api = pcall(require, "bufferline.api")
+			if not present then
+				return
+			end
+
+			local function get_tree_size()
+				return require("nvim-tree.view").View.width
+			end
+
+			nvim_tree_events.subscribe("TreeOpen", function()
+				bufferline_api.set_offset(get_tree_size() + 1)
+			end)
+
+			nvim_tree_events.subscribe("Resize", function()
+				bufferline_api.set_offset(get_tree_size() + 1)
+			end)
+
+			nvim_tree_events.subscribe("TreeClose", function()
+				bufferline_api.set_offset(0)
+			end)
 		end,
 		cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse" },
 		lazy = true,
@@ -485,7 +529,7 @@ return {
 				-- line_number_text = "Line %s/%s",
 			})
 		end,
-		event = "UIEnter",
+		event = "WinEnter",
 		lazy = true,
 	},
 
@@ -534,7 +578,7 @@ return {
 		end,
 		cmd = { "Telescope" },
 		lazy = true,
-		event = "UIEnter",
+		-- event = "UIEnter",
 	},
 
 	{
@@ -542,9 +586,9 @@ return {
 		config = function()
 			require("plugins.configs.lspconfig")
 		end,
-		cmd = { "LspInfo", "LspRestart", "LspStart" },
-		lazy = false,
-		event = "UIEnter",
+		cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
+		lazy = true,
+		event = LSP_EVENT,
 	},
 
 	-- Lazy loading:
@@ -563,9 +607,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		event = "BufEnter",
+		event = LSP_EVENT,
 		config = function()
-			require("nvim-treesitter").setup({
+			require("nvim-treesitter.configs").setup({
 				highlight = {
 					enable = true,
 				},
@@ -595,7 +639,7 @@ return {
 					"fish",
 				},
 			})
-			vim.cmd([[TSEnable highlight]])
+			-- vim.cmd.TSEnable("highlight")
 		end,
 		lazy = true,
 	},

@@ -65,7 +65,7 @@ elseif tokyo_present then
 		bg = tokyo.bg,
 		fg = tokyo.fg,
 		black = tokyo.black,
-		gray = tokyo.dark3,
+		gray = tokyo.bg_highlight,
 		lgray = tokyo.fg_dark,
 		color1 = tokyo.red,
 		color2 = tokyo.green,
@@ -130,7 +130,7 @@ local bg_buffer = function()
 	if buffer_not_empty() then
 		return colors.gray
 	end
-	return colors.fg
+	return colors.lgray
 end
 
 gls.left[1] = {
@@ -160,10 +160,10 @@ gls.left[3] = {
 	FileIcon = {
 		provider = "FileTypeName",
 		condition = buffer_not_empty,
-		highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, colors.gray },
+		highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, bg_buffer },
 		separator = "▋",
 		separator_highlight = {
-			colors.gray,
+			bg_buffer,
 			colors.bg,
 		},
 	},

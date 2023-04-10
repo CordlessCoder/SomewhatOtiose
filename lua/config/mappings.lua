@@ -50,13 +50,13 @@ local mappings = {
 			end,
 			"Go to declaration",
 		},
-		["gd"] = {
-			-- function()
-			-- 	vim.lsp.buf.definition({ reuse_win = true })
-			-- end,
-			"<C-]>",
-			"Go to definition",
-		},
+		-- ["gd"] = {
+		-- 	-- function()
+		-- 	-- 	vim.lsp.buf.definition({ reuse_win = true })
+		-- 	-- end,
+		-- 	"<C-]>",
+		-- 	"Go to definition",
+		-- },
 		["<leader>tt"] = { "<Cmd>TroubleToggle<CR>", "Toggle the Trouble panel" },
 		["<leader>tw"] = { "<Cmd>Trouble workspace_diagnostics<CR>", "Show workspace diagnostics in Trouble" },
 		["<leader>td"] = { "<Cmd>Trouble document_diagnostics<CR>", "Show document diagnostics in Trouble" },
@@ -150,12 +150,6 @@ local mappings = {
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>n"] = { "<cmd>NvimTreeToggle <CR>", "   toggle nvimtree" },
 		["<C-n>"] = { "<cmd>execute 'normal <Plug>(VM-Find-Under)' <CR>", "   toggle nvimtree" },
-		["<leader>f"] = {
-			function()
-				vim.lsp.buf.format({ async = true })
-			end,
-			"   lsp formatting",
-		},
 		["<C-s>"] = { "<cmd> w <CR>", "   Save file" },
 		["<C-S>"] = { "<cmd> wa <CR>", "   Save all files" },
 		["<C-g>"] = { "<cmd> TZFocus <CR>", "Focus mode" },

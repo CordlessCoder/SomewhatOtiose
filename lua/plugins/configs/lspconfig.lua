@@ -1,5 +1,11 @@
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
+local present, notify = pcall(require, "notify")
+if not present then
+	notify = function(obj)
+		print(vim.inspect(obj))
+	end
+end
 local on_attach = function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
 	client.server_capabilities.documentRangeFormattingProvider = false
@@ -10,17 +16,15 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("n", "<leader>ce", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "<leader>f", function()
-		vim.lsp.buf.format({ async = true })
-	end, bufopts)
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set("n", "gD", GotoDeclaration, bufopts)
+	vim.keymap.set("n", "gd", GotoDefinition, bufopts)
+	vim.keymap.set("n", "<leader>d", PeekDefinition, bufopts)
 	vim.keymap.set("n", "<leader>ci", vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
 	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
 	vim.keymap.set("n", "<leader>wl", function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		notify(vim.lsp.buf.list_workspace_folders())
 	end, bufopts)
 
 	-- util.load_mappings("lspconfig", { buffer = bufnr })
@@ -28,6 +32,37 @@ local on_attach = function(client, bufnr)
 	-- if client.server_capabilities.signatureHelpProvider then
 	-- require("nvchad_ui.signature").setup(client)
 	-- end
+end
+local function preview_location_callback(_, result)
+	if result == nil or vim.tbl_isempty(result) then
+		return nil
+	end
+	vim.lsp.util.preview_location(result[1])
+end
+
+local function goto_location_callback(_, result)
+	if result == nil or vim.tbl_isempty(result) then
+		return nil
+	end
+	vim.lsp.util.jump_to_location(result[1], { offset_encoding = vim.lsp.util._get_offset_encoding() })
+end
+
+function PeekDefinition()
+	local params = vim.lsp.util.make_position_params()
+	return vim.lsp.buf_request(0, "textDocument/definition", params, preview_location_callback)
+end
+
+function GotoDefinition()
+	GotoRequest("textDocument/definition")
+end
+
+function GotoDeclaration()
+	GotoRequest("textDocument/declaration")
+end
+
+function GotoRequest(request)
+	local params = vim.lsp.util.make_position_params()
+	return vim.lsp.buf_request(0, request, params, goto_location_callback)
 end
 
 local function border(hl_name)
@@ -75,7 +110,7 @@ local function goto_definition(split_cmd)
 	return handler
 end
 
-vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
+vim.lsp.handlers["textDocument/definition"] = goto_definition()
 
 -- LSP settings (for overriding per client)
 local handlers = {
