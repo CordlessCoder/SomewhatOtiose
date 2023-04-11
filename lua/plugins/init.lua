@@ -310,7 +310,7 @@ return {
 		"romgrk/barbar.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		lazy = true,
-		event = "VeryLazy",
+		event = "BufEnter",
 		config = function()
 			require("plugins.configs.barbar")
 		end,
