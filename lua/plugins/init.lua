@@ -1,4 +1,4 @@
-local LSP_EVENT = "BufNew"
+local LSP_EVENT = "VeryLazy"
 return {
 
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
@@ -250,7 +250,7 @@ return {
 	{
 		"wakatime/vim-wakatime",
 		lazy = true,
-		event = "BufEnter",
+		event = "VeryLazy",
 		cond = function()
 			local f = io.open((os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") or "/root") .. "/.wakatime.cfg", "r")
 			if f ~= nil then
@@ -295,14 +295,14 @@ return {
 	{
 		"norcalli/nvim-colorizer.lua",
 		lazy = true,
-		event = "BufEnter",
-		config = function ()
-            require 'colorizer'.setup {
-              html = {
-                mode = 'background';
-              }
-            }
-            vim.cmd.ColorizerAttachToBuffer()
+		event = "VeryLazy",
+		config = function()
+			require("colorizer").setup({
+				html = {
+					mode = "background",
+				},
+			})
+			vim.cmd.ColorizerAttachToBuffer()
 		end,
 	},
 
@@ -310,7 +310,7 @@ return {
 		"romgrk/barbar.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		lazy = true,
-		event = "BufEnter",
+		event = "VeryLazy",
 		config = function()
 			require("plugins.configs.barbar")
 		end,
@@ -373,22 +373,21 @@ return {
 
 	-- you can use the VeryLazy event for things that can
 	-- load later and are not important for the initial UI
-	{ "stevearc/dressing.nvim", event = "UIEnter", lazy = true },
+	{ "stevearc/dressing.nvim", event = "VeryLazy", lazy = true },
 
 	{
 		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-		after = "nvim-lspconfig",
+		dependencies = { "nvim-lspconfig" },
 		config = function()
 			require("lsp_lines").setup()
 		end,
 		lazy = true,
-		event = LSP_EVENT,
 	},
 
 	{
 		"simrat39/rust-tools.nvim",
-		enable = true,
-		after = "nvim-lspconfig",
+		enabled = true,
+		dependencies = { "nvim-lspconfig" },
 		config = function()
 			-- Disable virtual_text since it's redundant due to lsp_lines.
 			vim.diagnostic.config({
