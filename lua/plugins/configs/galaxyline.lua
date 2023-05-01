@@ -138,7 +138,7 @@ gls.left[1] = {
 		provider = function()
 			return "▋"
 		end,
-		highlight = { colors.bg, colors.lgray },
+		highlight = { colors.bg, colors.color4 },
 	},
 }
 gls.left[2] = {
@@ -150,10 +150,15 @@ gls.left[2] = {
 		end,
 		separator = "",
 		separator_highlight = {
-			colors.lgray,
-			bg_buffer,
+			colors.color4,
+			function()
+				if buffer_not_empty() then
+					return colors.gray
+				end
+				return colors.color4
+			end,
 		},
-		highlight = { colors.black, colors.lgray, "bold" },
+		highlight = { colors.black, colors.color4, "bold" },
 	},
 }
 gls.left[3] = {
@@ -161,11 +166,13 @@ gls.left[3] = {
 		provider = "FileTypeName",
 		condition = buffer_not_empty,
 		highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, bg_buffer },
-		separator = "▋",
-		separator_highlight = {
-			bg_buffer,
-			colors.bg,
-		},
+		separator = "|",
+		separator_highlight = { colors.color4, colors.gray },
+		-- separator = "▋",
+		-- separator_highlight = {
+		-- 	bg_buffer,
+		-- 	colors.bg,
+		-- },
 	},
 }
 
@@ -174,7 +181,8 @@ gls.left[4] = {
 		provider = { "FileName", "FileSize" },
 		condition = buffer_not_empty,
 		separator = "▍",
-		separator_highlight = { colors.bg, colors.gray },
+		separator_highlight = { colors.bg, colors.lgray },
+
 		highlight = { colors.fg, colors.bg },
 	},
 }
@@ -185,10 +193,10 @@ gls.left[5] = {
 			return " "
 		end,
 		condition = buffer_not_empty,
-		highlight = { colors.fg, colors.gray },
+		highlight = { colors.fg, colors.lgray },
 		separator = "",
 		separator_highlight = {
-			colors.gray,
+			colors.lgray,
 			colors.fg,
 		},
 	},
@@ -207,7 +215,7 @@ local checkwidth = function()
 	return squeeze_width > 40 and buffer_not_empty()
 end
 
-local curbg = colors.rg
+local curbg = colors.bg
 gls.left[7] = {
 	DiffAdd = {
 		provider = "DiffAdd",
@@ -287,14 +295,14 @@ gls.right[3] = {
 	PerCent = {
 		provider = "LinePercent",
 		separator = "",
-		separator_highlight = { colors.lgray, colors.gray },
-		highlight = { colors.black, colors.lgray, "bold" },
+		separator_highlight = { colors.color4, colors.gray },
+		highlight = { colors.black, colors.color4, "bold" },
 	},
 }
 gls.right[4] = {
 	ScrollBar = {
 		provider = "ScrollBar",
-		highlight = { colors.lgray, colors.bg },
+		highlight = { colors.color4, colors.bg },
 	},
 }
 
@@ -303,7 +311,7 @@ gls.short_line_left[1] = {
 		provider = function()
 			return "▋"
 		end,
-		highlight = { colors.black, colors.lgray },
+		highlight = { colors.black, colors.color4 },
 	},
 }
 gls.short_line_left[2] = {
@@ -312,10 +320,10 @@ gls.short_line_left[2] = {
 		separator = "▋",
 
 		separator_highlight = {
-			colors.lgray,
+			colors.color4,
 			colors.bg,
 		},
-		highlight = { colors.black, colors.lgray, "bold" },
+		highlight = { colors.black, colors.color4, "bold" },
 	},
 }
 

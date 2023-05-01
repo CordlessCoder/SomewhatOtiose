@@ -64,7 +64,7 @@ M.setup = function()
 			end
 		end,
 	})
-	vim.keymap.set("n", "<leader>f", function()
+	vim.keymap.set("n", "<leader>cf", function()
 		vim.lsp.buf.format({ async = true })
 	end, { noremap = true, silent = true })
 end

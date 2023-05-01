@@ -7,7 +7,7 @@ require("bufferline").setup({
 	tabpages = true,
 
 	-- Enable/disable close button
-	closable = true,
+	-- closable = true,
 
 	clickable = true,
 

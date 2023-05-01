@@ -13,7 +13,7 @@ return {
 		end,
 		-- dependencies = { "telescope.nvim" },
 	},
-	{ "nathom/filetype.nvim" },
+	-- { "nathom/filetype.nvim", lazy = false, priority = 100 },
 	{ "ThePrimeagen/vim-be-good", lazy = true, cmd = { "VimBeGood" } },
 	{
 		"folke/trouble.nvim",
@@ -115,8 +115,60 @@ return {
 		end,
 	},
 	{
-		"folke/tokyonight.nvim",
+		"catppuccin/nvim",
+		name = "catppuccin",
 		enabled = true,
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "mocha", -- latte, frappe, macchiato, mocha
+				background = { -- :h background
+					light = "latte",
+					dark = "mocha",
+				},
+				transparent_background = false,
+				show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+				term_colors = false,
+				dim_inactive = {
+					enabled = false,
+					shade = "dark",
+					percentage = 0.15,
+				},
+				no_italic = false, -- Force no italic
+				no_bold = false, -- Force no bold
+				styles = {
+					comments = { "italic" },
+					conditionals = { "italic" },
+					loops = {},
+					functions = {},
+					keywords = {},
+					strings = {},
+					variables = {},
+					numbers = {},
+					booleans = {},
+					properties = {},
+					types = {},
+					operators = {},
+				},
+				color_overrides = {},
+				custom_highlights = {},
+				integrations = {
+					cmp = true,
+					gitsigns = true,
+					nvimtree = true,
+					telescope = true,
+					notify = false,
+					mini = false,
+					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+				},
+			})
+			vim.cmd.colorscheme("catppuccin")
+		end,
+	},
+	{
+		"folke/tokyonight.nvim",
+		enabled = false,
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -245,7 +297,7 @@ return {
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-context", lazy = true },
+	{ "nvim-treesitter/nvim-treesitter-context", lazy = true, config = true },
 
 	{
 		"wakatime/vim-wakatime",
@@ -435,11 +487,11 @@ return {
 		config = function()
 			require("plugins.configs.null_ls").setup()
 		end,
-		-- event = "BufEnter",
+		event = LSP_EVENT,
 		lazy = true,
 		cmd = { "NullLsLog", "NullLsInfo" },
 		module = true,
-		keys = { { "<leader>f", mode = "n" } },
+		keys = { { "<leader>cf", mode = "n" } },
 	},
 
 	{
@@ -513,7 +565,8 @@ return {
 		end,
 		-- some optional icons
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		lazy = false,
+		lazy = true,
+		event = "BufEnter",
 	},
 	{
 		"andweeb/presence.nvim",
@@ -528,7 +581,7 @@ return {
 				-- line_number_text = "Line %s/%s",
 			})
 		end,
-		event = "WinEnter",
+		event = "VeryLazy",
 		lazy = true,
 	},
 
@@ -607,6 +660,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = LSP_EVENT,
+		dependencies = { "nvim-treesitter-context" },
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = {
