@@ -80,7 +80,12 @@ else
 	local hl = {}
 	hl = gethl("Normal", hl)
 	local fgcolor = tohex(hl.foreground)
-	local bgcolor = tohex(hl.background)
+	local bgcolor
+	if hl.background ~= nil then
+		bgcolor = tohex(hl.background)
+	else
+		bgcolor = "NONE"
+	end
 	hl = gethl("CursorColumn", hl)
 	local gray = tohex(hl.background)
 	hl = gethl("NonText", hl)
