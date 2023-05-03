@@ -13,6 +13,57 @@ return {
 		end,
 		-- dependencies = { "telescope.nvim" },
 	},
+	{
+		"fedepujol/move.nvim",
+		lazy = true,
+		cmd = { "MoveLine", "MoveBlock", "MoveHChar", "MoveHBlock", "MoveWord" },
+		keys = { "<A-h>", "<A-j>", "<A-k>", "<A-l>" },
+		config = function()
+			local move_vert = require("move.core.vert")
+			local move_hor = require("move.core.horiz")
+
+			local MoveLine = move_vert.moveLine
+			local MoveBlock = move_vert.moveBlock
+			local MoveHChar = move_hor.horzChar
+			local MoveHBlock = move_hor.horzBlock
+			local MoveWord = move_hor.horzWord
+
+			local opts = { noremap = true, silent = true }
+			-- Normal-mode commands
+			vim.keymap.set("n", "<A-j>", function()
+				MoveLine(1)
+			end, opts)
+			vim.keymap.set("n", "<A-k>", function()
+				MoveLine(-1)
+			end, opts)
+			vim.keymap.set("n", "<A-h>", function()
+				MoveHChar(-1)
+			end, opts)
+			vim.keymap.set("n", "<A-l>", function()
+				MoveHChar(1)
+			end, opts)
+			vim.keymap.set("n", "<leader>wf", function()
+				MoveWord(1)
+			end, opts)
+			vim.keymap.set("n", "<leader>wb", function()
+				MoveWord(-1)
+			end, opts)
+			-- Visual-mode commands
+			vim.keymap.set("v", "<A-j>", function()
+				MoveBlock(1)
+			end, opts)
+			vim.keymap.set("v", "<A-k>", function()
+				MoveBlock(-1)
+			end, opts)
+
+			vim.keymap.set("v", "<A-l>", function()
+				MoveHBlock(1)
+			end, opts)
+			vim.keymap.set("v", "<A-h>", function()
+				MoveHBlock(-1)
+			end, opts)
+		end,
+	},
 	-- { "nathom/filetype.nvim", lazy = false, priority = 100 },
 	{ "ThePrimeagen/vim-be-good", lazy = true, cmd = { "VimBeGood" } },
 	{

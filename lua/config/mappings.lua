@@ -56,7 +56,7 @@ local mappings = {
 	t = {
 		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
-		["<A-h>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
+		["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 	},
 	n = {
 		["<leader>``"] = {
@@ -200,7 +200,7 @@ local mappings = {
 		["<leader>stt"] = { "<Cmd>Trouble lsp_type_defitions", "Show LSP type defitions in a Trouble panel" },
 		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
-		["<A-h>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
+		["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 		["<A-b>"] = { "<Cmd>BufferPick<CR>", "Magic puffer-picking" },
 		["<A-p>"] = { "<Cmd>BufferPin<CR>", "Pin/unpin buffer" },
 		["<A-c>"] = { "<Cmd>BufferClose<CR>", "Close buffer" },
