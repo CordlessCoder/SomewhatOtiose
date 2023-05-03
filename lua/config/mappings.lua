@@ -1,4 +1,8 @@
 local telescope_builtin = require("telescope.builtin")
+local present, notify = pcall(require, "notify")
+if not present then
+	notify = vim.print
+end
 function live_grep_from_project_git_root()
 	local function is_git_repo()
 		vim.fn.system("git rev-parse --is-inside-work-tree")
@@ -20,6 +24,14 @@ function live_grep_from_project_git_root()
 	end
 
 	telescope_builtin.live_grep(opts)
+end
+
+local function map(mode, lhs, rhs, opts)
+	local options = { noremap = true, silent = true }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 local mappings = {
 	i = {
@@ -47,6 +59,46 @@ local mappings = {
 		["<A-h>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 	},
 	n = {
+		["<leader>``"] = {
+			-- Toggle Colemak bindings
+			function()
+				if vim.g.colemak then
+					vim.g.colemak = false
+					map("", "m", "m", {})
+					map("", "h", "h", {})
+					map("", "n", "n", {})
+					map("", "e", "e", {})
+					map("", "i", "i", {})
+					map("", "j", "j", {})
+					map("", "l", "l", {})
+					map("", "k", "k", {})
+					map("", "K", "K", {})
+					-- map("", "N", "5j", {})
+					-- map("", "E", "5k", {})
+					-- map("", "L", "I", {})
+					-- map("", "H", "0", {})
+					-- map("", "I", "$", {})
+				else
+					vim.g.colemak = true
+					map("", "m", "h", {})
+					map("", "h", "m", {})
+					map("", "n", "j", {})
+					map("", "j", "e", {})
+					map("", "e", "k", {})
+					map("", "i", "l", {})
+					map("", "l", "i", {})
+					map("", "k", "n", {})
+					map("", "K", "N", {})
+					-- map("", "N", "5j", {})
+					-- map("", "E", "5k", {})
+					-- map("", "L", "I", {})
+					-- map("", "H", "0", {})
+					-- map("", "I", "$", {})
+				end
+				notify(string.format("Colemak binds: %s", vim.g.colemak))
+			end,
+			"Toggle Colemak-DH bindings",
+		},
 		["<leader>st"] = {
 			function()
 				vim.o.spell = not vim.o.spell

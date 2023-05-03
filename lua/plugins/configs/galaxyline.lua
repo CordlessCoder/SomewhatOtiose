@@ -133,7 +133,7 @@ end
 
 local bg_buffer = function()
 	if buffer_not_empty() then
-		return colors.gray
+		return colors.bg
 	end
 	return colors.lgray
 end
@@ -163,7 +163,7 @@ gls.left[2] = {
 				return colors.color4
 			end,
 		},
-		highlight = { colors.black, colors.color4, "bold" },
+		highlight = { colors.bg, colors.color4, "bold" },
 	},
 }
 gls.left[3] = {
@@ -172,7 +172,7 @@ gls.left[3] = {
 		condition = buffer_not_empty,
 		highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, bg_buffer },
 		separator = "|",
-		separator_highlight = { colors.color4, colors.gray },
+		separator_highlight = { colors.color4, colors.bg },
 		-- separator = "▋",
 		-- separator_highlight = {
 		-- 	bg_buffer,
@@ -211,7 +211,7 @@ gls.left[6] = {
 	GitBranch = {
 		provider = "GitBranch",
 		condition = buffer_not_empty,
-		highlight = { colors.black, colors.fg },
+		highlight = { colors.bg, colors.fg },
 	},
 }
 
@@ -300,8 +300,8 @@ gls.right[3] = {
 	PerCent = {
 		provider = "LinePercent",
 		separator = "",
-		separator_highlight = { colors.color4, colors.gray },
-		highlight = { colors.black, colors.color4, "bold" },
+		separator_highlight = { colors.color4, colors.bg },
+		highlight = { colors.bg, colors.color4, "bold" },
 	},
 }
 gls.right[4] = {
@@ -328,7 +328,7 @@ gls.short_line_left[2] = {
 			colors.color4,
 			colors.bg,
 		},
-		highlight = { colors.black, colors.color4, "bold" },
+		highlight = { colors.bg, colors.color4, "bold" },
 	},
 }
 
