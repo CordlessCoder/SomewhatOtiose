@@ -163,28 +163,51 @@ local servers = {
 	"kotlin_language_server",
 	"vls",
 	"phpactor",
+	"asm_lsp",
 	-- "solidity_ls",
 }
 
 for _, lsp in ipairs(servers) do
-	if --[[ lsp ~= "sumneko_lua" and ]]
-		lsp ~= "pylsp"
-		and lsp ~= "rust_analyzer"
-		and lsp ~= "solidity"
-		and lsp ~= "lua_ls"
-	then
+	if lsp ~= "pylsp" and lsp ~= "rust_analyzer" and lsp ~= "solidity" and lsp ~= "lua_ls" and lsp ~= "asm_lsp" then
 		lspconfig[lsp].setup({
 			on_attach = function(client, bufnr)
 				on_attach(client, bufnr)
-				if lsp == "emmet_ls" or lsp == "html" then
-					capabilities.textDocument.completion.completionItem.snippetSupport = true
-				end
+				-- if lsp == "emmet_ls" or lsp == "html" then
+				-- 	capabilities.textDocument.completion.completionItem.snippetSupport = true
+				-- end
 			end,
 			capabilities = capabilities,
 			handlers = handlers,
 		})
 	end
 end
+lspconfig.asm_lsp.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	handlers = handlers,
+
+	root_dir = function(filename, bufnr)
+		local rev = string.reverse(filename)
+		local from_end = string.find(rev, "/") or 0
+		return string.sub(filename, 1, string.len(filename) - from_end)
+	end,
+
+	-- settings = {
+	-- Lua = {
+	-- 	diagnostics = {
+	-- 		globals = { "vim" },
+	-- 	},
+	-- 	workspace = {
+	-- 		library = {
+	-- 			[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+	-- 			[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+	-- 		},
+	-- 		maxPreload = 100000,
+	-- 		preloadFileSize = 10000,
+	-- 	},
+	-- },
+	-- },
+})
 lspconfig.lua_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -218,6 +241,12 @@ lspconfig.rust_analyzer.setup({
 
 	settings = {
 		["rust_analyzer"] = {
+			check = {
+				allTargets = true,
+			},
+			cargo = {
+				features = "all",
+			},
 			semanticHighlighting = {
 				punctuation = {
 					enable = true,

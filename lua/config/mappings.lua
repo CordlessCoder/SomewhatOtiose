@@ -3,7 +3,7 @@ local present, notify = pcall(require, "notify")
 if not present then
 	notify = vim.print
 end
-function live_grep_from_project_git_root()
+local function live_grep_from_project_git_root()
 	local function is_git_repo()
 		vim.fn.system("git rev-parse --is-inside-work-tree")
 
@@ -25,7 +25,6 @@ function live_grep_from_project_git_root()
 
 	telescope_builtin.live_grep(opts)
 end
-
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true, silent = true }
 	if opts then
@@ -73,11 +72,10 @@ local mappings = {
 					map("", "l", "l", {})
 					map("", "k", "k", {})
 					map("", "K", "K", {})
-					-- map("", "N", "5j", {})
-					-- map("", "E", "5k", {})
-					-- map("", "L", "I", {})
-					-- map("", "H", "0", {})
-					-- map("", "I", "$", {})
+					map("i", "<C-h>", "<left>", { noremap = false })
+					map("i", "<C-j>", "<down>", { noremap = false })
+					map("i", "<C-k>", "<up>", { noremap = false })
+					map("i", "<C-l>", "<right>", { noremap = false })
 				else
 					vim.g.colemak = true
 					map("", "m", "h", {})
@@ -89,24 +87,16 @@ local mappings = {
 					map("", "l", "i", {})
 					map("", "k", "n", {})
 					map("", "K", "N", {})
-					-- map("", "N", "5j", {})
-					-- map("", "E", "5k", {})
-					-- map("", "L", "I", {})
-					-- map("", "H", "0", {})
-					-- map("", "I", "$", {})
+					map("i", "<C-h>", "<left>", { noremap = false })
+					map("i", "<C-n>", "<down>", { noremap = false })
+					map("i", "<C-e>", "<up>", { noremap = false })
+					map("i", "<C-l>", "<right>", { noremap = false })
 				end
 				notify(string.format("Colemak binds: %s", vim.g.colemak))
 			end,
 			"Toggle Colemak-DH bindings",
 		},
 		["<leader>st"] = {
-			function()
-				vim.o.spell = not vim.o.spell
-				print("spell: " .. tostring(vim.o.spell))
-			end,
-			"Toggle vim spell",
-		},
-		["<leader>sg"] = {
 			function()
 				vim.o.spell = not vim.o.spell
 				print("spell: " .. tostring(vim.o.spell))
@@ -297,7 +287,7 @@ local mappings = {
 		["<C-l>"] = { "<C-w>l", "Focus window to the right" },
 		["<C-->"] = {
 			function()
-				local cur_font = vim.opt.guifont:get()[1]
+				local cur_font = vim.opt.guifont.get()[1]
 				local fontsize = 14
 				local t = {}
 				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
