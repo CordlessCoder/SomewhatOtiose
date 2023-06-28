@@ -851,7 +851,7 @@ return {
 					},
 					-- layout_strategy = "center",
 					results_title = false,
-					sorting_strategy = "ascending",
+					-- sorting_strategy = "ascending",
 					-- theme = "dropdown",
 				},
 				pickers = {
