@@ -1,8 +1,10 @@
-local LSP_EVENT = "VeryLazy"
+local LSP_EVENT = "BufEnter"
 return {
 
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
 	-- -- the colorscheme should be available when starting Neovim
+	-- { "unblevable/quick-scope", lazy = true, event = LSP_EVENT },
+	{ "TimUntersberger/neogit", dependencies = { "nvim-lua/plenary.nvim" }, cmd = { "Neogit" }, lazy = true },
 	{
 		"axieax/urlview.nvim",
 		lazy = true,
@@ -24,7 +26,7 @@ return {
 		"fedepujol/move.nvim",
 		lazy = true,
 		cmd = { "MoveLine", "MoveBlock", "MoveHChar", "MoveHBlock", "MoveWord" },
-		keys = { "<A-h>", "<A-j>", "<A-k>", "<A-l>" },
+		keys = { "<A-h>", "<A-j>", "<A-k>", "<A-l>", "<A-down>", "<A-up>", "<A-right>", "<A-left>" },
 		config = function()
 			local move_vert = require("move.core.vert")
 			local move_hor = require("move.core.horiz")
@@ -40,11 +42,23 @@ return {
 			vim.keymap.set("n", "<A-j>", function()
 				MoveLine(1)
 			end, opts)
+			vim.keymap.set("n", "<A-down>", function()
+				MoveLine(1)
+			end, opts)
+			vim.keymap.set("n", "<A-up>", function()
+				MoveLine(-1)
+			end, opts)
 			vim.keymap.set("n", "<A-k>", function()
 				MoveLine(-1)
 			end, opts)
+			vim.keymap.set("n", "<A-left>", function()
+				MoveHChar(-1)
+			end, opts)
 			vim.keymap.set("n", "<A-h>", function()
 				MoveHChar(-1)
+			end, opts)
+			vim.keymap.set("n", "<A-right>", function()
+				MoveHChar(1)
 			end, opts)
 			vim.keymap.set("n", "<A-l>", function()
 				MoveHChar(1)
@@ -99,7 +113,7 @@ return {
 					TODO = { icon = " ", color = "info" },
 					HACK = { icon = " ", color = "warning" },
 					WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-					PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+					PERF = { icon = "󰅒 ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
 					SAFE = { icon = " ", color = "hint", alt = { "SAFETY", "safety", "safe" } },
 					TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
 				},
@@ -277,6 +291,9 @@ return {
 				-- color_overrides = {},
 				-- custom_highlights = {},
 				integrations = {
+					barbar = true,
+					barbecue = false,
+					alpha = true,
 					cmp = true,
 					gitsigns = true,
 					telescope = true,
@@ -286,6 +303,7 @@ return {
 					treesitter = true,
 					treesitter_context = true,
 					nvimtree = true,
+					noice = true,
 					native_lsp = {
 						enabled = true,
 						virtual_text = {
@@ -301,7 +319,6 @@ return {
 							information = { "underline" },
 						},
 					},
-					noice = true,
 					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 				},
 			})
@@ -439,7 +456,7 @@ return {
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-context", lazy = true, config = true },
+	{ "nvim-treesitter/nvim-treesitter-context", lazy = true, config = true, event = LSP_EVENT },
 
 	{
 		"wakatime/vim-wakatime",
@@ -601,17 +618,51 @@ return {
 	},
 
 	{
-		"Pocco81/TrueZen.nvim",
-		cmd = {
-			"TZAtaraxis",
-			"TZMinimalist",
-			"TZFocus",
-			"TZNarrow",
+		"folke/zen-mode.nvim",
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+			window = {
+				backdrop = 0.95,
+				width = 0.80,
+			},
+			plugins = {
+				twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
+				gitsigns = { enabled = false }, -- disables git signs
+				kitty = {
+					enabled = true,
+					font = "+4", -- font size increment
+				},
+			},
 		},
-		config = function()
-			require("plugins.configs.truezen")
-		end,
 		lazy = true,
+		cmd = { "ZenMode" },
+	},
+	{
+		"folke/twilight.nvim",
+		opts = {
+			dimming = {
+				alpha = 0.25, -- amount of dimming
+				-- we try to get the foreground from the highlight groups or fallback color
+				-- color = { "Normal", "#ffffff" },
+				-- term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
+				inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+			},
+			context = 15, -- amount of lines we will try to show around the current line
+			treesitter = true, -- use treesitter when available for the filetype
+			-- treesitter is used to automatically expand the visible text,
+			-- but you can further control the types of nodes that should always be fully expanded
+			expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
+				"function",
+				"method",
+				"table",
+				"if_statement",
+			},
+			exclude = {}, -- exclude these filetypes
+		},
+		lazy = true,
+		cmd = { "Twilight", "TwilightEnable", "TwilightDisable" },
 	},
 
 	{
@@ -766,11 +817,78 @@ return {
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
+		-- tag = "0.1.1",
 		-- or                            , branch = '0.1.x',
-		dependencies = { "plenary.nvim" },
+		dependencies = {
+			"plenary.nvim",
+			"telescope-emoji.nvim",
+			"debugloop/telescope-undo.nvim",
+			"xiyaowong/telescope-emoji.nvim",
+			"jvgrootveld/telescope-zoxide",
+		},
 		config = function()
+			local telescope = require("telescope")
+			telescope.setup({
+				defaults = {
+					border = true,
+					borderchars = {
+						preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+						prompt = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+						results = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+					},
+					layout_config = {
+						-- height = {
+						-- 	0.8,
+						-- 	max = 40,
+						-- 	min = 15,
+						-- },
+						preview_cutoff = 1,
+						width = {
+							0.9,
+							max = 80,
+							min = 30,
+						},
+					},
+					-- layout_strategy = "center",
+					results_title = false,
+					sorting_strategy = "ascending",
+					-- theme = "dropdown",
+				},
+				pickers = {
+
+					current_buffer_tags = { fname_width = 100 },
+
+					jumplist = { fname_width = 100 },
+
+					loclist = { fname_width = 100 },
+
+					lsp_definitions = { fname_width = 100 },
+
+					lsp_document_symbols = { fname_width = 100 },
+
+					lsp_dynamic_workspace_symbols = { fname_width = 100 },
+
+					lsp_implementations = { fname_width = 100 },
+
+					lsp_incoming_calls = { fname_width = 100 },
+
+					lsp_outgoing_calls = { fname_width = 100 },
+
+					lsp_references = { fname_width = 100 },
+
+					lsp_type_definitions = { fname_width = 100 },
+
+					lsp_workspace_symbols = { fname_width = 100 },
+
+					quickfix = { fname_width = 100 },
+
+					tags = { fname_width = 100 },
+				},
+			})
 			require("plugins.configs.telescope")
+			telescope.load_extension("undo")
+			telescope.load_extension("emoji")
+			telescope.load_extension("zoxide")
 		end,
 		cmd = { "Telescope" },
 		lazy = true,
@@ -795,9 +913,17 @@ return {
 	-- use {'andymass/vim-matchup', event = 'VimEnter'}
 
 	-- Plugins can have post-install/update hooks
-	-- use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+	{
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && yarn install",
+		cmd = "MarkdownPreview",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+	},
 
-	{ "p00f/nvim-ts-rainbow", event = "VeryLazy", lazy = true },
+	{ "https://gitlab.com/HiPhish/nvim-ts-rainbow2", event = "VeryLazy", lazy = true },
 
 	-- Post-install/update hook with neovim command
 	{

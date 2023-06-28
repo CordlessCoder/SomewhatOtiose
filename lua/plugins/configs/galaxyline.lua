@@ -195,7 +195,7 @@ gls.left[4] = {
 gls.left[5] = {
 	GitIcon = {
 		provider = function()
-			return " "
+			return "󰊢 "
 		end,
 		condition = buffer_not_empty,
 		highlight = { colors.fg, colors.lgray },

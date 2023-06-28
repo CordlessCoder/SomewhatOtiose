@@ -4,10 +4,12 @@ local b = null_ls.builtins
 local sources = {
 
 	b.formatting.trim_whitespace,
-	b.formatting.prettier.with({ filetypes = { "lua", "html", "markdown", "css", "yaml" } }),
+	b.formatting.prettier,
 	b.diagnostics.actionlint,
+	b.formatting.tidy,
+
 	-- Markdown
-	b.formatting.mdformat,
+b.formatting.mdformat,
 
 	-- Lua
 	b.formatting.stylua,
@@ -28,7 +30,11 @@ local sources = {
 	b.formatting.rustfmt.with({ extra_args = { "--edition=2021" } }),
 
 	-- C/C++/C#/Java/Cuda
-	b.formatting.clang_format,
+	b.formatting.clang_format.with({
+		extra_args = {
+			"-style={BasedOnStyle: LLVM, IndentWidth: 4, ColumnLimit: 120, AlignConsecutiveAssignments: Consecutive, AlignConsecutiveDeclarations: Consecutive, AlignConsecutiveMacros: Consecutive, AlignEscapedNewlines: Left, AlignOperands: AlignAfterOperator}",
+		},
+	}),
 
 	-- PHP :disgust:
 	b.formatting.phpcbf,

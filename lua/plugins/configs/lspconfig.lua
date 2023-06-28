@@ -97,7 +97,7 @@ local function goto_definition(split_cmd)
 		if vim.tbl_islist(result) then
 			lutil.jump_to_location(result[1])
 
-			if #result > 1 then
+			if result > 1 then
 				lutil.set_qflist(lutil.locations_to_items(result))
 				api.nvim_command("copen")
 				api.nvim_command("wincmd p")
@@ -122,6 +122,7 @@ local handlers = {
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
 
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -150,7 +151,7 @@ local servers = {
 	"emmet_ls",
 	"bashls",
 	"tsserver",
-	"ccls",
+	-- "ccls",
 	"clangd",
 	"jdtls",
 	"taplo",
@@ -172,9 +173,9 @@ for _, lsp in ipairs(servers) do
 		lspconfig[lsp].setup({
 			on_attach = function(client, bufnr)
 				on_attach(client, bufnr)
-				-- if lsp == "emmet_ls" or lsp == "html" then
-				-- 	capabilities.textDocument.completion.completionItem.snippetSupport = true
-				-- end
+				if lsp == "emmet_ls" or lsp == "html" then
+					capabilities.textDocument.completion.completionItem.snippetSupport = true
+				end
 			end,
 			capabilities = capabilities,
 			handlers = handlers,

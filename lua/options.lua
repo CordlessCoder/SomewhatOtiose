@@ -27,6 +27,45 @@ opt.cursorline = true
 -- g.terminal_color_14 = "#87afaf"
 -- g.terminal_color_15 = "#bcbcbc"
 
+local tab_widths = {
+	haskell = 2,
+}
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "kdl",
+	callback = function(ev)
+		vim.opt_local.commentstring = "//%s"
+	end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "*",
+	callback = function(ev)
+		vim.cmd.LspStart()
+		local present, _ = pcall(require, "colorizer")
+		if present then
+			vim.cmd.ColorizerAttachToBuffer()
+		end
+		vim.bo.tabstop = 4
+		vim.bo.softtabstop = 4
+		vim.bo.shiftwidth = 4
+		vim.bo.expandtab = true
+
+		for ft, w in pairs(tab_widths) do
+			if ft == ev.match then
+				vim.bo.tabstop = w
+				vim.bo.softtabstop = w
+				vim.bo.shiftwidth = w
+			end
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "Makefile",
+	callback = function()
+		vim.bo.expandtab = false
+	end,
+})
 -- Indenting
 opt.expandtab = true
 opt.smartindent = true

@@ -1,3 +1,4 @@
+local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
 local present, notify = pcall(require, "notify")
 if not present then
@@ -22,7 +23,6 @@ local function live_grep_from_project_git_root()
 			cwd = get_git_root(),
 		}
 	end
-
 	telescope_builtin.live_grep(opts)
 end
 local function map(mode, lhs, rhs, opts)
@@ -31,7 +31,9 @@ local function map(mode, lhs, rhs, opts)
 		options = vim.tbl_extend("force", options, opts)
 	end
 	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+	vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, options)
 end
+
 local mappings = {
 	i = {
 		["<C-h>"] = { "<left>", "Move with HJKL in insert mode" },
@@ -48,8 +50,8 @@ local mappings = {
 		-- 	end,
 		-- 	"Evaluate selection",
 		-- },
-		["<Tab>"] = { ">", "   Indent selected lines" },
-		["<S-Tab>"] = { "<", "   Unindent selected lines" },
+		["<Tab>"] = { ">", "󰉶   Indent selected lines" },
+		["<S-Tab>"] = { "<", "󰉵   Unindent selected lines" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.range_code_action()<CR>", "Perform code action on selection" },
 	},
 	t = {
@@ -58,8 +60,14 @@ local mappings = {
 		["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 	},
 	n = {
+		["<leader>ng"] = {
+			function()
+				local neogit = require("neogit")
+				neogit.open({ kind = "vsplit" })
+			end,
+			"Open NeoGit",
+		},
 		["<leader>``"] = {
-			-- Toggle Colemak bindings
 			function()
 				if vim.g.colemak then
 					vim.g.colemak = false
@@ -72,10 +80,10 @@ local mappings = {
 					map("", "l", "l", {})
 					map("", "k", "k", {})
 					map("", "K", "K", {})
-					map("i", "<C-h>", "<left>", { noremap = false })
-					map("i", "<C-j>", "<down>", { noremap = false })
-					map("i", "<C-k>", "<up>", { noremap = false })
-					map("i", "<C-l>", "<right>", { noremap = false })
+					-- map("i", "<C-h>", "<left>", { noremap = false })
+					-- map("i", "<C-j>", "<down>", { noremap = false })
+					-- map("i", "<C-k>", "<up>", { noremap = false })
+					-- map("i", "<C-l>", "<right>", { noremap = false })
 				else
 					vim.g.colemak = true
 					map("", "m", "h", {})
@@ -87,10 +95,10 @@ local mappings = {
 					map("", "l", "i", {})
 					map("", "k", "n", {})
 					map("", "K", "N", {})
-					map("i", "<C-h>", "<left>", { noremap = false })
-					map("i", "<C-n>", "<down>", { noremap = false })
-					map("i", "<C-e>", "<up>", { noremap = false })
-					map("i", "<C-l>", "<right>", { noremap = false })
+					-- map("i", "<C-m>", "<left>", { noremap = false })
+					-- map("i", "<C-n>", "<down>", { noremap = false })
+					-- map("i", "<C-e>", "<up>", { noremap = false })
+					-- map("i", "<C-i>", "<right>", { noremap = false })
 				end
 				notify(string.format("Colemak binds: %s", vim.g.colemak))
 			end,
@@ -125,7 +133,7 @@ local mappings = {
 			end,
 			"Fuzzy find using live grep",
 		},
-		["<leader>sb"] = {
+		["<leader>b"] = {
 			function()
 				telescope_builtin.buffers()
 			end,
@@ -143,11 +151,11 @@ local mappings = {
 			end,
 			"Fuzzy find files",
 		},
-		["<leader>bf"] = {
+		["<leader>pf"] = {
 			function()
 				telescope_builtin.find_files({ cwd = ".." })
 			end,
-			"Fuzzy find files",
+			"Fuzzy find files in parent directory",
 		},
 		["cr"] = {
 			function()
@@ -161,11 +169,43 @@ local mappings = {
 		-- 	end,
 		-- 	"Go to declaration",
 		-- },
+		["<leader>tn"] = {
+			function()
+				telescope.extensions.notify.notify()
+			end,
+			"Show notifications",
+		},
+		["<leader>te"] = {
+			function()
+				telescope.extensions.emoji.emoji()
+			end,
+			"Show emoji picker",
+		},
+		["<leader>tu"] = {
+			function()
+				telescope.extensions.undo.undo()
+			end,
+			"Show undo history",
+		},
+		["gh"] = {
+			"0",
+			"Go to line start",
+		},
+		["ge"] = {
+			"$",
+			"Go to line end",
+		},
 		["gd"] = {
 			function()
 				telescope_builtin.lsp_definitions()
 			end,
 			"Go to definition",
+		},
+		["gi"] = {
+			function()
+				telescope_builtin.lsp_implementations()
+			end,
+			"Go to implementations",
 		},
 		["gr"] = {
 			function()
@@ -184,10 +224,10 @@ local mappings = {
 		["<leader>td"] = { "<Cmd>Trouble document_diagnostics<CR>", "Show document diagnostics in Trouble" },
 		["<leader>tq"] = { "<Cmd>TodoQuickFix<CR>", "Show todos in Trouble" },
 		["<leader>e"] = { "<Cmd>NvimTreeFocus<CR>", "Focus NvimTree" },
-		["<leader>std"] = { "<Cmd>Trouble lsp_definitions", "Show LSP definitions in a Trouble panel" },
-		["<leader>sti"] = { "<Cmd>Trouble lsp_implementations", "Show LSP implementations in a Trouble panel" },
-		["<leader>str"] = { "<Cmd>Trouble lsp_references", "Show LSP references in a Trouble panel" },
-		["<leader>stt"] = { "<Cmd>Trouble lsp_type_defitions", "Show LSP type defitions in a Trouble panel" },
+		["<leader>std"] = { "<Cmd>Trouble lsp_definitions<CR>", "Show LSP definitions in a Trouble panel" },
+		["<leader>sti"] = { "<Cmd>Trouble lsp_implementations<CR>", "Show LSP implementations in a Trouble panel" },
+		["<leader>str"] = { "<Cmd>Trouble lsp_references<CR>", "Show LSP references in a Trouble panel" },
+		["<leader>stt"] = { "<Cmd>Trouble lsp_type_defitions<CR>", "Show LSP type defitions in a Trouble panel" },
 		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
 		["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
@@ -210,8 +250,8 @@ local mappings = {
 		["<A-0>"] = { "<Cmd>BufferLast<CR>", "Go to last buffer" },
 		["<A-,>"] = { "<Cmd>BufferMovePrevious<CR>", "Move buffer back" },
 		["<A-.>"] = { "<Cmd>BufferMoveNext<CR>", "Move buffer back" },
-		["<Tab>"] = { "<Cmd>BufferNext<CR>", "   Next Buffer" },
-		["<S-Tab>"] = { "<Cmd>BufferPrevious<CR>", "   Prev Buffer" },
+		["<Tab>"] = { "<Cmd>BufferNext<CR>", "󰉶   Next Buffer" },
+		["<S-Tab>"] = { "<Cmd>BufferPrevious<CR>", "󰉵   Prev Buffer" },
 		["<c-space>"] = {
 			function()
 				vim.lsp.buf.hover()
@@ -231,133 +271,136 @@ local mappings = {
 			end,
 			"Hover action",
 		},
-		["<leader>dc"] = {
-			function()
-				require("dap").continue()
-			end,
-			"DAP continue",
-		},
-		["<leader>db"] = {
-			function()
-				require("dap").toggle_breakpoint()
-			end,
-			"DAP toggle breakpoint",
-		},
-		["<leader>do"] = {
-			function()
-				require("dap").step_over()
-			end,
-			"DAP step over",
-		},
-		["<leader>di"] = {
-			function()
-				require("dap").step_into()
-			end,
-			"DAP step in",
-		},
-		["<leader>dr"] = {
-			function()
-				require("dap").repl.open()
-			end,
-			"DAP step in",
-		},
-		["<leader>dt"] = {
-			function()
-				require("dapui").toggle()
-			end,
-			"DAP step in",
-		},
+		-- ["<leader>dc"] = {
+		-- 	function()
+		-- 		require("dap").continue()
+		-- 	end,
+		-- 	"DAP continue",
+		-- },
+		-- ["<leader>db"] = {
+		-- 	function()
+		-- 		require("dap").toggle_breakpoint()
+		-- 	end,
+		-- 	"DAP toggle breakpoint",
+		-- },
+		-- ["<leader>do"] = {
+		-- 	function()
+		-- 		require("dap").step_over()
+		-- 	end,
+		-- 	"DAP step over",
+		-- },
+		-- ["<leader>di"] = {
+		-- 	function()
+		-- 		require("dap").step_into()
+		-- 	end,
+		-- 	"DAP step in",
+		-- },
+		-- ["<leader>dr"] = {
+		-- 	function()
+		-- 		require("dap").repl.open()
+		-- 	end,
+		-- 	"DAP step in",
+		-- },
+		-- ["<leader>dt"] = {
+		-- 	function()
+		-- 		require("dapui").toggle()
+		-- 	end,
+		-- 	"DAP step in",
+		-- },
 		["<leader>gb"] = { "<cmd>GitBlameToggle<CR>", "Toggle git blame" },
 		["<leader>a"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>n"] = { "<cmd>NvimTreeToggle <CR>", "   toggle nvimtree" },
 		["<C-n>"] = { "<cmd>execute 'normal <Plug>(VM-Find-Under)' <CR>", "   toggle nvimtree" },
-		["<C-s>"] = { "<cmd> w <CR>", "   Save file" },
-		["<C-S>"] = { "<cmd> wa <CR>", "   Save all files" },
-		["<C-g>"] = { "<cmd> TZFocus <CR>", "Focus mode" },
+		["<C-s>"] = { "<cmd> w <CR>", "󰆓   Save file" },
+		["<C-S>"] = { "<cmd> wa <CR>", "󰆔   Save all files" },
+		["<C-g>"] = {
+			function()
+				require("zen-mode").toggle()
+			end,
+			"Focus mode",
+		},
 		-- ["<C-t>"] = { "<cmd> tabedit <CR>", "New tab" },
-		["<leader>tn"] = { "<cmd> tabn <CR>", "next tab" },
-		["<leader>tf"] = { "<cmd> TZFocus <CR>", "Focus mode" },
-		["<leader>ta"] = { "<cmd> TZAtaraxis <CR>", "Focus mode, ataraxis" },
-		["<leader>tm"] = { "<cmd> TZMinimalist <CR>", "Focus mode, minimal" },
-		["<leader>cc"] = { "<cmd> ColorizerToggle <CR>", "   Toggle colorizer" },
-		["<C-h>"] = { "<C-w>h", "Focus window to the left" },
-		["<C-j>"] = { "<C-w>j", "Focus window downwards" },
-		["<C-k>"] = { "<C-w>k", "Focus window upwards" },
-		["<C-l>"] = { "<C-w>l", "Focus window to the right" },
-		["<C-->"] = {
-			function()
-				local cur_font = vim.opt.guifont.get()[1]
-				local fontsize = 14
-				local t = {}
-				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-					fontsize = tonumber(string.sub(size, 2))
-					table.insert(t, size)
-				end
-				fontsize = fontsize - 1
-				vim.opt.guifont = t[1] .. ":h" .. fontsize
-			end,
-			"Decrease font size",
-		},
-		["<C-+>"] = {
-			function()
-				local cur_font = vim.opt.guifont:get()[1]
-				local fontsize = 15
-				local t = {}
-				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-					fontsize = tonumber(string.sub(size, 2))
-					table.insert(t, size)
-				end
-				fontsize = fontsize + 1
-				vim.opt.guifont = t[1] .. ":h" .. fontsize
-			end,
-			"Increase font size",
-		},
-		["<C-=>"] = {
-			function()
-				local cur_font = vim.opt.guifont:get()[1]
-				local fontsize = 15
-				local t = {}
-				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-					fontsize = tonumber(string.sub(size, 2))
-					table.insert(t, size)
-				end
-				fontsize = fontsize + 1
-				vim.opt.guifont = t[1] .. ":h" .. fontsize
-			end,
-			"Increase font size",
-		},
-		["<C-0>"] = {
-			function()
-				local cur_font = vim.opt.guifont:get()[1]
-				local t = {}
-				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-					table.insert(t, size)
-				end
-				vim.opt.guifont = t[1] .. ":h" .. 15
-			end,
-			"Reset font size (to 14)",
-		},
-		["gz"] = {
-			"<cmd> UrlView <CR>",
-			"Open URL list in Telescope",
-		},
-		["gx"] = {
-			function()
-				local line = vim.fn.getline(".")
-				if line ~= "" then
-					local command = string.format(
-						'echo "%s" | grep -Po "(http|https)://[A-z-#/]+[^ >,;()]*" | xargs -I "{}" xdg-open "{}" 2> /dev/null',
-						line
-					)
-					os.execute(command)
-				else
-					vim.cmd('echo "Empty line"')
-				end
-			end,
-			"Open URL",
-		},
+		["<A-n>"] = { "<cmd> tabn <CR>", "next tab" },
+		["<leader>cc"] = { "<cmd> ColorizerToggle <CR>", "󰌁   Toggle colorizer" },
+		["<C-left>"] = { "<C-w>h", "Focus window to the left" },
+		["<C-down>"] = { "<C-w>j", "Focus window downwards" },
+		["<C-up>"] = { "<C-w>k", "Focus window upwards" },
+		["<C-right>"] = { "<C-w>l", "Focus window to the right" },
+		-- ["<C-->"] = {
+		-- 	function()
+		-- 		local cur_font = vim.opt.guifont.get()[1]
+		-- 		local fontsize = 14
+		-- 		local t = {}
+		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+		-- 			fontsize = tonumber(string.sub(size, 2))
+		-- 			table.insert(t, size)
+		-- 		end
+		-- 		fontsize = fontsize - 1
+		-- 		vim.opt.guifont = t[1] .. ":h" .. fontsize
+		-- 	end,
+		-- 	"Decrease font size",
+		-- },
+		-- ["<C-+>"] = {
+		-- 	function()
+		-- 		local cur_font = vim.opt.guifont:get()[1]
+		-- 		local fontsize = 15
+		-- 		local t = {}
+		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+		-- 			fontsize = tonumber(string.sub(size, 2))
+		-- 			table.insert(t, size)
+		-- 		end
+		-- 		fontsize = fontsize + 1
+		-- 		vim.opt.guifont = t[1] .. ":h" .. fontsize
+		-- 	end,
+		-- 	"Increase font size",
+		-- },
+		-- ["<C-=>"] = {
+		-- 	function()
+		-- 		local cur_font = vim.opt.guifont:get()[1]
+		-- 		local fontsize = 15
+		-- 		local t = {}
+		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+		-- 			fontsize = tonumber(string.sub(size, 2))
+		-- 			table.insert(t, size)
+		-- 		end
+		-- 		fontsize = fontsize + 1
+		-- 		vim.opt.guifont = t[1] .. ":h" .. fontsize
+		-- 	end,
+		-- 	"Increase font size",
+		-- },
+		-- ["<C-0>"] = {
+		-- 	function()
+		-- 		local cur_font = vim.opt.guifont:get()[1]
+		-- 		local t = {}
+		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+		-- 			table.insert(t, size)
+		-- 		end
+		-- 		vim.opt.guifont = t[1] .. ":h" .. 15
+		-- 	end,
+		-- 	"Reset font size (to 14)",
+		-- },
+		-- ["gz"] = {
+		-- 	"<cmd> UrlView <CR>",
+		-- 	"Open URL list in Telescope",
+		-- },
+		-- ["gx"] = {
+		-- 	function()
+		-- 		local line = vim.fn.getline(".")
+		-- 		if line ~= "" then
+		-- 			local command = string.format(
+		-- 				'echo "%s" | grep -Po "(http|https)://[A-z-#/]+[^ >,;()]*" | xargs -I "{}" xdg-open "{}" 2> /dev/null',
+		-- 				line
+		-- 			)
+		-- 			os.execute(command)
+		-- 		else
+		-- 			vim.cmd('echo "Empty line"')
+		-- 		end
+		-- 	end,
+		-- 	"Open URL",
+		-- },
 	},
+	["*"] = {},
 }
 local util = require("config.utils.mapping")
 util.apply_map(mappings)
