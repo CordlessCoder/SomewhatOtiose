@@ -4,6 +4,10 @@ if not present then
 	return
 end
 
+local ASCII_hl = "CursorLineNr"
+local SHORTCUT_hl = "CursorLineNr"
+local TEXT_hl = "Function"
+
 local function button(sc, txt, keybind)
 	local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
 
@@ -14,11 +18,12 @@ local function button(sc, txt, keybind)
 		cursor = 5,
 		width = 36,
 		align_shortcut = "right",
-		hl = "Function",
+		hl = TEXT_hl,
 	}
 
 	if keybind then
 		opts.keymap = { "n", sc_, keybind, { noremap = true, silent = true } }
+		opts.hl_shortcut = SHORTCUT_hl
 	end
 
 	return {
@@ -53,23 +58,23 @@ options.header = {
 	val = ascii,
 	opts = {
 		position = "center",
-		hl = "Function",
+		hl = ASCII_hl,
 	},
 }
 
 options.buttons = {
 	type = "group",
 	val = {
-		button("SPC f f", "  Find File    ", ":Telescope find_files<CR>"),
-		button("SPC r f", "󰷈  Recent File  ", ":Telescope oldfiles<CR>"),
-		button("SPC w s", "󱀽  Word Sniper  ", ":Telescope live_grep<CR>"),
-		button("SPC b m", "  Bookmarks    ", ":Telescope marks<CR>"),
-		button("SPC t r", "  Terminal     ", ":term <CR> i"),
-		button("SPC r s", "  Rust Shell   ", "<cmd>:term irust <CR> :tabonly <CR> i"),
+		button("f", "  Find File    ", ":Telescope find_files<CR>"),
+		button("r", "󰷈  Recent File  ", ":Telescope oldfiles<CR>"),
+		button("w", "󱀽  Word Sniper  ", ":Telescope live_grep<CR>"),
+		button("m", "  Marks    ", ":Telescope marks<CR>"),
+		button("t", "  Terminal     ", ":term <CR> i"),
+		button("h", "  Rust Shell   ", "<cmd>:term irust <CR> :tabonly <CR> i"),
 		-- button("SPC t h", "  Themes       ", ":Telescope themes<CR>"),
-		button("SPC s e", "  Settings     ", ":e ~/.config/nvim/init.lua|:cd %:p:h <CR>"),
-		button("SPC u p", "󰚰  Update Plugins", ":Lazy update <CR>"),
-		button("SPC q q", "󰅚  Exit         ", ":qa!<CR>"),
+		button("s", "  Settings     ", ":e ~/.config/nvim/init.lua|:cd %:p:h <CR>"),
+		button("u", "󰚰  Update Plugins", ":Lazy update <CR>"),
+		button("q", "󰅚  Exit         ", ":qa!<CR>"),
 	},
 	opts = {
 		spacing = 1,
