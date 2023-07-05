@@ -819,6 +819,7 @@ return {
 		"nvim-telescope/telescope.nvim",
 		-- tag = "0.1.1",
 		-- or                            , branch = '0.1.x',
+		lazy = true,
 		dependencies = {
 			"plenary.nvim",
 			"telescope-emoji.nvim",
@@ -842,7 +843,12 @@ return {
 						-- 	max = 40,
 						-- 	min = 15,
 						-- },
-						preview_cutoff = 1,
+						preview_cutoff = 80,
+						preview_width = {
+							0.6,
+							max = 80,
+							min = 20,
+						},
 						width = {
 							0.9,
 							max = 80,
@@ -891,8 +897,7 @@ return {
 			telescope.load_extension("zoxide")
 		end,
 		cmd = { "Telescope" },
-		lazy = true,
-		-- event = "UIEnter",
+		event = "UIEnter",
 	},
 
 	{

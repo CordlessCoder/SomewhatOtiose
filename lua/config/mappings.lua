@@ -187,14 +187,6 @@ local mappings = {
 			end,
 			"Show undo history",
 		},
-		["gh"] = {
-			"0",
-			"Go to line start",
-		},
-		["ge"] = {
-			"$",
-			"Go to line end",
-		},
 		["gd"] = {
 			function()
 				telescope_builtin.lsp_definitions()
@@ -324,9 +316,13 @@ local mappings = {
 		["<A-n>"] = { "<cmd> tabn <CR>", "next tab" },
 		["<leader>cc"] = { "<cmd> ColorizerToggle <CR>", "󰌁   Toggle colorizer" },
 		["<C-left>"] = { "<C-w>h", "Focus window to the left" },
+		["<C-h>"] = { "<C-w>h", "Focus window to the left" },
 		["<C-down>"] = { "<C-w>j", "Focus window downwards" },
+		["<C-j>"] = { "<C-w>j", "Focus window downwards" },
 		["<C-up>"] = { "<C-w>k", "Focus window upwards" },
+		["<C-k>"] = { "<C-w>k", "Focus window upwards" },
 		["<C-right>"] = { "<C-w>l", "Focus window to the right" },
+		["<C-l>"] = { "<C-w>l", "Focus window to the right" },
 		-- ["<C-->"] = {
 		-- 	function()
 		-- 		local cur_font = vim.opt.guifont.get()[1]
@@ -400,7 +396,16 @@ local mappings = {
 		-- 	"Open URL",
 		-- },
 	},
-	["*"] = {},
+	[""] = {
+		["gh"] = {
+			"0",
+			"Go to line start",
+		},
+		["ge"] = {
+			"$",
+			"Go to line end",
+		},
+	},
 }
 local util = require("config.utils.mapping")
 util.apply_map(mappings)

@@ -9,7 +9,7 @@ local sources = {
 	b.formatting.tidy,
 
 	-- Markdown
-b.formatting.mdformat,
+	b.formatting.mdformat,
 
 	-- Lua
 	b.formatting.stylua,
@@ -35,6 +35,9 @@ b.formatting.mdformat,
 			"-style={BasedOnStyle: LLVM, IndentWidth: 4, ColumnLimit: 120, AlignConsecutiveAssignments: Consecutive, AlignConsecutiveDeclarations: Consecutive, AlignConsecutiveMacros: Consecutive, AlignEscapedNewlines: Left, AlignOperands: AlignAfterOperator}",
 		},
 	}),
+
+	-- Go
+	b.formatting.goimports_reviser,
 
 	-- PHP :disgust:
 	b.formatting.phpcbf,
