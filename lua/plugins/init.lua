@@ -184,7 +184,7 @@ return {
 					block_kind = true,
 				},
 				palette_overrides = {
-					comments = "#4d5768", -- #4d5768
+					-- comments = "#4d5768", -- #4d5768
 					-- background = "#101419",
 					-- 	contrast = "#0e1217",
 					-- statusline_bg = "#13171c",
@@ -324,6 +324,17 @@ return {
 			})
 			vim.cmd.colorscheme("catppuccin")
 		end,
+	},
+
+	{
+		"metalelf0/jellybeans-nvim",
+		enabled = false,
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			vim.cmd.colorscheme("jellybeans-nvim")
+		end,
+		dependencies = { "rktjmp/lush.nvim" },
 	},
 	{
 		"folke/tokyonight.nvim",
@@ -828,73 +839,7 @@ return {
 			"jvgrootveld/telescope-zoxide",
 		},
 		config = function()
-			local telescope = require("telescope")
-			telescope.setup({
-				defaults = {
-					border = true,
-					borderchars = {
-						preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-						prompt = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-						results = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-					},
-					layout_config = {
-						-- height = {
-						-- 	0.8,
-						-- 	max = 40,
-						-- 	min = 15,
-						-- },
-						preview_cutoff = 80,
-						preview_width = {
-							0.6,
-							max = 80,
-							min = 20,
-						},
-						width = {
-							0.9,
-							max = 80,
-							min = 30,
-						},
-					},
-					-- layout_strategy = "center",
-					results_title = false,
-					-- sorting_strategy = "ascending",
-					-- theme = "dropdown",
-				},
-				pickers = {
-
-					current_buffer_tags = { fname_width = 100 },
-
-					jumplist = { fname_width = 100 },
-
-					loclist = { fname_width = 100 },
-
-					lsp_definitions = { fname_width = 100 },
-
-					lsp_document_symbols = { fname_width = 100 },
-
-					lsp_dynamic_workspace_symbols = { fname_width = 100 },
-
-					lsp_implementations = { fname_width = 100 },
-
-					lsp_incoming_calls = { fname_width = 100 },
-
-					lsp_outgoing_calls = { fname_width = 100 },
-
-					lsp_references = { fname_width = 100 },
-
-					lsp_type_definitions = { fname_width = 100 },
-
-					lsp_workspace_symbols = { fname_width = 100 },
-
-					quickfix = { fname_width = 100 },
-
-					tags = { fname_width = 100 },
-				},
-			})
 			require("plugins.configs.telescope")
-			telescope.load_extension("undo")
-			telescope.load_extension("emoji")
-			telescope.load_extension("zoxide")
 		end,
 		cmd = { "Telescope" },
 		event = "UIEnter",

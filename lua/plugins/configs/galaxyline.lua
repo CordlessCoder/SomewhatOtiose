@@ -95,7 +95,14 @@ else
 	hl = gethl("String", hl)
 	local green = tohex(hl.foreground)
 	hl = gethl("ErrorMsg", hl)
-	local red = tohex(hl.foreground)
+	if hl.foreground ~= nil then
+		local red = tohex(hl.foreground)
+	elseif hl.background ~= nil then
+		local red = tohex(hl.background)
+	else
+		hl = gethl("Error", hl)
+		local red = tohex(hl.background)
+	end
 	hl = gethl("Statement", hl)
 	local purple = tohex(hl.foreground)
 	hl = gethl("Constant", hl)
