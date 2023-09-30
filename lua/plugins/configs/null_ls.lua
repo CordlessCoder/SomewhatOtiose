@@ -7,6 +7,7 @@ local sources = {
 	b.formatting.prettier,
 	b.diagnostics.actionlint,
 	b.formatting.tidy,
+	b.formatting.pg_format,
 
 	-- Markdown
 	b.formatting.mdformat,
@@ -28,6 +29,10 @@ local sources = {
 
 	-- Rust
 	b.formatting.rustfmt.with({ extra_args = { "--edition=2021" } }),
+
+	-- Kotlin
+	b.formatting.ktlint,
+	b.diagnostics.ktlint,
 
 	-- C/C++/C#/Java/Cuda
 	b.formatting.clang_format.with({

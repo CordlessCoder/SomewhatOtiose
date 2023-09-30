@@ -235,14 +235,6 @@ return {
 				transparent = false, -- do not set background color
 				dimInactive = false, -- dim inactive window `:h hl-NormalNC`
 				terminalColors = true, -- define vim.g.terminal_color_{0,17}
-				-- colors = { -- add/modify theme and palette colors
-				-- 	palette = {},
-				-- 	theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-				-- },
-				-- overrides = function(colors) -- add/modify highlights
-				--     return {}
-				-- end,
-				-- theme = "wave",
 				background = { -- map the value of 'background' option to a theme
 					dark = "wave", -- try "dragon" !
 					-- light = "wave",
@@ -452,7 +444,7 @@ return {
 			vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#56B6C2", nocombine = true })
 			vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#61AFEF", nocombine = true })
 			vim.api.nvim_set_hl(0, "IndentBlanklineIndent6", { fg = "#C678DD", nocombine = true })
-			require("indent_blankline").setup({
+			require("ibl").setup({
 
 				-- for example, context is off by default, use this to turn it on
 				show_current_context = true,
@@ -564,6 +556,7 @@ return {
 		end,
 		dependencies = { { "nvim-lua/plenary.nvim" } },
 		lazy = true,
+		cmd = { "Neorg" },
 		ft = "norg",
 	},
 	{
@@ -700,6 +693,7 @@ return {
 
 	{
 		"goolord/alpha-nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("plugins.configs.alpha")
 		end,
@@ -873,7 +867,7 @@ return {
 		ft = { "markdown" },
 	},
 
-	{ "https://gitlab.com/HiPhish/nvim-ts-rainbow2", event = "VeryLazy", lazy = true },
+	{ "https://gitlab.com/HiPhish/rainbow-delimiters.nvim", event = "VeryLazy", lazy = true },
 
 	-- Post-install/update hook with neovim command
 	{

@@ -15,11 +15,11 @@ telescope.setup({
 			-- 	min = 15,
 			-- },
 			preview_cutoff = 80,
-			preview_width = {
-				0.6,
-				max = 80,
-				min = 20,
-			},
+			-- preview_width = {
+			-- 	0.6,
+			-- 	max = 80,
+			-- 	min = 20,
+			-- },
 			-- width = {
 			-- 	0.9,
 			-- 	max = 80,

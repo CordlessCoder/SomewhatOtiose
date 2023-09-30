@@ -4,7 +4,8 @@ gl.short_line_list = { "LuaTree", "vista", "dbui", "NvimTree" }
 local g = vim.g
 
 local gethl = function(name, t)
-	local present, highlight = pcall(vim.api.nvim_get_hl_by_name, name, t or {})
+	local present, highlight = pcall(vim.api.nvim_get_hl, 0, { name = name })
+	-- require("notify").notify(string.format("%s: %s", name, vim.inspect(highlight)))
 	if present then
 		return highlight
 	else
@@ -79,40 +80,40 @@ elseif tokyo_present then
 else
 	local hl = {}
 	hl = gethl("Normal", hl)
-	local fgcolor = tohex(hl.foreground)
+	local fgcolor = tohex(hl.fg)
 	local bgcolor
-	if hl.background ~= nil then
-		bgcolor = tohex(hl.background)
+	if hl.bg ~= nil then
+		bgcolor = tohex(hl.bg)
 	else
 		bgcolor = "NONE"
 	end
 	hl = gethl("CursorColumn", hl)
-	local gray = tohex(hl.background)
+	local gray = tohex(hl.bg)
 	hl = gethl("NonText", hl)
-	local lgray = tohex(hl.foreground)
+	local lgray = tohex(hl.fg)
 	hl = gethl("Directory", hl)
-	local blue = tohex(hl.foreground)
+	local blue = tohex(hl.fg)
 	hl = gethl("String", hl)
-	local green = tohex(hl.foreground)
+	local green = tohex(hl.fg)
 	hl = gethl("ErrorMsg", hl)
-	if hl.foreground ~= nil then
-		local red = tohex(hl.foreground)
-	elseif hl.background ~= nil then
-		local red = tohex(hl.background)
+	if hl.fg ~= nil then
+		local red = tohex(hl.fg)
+	elseif hl.bg ~= nil then
+		local red = tohex(hl.bg)
 	else
 		hl = gethl("Error", hl)
-		local red = tohex(hl.background)
+		local red = tohex(hl.bg)
 	end
 	hl = gethl("Statement", hl)
-	local purple = tohex(hl.foreground)
+	local purple = tohex(hl.fg)
 	hl = gethl("Constant", hl)
-	local orange = tohex(hl.foreground)
+	local orange = tohex(hl.fg)
 	hl = gethl("Special", hl)
-	local cyan = tohex(hl.foreground)
+	local cyan = tohex(hl.fg)
 	hl = gethl("LspReferenceText", hl) or gethl("Normal", hl)
-	local color7 = tohex(hl.background)
+	local color7 = tohex(hl.bg)
 	hl = gethl("Comment", hl)
-	local color8 = tohex(hl.foreground)
+	local color8 = tohex(hl.fg)
 
 	colors = {
 		bg = bgcolor,

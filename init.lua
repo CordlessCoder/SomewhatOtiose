@@ -4,7 +4,7 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
-		"clone",
+		"tlone",
 		"--filter=blob:none",
 		"https://github.com/folke/lazy.nvim.git",
 		"--branch=stable", -- latest stable release
@@ -38,7 +38,9 @@ require("lazy").setup("plugins", {
 		rtp = {
 			reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
 			---@type string[]
-			paths = {}, -- add any custom paths here that you want to includes in the rtp
+			paths = {
+				"~/many_a_color",
+			}, -- add any custom paths here that you want to includes in the rtp
 			---@type string[] list any plugins you want to disable here
 			disabled_plugins = {
 				"gzip",

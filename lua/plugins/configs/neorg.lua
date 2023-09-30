@@ -1,6 +1,11 @@
 require("neorg").setup({
 	load = {
 		["core.defaults"] = {}, -- Loads default behaviour
+		["core.keybinds"] = {
+			config = {
+				default_keybinds = true,
+			},
+		},
 		["core.concealer"] = {}, -- Adds pretty icons to your documents
 		["core.dirman"] = { -- Manages Neorg workspaces
 			config = {
