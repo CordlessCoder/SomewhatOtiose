@@ -4,7 +4,18 @@ return {
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
 	-- -- the colorscheme should be available when starting Neovim
 	-- { "unblevable/quick-scope", lazy = true, event = LSP_EVENT },
-	{ "TimUntersberger/neogit", dependencies = { "nvim-lua/plenary.nvim" }, cmd = { "Neogit" }, lazy = true },
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"nvim-telescope/telescope.nvim", -- optional
+			"sindrets/diffview.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+		config = true,
+		lazy = true,
+		cmd = { "Neogit" },
+	},
 	{
 		"axieax/urlview.nvim",
 		lazy = true,
@@ -276,8 +287,8 @@ return {
 					variables = {},
 					numbers = {},
 					booleans = {},
-					properties = {},
-					types = {},
+					properties = { "italic" },
+					types = { "bold" },
 					operators = {},
 				},
 				-- color_overrides = {},
@@ -447,15 +458,15 @@ return {
 			require("ibl").setup({
 
 				-- for example, context is off by default, use this to turn it on
-				show_current_context = true,
-				char_highlight_list = {
-					"IndentBlanklineIndent1",
-					"IndentBlanklineIndent2",
-					"IndentBlanklineIndent3",
-					"IndentBlanklineIndent4",
-					"IndentBlanklineIndent5",
-					"IndentBlanklineIndent6",
-				},
+				-- show_current_context = true,
+				-- char = {
+				-- 	"IndentBlanklineIndent1",
+				-- 	"IndentBlanklineIndent2",
+				-- 	"IndentBlanklineIndent3",
+				-- 	"IndentBlanklineIndent4",
+				-- 	"IndentBlanklineIndent5",
+				-- 	"IndentBlanklineIndent6",
+				-- },
 			})
 		end,
 	},
