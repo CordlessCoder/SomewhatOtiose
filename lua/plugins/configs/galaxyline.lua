@@ -96,13 +96,14 @@ else
 	hl = gethl("String", hl)
 	local green = tohex(hl.fg)
 	hl = gethl("ErrorMsg", hl)
+	local red
 	if hl.fg ~= nil then
-		local red = tohex(hl.fg)
+		red = tohex(hl.fg)
 	elseif hl.bg ~= nil then
-		local red = tohex(hl.bg)
+		red = tohex(hl.bg)
 	else
 		hl = gethl("Error", hl)
-		local red = tohex(hl.bg)
+		red = tohex(hl.bg)
 	end
 	hl = gethl("Statement", hl)
 	local purple = tohex(hl.fg)

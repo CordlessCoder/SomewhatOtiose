@@ -55,9 +55,9 @@ local mappings = {
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.range_code_action()<CR>", "Perform code action on selection" },
 	},
 	t = {
-		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
-		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
-		["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
+		-- ["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
+		-- ["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
+		-- ["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 	},
 	n = {
 		["<leader>ng"] = {
@@ -220,9 +220,9 @@ local mappings = {
 		["<leader>sti"] = { "<Cmd>Trouble lsp_implementations<CR>", "Show LSP implementations in a Trouble panel" },
 		["<leader>str"] = { "<Cmd>Trouble lsp_references<CR>", "Show LSP references in a Trouble panel" },
 		["<leader>stt"] = { "<Cmd>Trouble lsp_type_defitions<CR>", "Show LSP type defitions in a Trouble panel" },
-		["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
-		["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
-		["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
+		-- ["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
+		-- ["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
+		-- ["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 		["<A-b>"] = { "<Cmd>BufferPick<CR>", "Magic puffer-picking" },
 		["<A-p>"] = { "<Cmd>BufferPin<CR>", "Pin/unpin buffer" },
 		["<A-c>"] = { "<Cmd>BufferClose<CR>", "Close buffer" },
@@ -323,59 +323,59 @@ local mappings = {
 		["<C-k>"] = { "<C-w>k", "Focus window upwards" },
 		["<C-right>"] = { "<C-w>l", "Focus window to the right" },
 		["<C-l>"] = { "<C-w>l", "Focus window to the right" },
-		-- ["<C-->"] = {
-		-- 	function()
-		-- 		local cur_font = vim.opt.guifont.get()[1]
-		-- 		local fontsize = 14
-		-- 		local t = {}
-		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-		-- 			fontsize = tonumber(string.sub(size, 2))
-		-- 			table.insert(t, size)
-		-- 		end
-		-- 		fontsize = fontsize - 1
-		-- 		vim.opt.guifont = t[1] .. ":h" .. fontsize
-		-- 	end,
-		-- 	"Decrease font size",
-		-- },
-		-- ["<C-+>"] = {
-		-- 	function()
-		-- 		local cur_font = vim.opt.guifont:get()[1]
-		-- 		local fontsize = 15
-		-- 		local t = {}
-		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-		-- 			fontsize = tonumber(string.sub(size, 2))
-		-- 			table.insert(t, size)
-		-- 		end
-		-- 		fontsize = fontsize + 1
-		-- 		vim.opt.guifont = t[1] .. ":h" .. fontsize
-		-- 	end,
-		-- 	"Increase font size",
-		-- },
-		-- ["<C-=>"] = {
-		-- 	function()
-		-- 		local cur_font = vim.opt.guifont:get()[1]
-		-- 		local fontsize = 15
-		-- 		local t = {}
-		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-		-- 			fontsize = tonumber(string.sub(size, 2))
-		-- 			table.insert(t, size)
-		-- 		end
-		-- 		fontsize = fontsize + 1
-		-- 		vim.opt.guifont = t[1] .. ":h" .. fontsize
-		-- 	end,
-		-- 	"Increase font size",
-		-- },
-		-- ["<C-0>"] = {
-		-- 	function()
-		-- 		local cur_font = vim.opt.guifont:get()[1]
-		-- 		local t = {}
-		-- 		for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
-		-- 			table.insert(t, size)
-		-- 		end
-		-- 		vim.opt.guifont = t[1] .. ":h" .. 15
-		-- 	end,
-		-- 	"Reset font size (to 14)",
-		-- },
+		["<C-->"] = {
+			function()
+				local cur_font = vim.opt.guifont.get()[1]
+				local fontsize = 14
+				local t = {}
+				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+					fontsize = tonumber(string.sub(size, 2))
+					table.insert(t, size)
+				end
+				fontsize = fontsize - 1
+				vim.opt.guifont = t[1] .. ":h" .. fontsize
+			end,
+			"Decrease font size",
+		},
+		["<C-+>"] = {
+			function()
+				local cur_font = vim.opt.guifont:get()[1]
+				local fontsize = 15
+				local t = {}
+				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+					fontsize = tonumber(string.sub(size, 2))
+					table.insert(t, size)
+				end
+				fontsize = fontsize + 1
+				vim.opt.guifont = t[1] .. ":h" .. fontsize
+			end,
+			"Increase font size",
+		},
+		["<C-=>"] = {
+			function()
+				local cur_font = vim.opt.guifont:get()[1]
+				local fontsize = 15
+				local t = {}
+				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+					fontsize = tonumber(string.sub(size, 2))
+					table.insert(t, size)
+				end
+				fontsize = fontsize + 1
+				vim.opt.guifont = t[1] .. ":h" .. fontsize
+			end,
+			"Increase font size",
+		},
+		["<C-0>"] = {
+			function()
+				local cur_font = vim.opt.guifont:get()[1]
+				local t = {}
+				for size in string.gmatch(cur_font, "([^" .. ":" .. "]+)") do
+					table.insert(t, size)
+				end
+				vim.opt.guifont = t[1] .. ":h" .. 15
+			end,
+			"Reset font size (to 14)",
+		},
 		-- ["gz"] = {
 		-- 	"<cmd> UrlView <CR>",
 		-- 	"Open URL list in Telescope",

@@ -165,6 +165,9 @@ local servers = {
 	"vls",
 	"phpactor",
 	"asm_lsp",
+	"tailwindcss",
+	"wgsl_analyzer",
+	"hls",
 	-- "solidity_ls",
 }
 

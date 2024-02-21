@@ -5,6 +5,24 @@ return {
 	-- -- the colorscheme should be available when starting Neovim
 	-- { "unblevable/quick-scope", lazy = true, event = LSP_EVENT },
 	{
+		"jiaoshijie/undotree",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("undotree").setup()
+		end,
+		lazy = true,
+		keys = { -- load the plugin only when using it's keybinding:
+			{
+				"<leader>u",
+				function()
+					require("undotree").toggle()
+				end,
+			},
+		},
+	},
+	{
 		"NeogitOrg/neogit",
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- required
@@ -257,7 +275,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		enabled = true,
+		enabled = false,
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -292,7 +310,14 @@ return {
 					operators = {},
 				},
 				-- color_overrides = {},
-				-- custom_highlights = {},
+				-- custom_highlights = function(colors)
+				-- 	return {
+				-- 		Comment = { fg = colors.flamingo },
+				-- 		TabLineSel = { bg = colors.pink },
+				-- 		CmpBorder = { fg = colors.surface2 },
+				-- 		Pmenu = { bg = colors.none },
+				-- 	}
+				-- end,
 				integrations = {
 					barbar = true,
 					barbecue = false,
@@ -306,7 +331,7 @@ return {
 					treesitter = true,
 					treesitter_context = true,
 					nvimtree = true,
-					noice = true,
+					-- noice = true,
 					native_lsp = {
 						enabled = true,
 						virtual_text = {
@@ -326,6 +351,7 @@ return {
 				},
 			})
 			vim.cmd.colorscheme("catppuccin")
+			vim.api.nvim_set_hl(0, "@lsp.typemod.variable.mutable", { italic = true })
 		end,
 	},
 
@@ -341,7 +367,7 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
-		enabled = false,
+		enabled = true,
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -357,8 +383,9 @@ return {
 					-- Value is any valid attr-list value for `:help nvim_set_hl`
 					comments = { italic = true },
 					keywords = { italic = true },
-					functions = {},
+					functions = { bold = true },
 					variables = {},
+					types = { bold = true },
 					-- Background styles. Can be "dark", "transparent" or "normal"
 					sidebars = "dark", -- style for sidebars, see below
 					floats = "dark", -- style for floating windows
@@ -540,9 +567,21 @@ return {
 			require("plugins.configs.barbar")
 		end,
 	},
-
+	{
+		"numToStr/FTerm.nvim",
+		config = function()
+			vim.keymap.set("n", "<A-x>", function()
+				require("FTerm").toggle()
+			end)
+			vim.keymap.set("t", "<A-x>", function()
+				vim.require("FTerm").toggle()
+			end)
+			vim.keymap.set("t", "<A-x>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+		end,
+	},
 	{
 		"akinsho/toggleterm.nvim",
+		enabled = false,
 		lazy = true,
 		cmd = {
 			"ToggleTerm",
@@ -601,24 +640,24 @@ return {
 	-- load later and are not important for the initial UI
 	{ "stevearc/dressing.nvim", event = "VeryLazy", lazy = true },
 
-	{
-		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-		dependencies = { "nvim-lspconfig" },
-		config = function()
-			require("lsp_lines").setup()
-		end,
-		lazy = true,
-	},
+	-- {
+	-- 	"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+	-- 	dependencies = { "nvim-lspconfig" },
+	-- 	config = function()
+	-- 		require("lsp_lines").setup()
+	-- 	end,
+	-- 	lazy = true,
+	-- },
 
 	{
 		"simrat39/rust-tools.nvim",
 		enabled = true,
 		dependencies = { "nvim-lspconfig" },
 		config = function()
-			-- Disable virtual_text since it's redundant due to lsp_lines.
-			vim.diagnostic.config({
-				virtual_text = false,
-			})
+			-- -- Disable virtual_text since it's redundant due to lsp_lines.
+			-- vim.diagnostic.config({
+			-- 	virtual_text = false,
+			-- })
 			require("plugins.configs.rust-tools")
 		end,
 		event = LSP_EVENT,
@@ -730,7 +769,7 @@ return {
 		end,
 	},
 
-	{ "f-person/git-blame.nvim", lazy = true, event = "VeryLazy" },
+	{ "f-person/git-blame.nvim", lazy = true, event = "VeryLazy", opts = { enabled = false } },
 
 	-- The tree file manager
 	{
@@ -833,8 +872,6 @@ return {
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		-- tag = "0.1.1",
-		-- or                            , branch = '0.1.x',
 		lazy = true,
 		dependencies = {
 			"plenary.nvim",
