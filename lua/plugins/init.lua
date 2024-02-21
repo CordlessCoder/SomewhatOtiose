@@ -6,13 +6,11 @@ return {
 	-- { "unblevable/quick-scope", lazy = true, event = LSP_EVENT },
 	{
 		"jiaoshijie/undotree",
+		config = true,
+		lazy = true,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
-		config = function()
-			require("undotree").setup()
-		end,
-		lazy = true,
 		keys = { -- load the plugin only when using it's keybinding:
 			{
 				"<leader>u",
