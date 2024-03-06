@@ -44,12 +44,12 @@ local mappings = {
 
 	v = {
 		["<leader>p"] = { '"-dP', "paste without replacing buffer" },
-		-- ["<leader>e"] = {
-		-- 	function()
-		-- 		require("dapui").eval()
-		-- 	end,
-		-- 	"Evaluate selection",
-		-- },
+		["<leader>e"] = {
+			function()
+				require("dapui").eval()
+			end,
+			"Evaluate selection",
+		},
 		["<Tab>"] = { ">", "󰉶   Indent selected lines" },
 		["<S-Tab>"] = { "<", "󰉵   Unindent selected lines" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.range_code_action()<CR>", "Perform code action on selection" },
@@ -60,6 +60,18 @@ local mappings = {
 		-- ["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
 	},
 	n = {
+		["<leader>h"] = {
+			function()
+				if vim.version().minor < 10 then
+					require("lsp-inlayhints").toggle()
+					return
+				end
+				local hint = vim.lsp.inlay_hint
+				local enabled = hint.is_enabled(0)
+				hint.enable(0, not enabled)
+			end,
+			"Toggle inlayhints",
+		},
 		["<leader>ng"] = {
 			function()
 				local neogit = require("neogit")
@@ -263,42 +275,42 @@ local mappings = {
 			end,
 			"Hover action",
 		},
-		-- ["<leader>dc"] = {
-		-- 	function()
-		-- 		require("dap").continue()
-		-- 	end,
-		-- 	"DAP continue",
-		-- },
-		-- ["<leader>db"] = {
-		-- 	function()
-		-- 		require("dap").toggle_breakpoint()
-		-- 	end,
-		-- 	"DAP toggle breakpoint",
-		-- },
-		-- ["<leader>do"] = {
-		-- 	function()
-		-- 		require("dap").step_over()
-		-- 	end,
-		-- 	"DAP step over",
-		-- },
-		-- ["<leader>di"] = {
-		-- 	function()
-		-- 		require("dap").step_into()
-		-- 	end,
-		-- 	"DAP step in",
-		-- },
-		-- ["<leader>dr"] = {
-		-- 	function()
-		-- 		require("dap").repl.open()
-		-- 	end,
-		-- 	"DAP step in",
-		-- },
-		-- ["<leader>dt"] = {
-		-- 	function()
-		-- 		require("dapui").toggle()
-		-- 	end,
-		-- 	"DAP step in",
-		-- },
+		["<leader>dc"] = {
+			function()
+				require("dap").continue()
+			end,
+			"DAP continue",
+		},
+		["<leader>db"] = {
+			function()
+				require("dap").toggle_breakpoint()
+			end,
+			"DAP toggle breakpoint",
+		},
+		["<leader>do"] = {
+			function()
+				require("dap").step_over()
+			end,
+			"DAP step over",
+		},
+		["<leader>di"] = {
+			function()
+				require("dap").step_into()
+			end,
+			"DAP step in",
+		},
+		["<leader>dr"] = {
+			function()
+				require("dap").repl.toggle()
+			end,
+			"DAP repl",
+		},
+		["<leader>dt"] = {
+			function()
+				require("dapui").toggle()
+			end,
+			"DAPui toggle",
+		},
 		["<leader>gb"] = { "<cmd>GitBlameToggle<CR>", "Toggle git blame" },
 		["<leader>a"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },

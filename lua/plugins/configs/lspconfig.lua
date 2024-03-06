@@ -143,8 +143,9 @@ capabilities.textDocument.completion.completionItem = {
 }
 
 local servers = {
+	"typst_lsp",
 	"pylsp",
-	"rust_analyzer",
+	-- "rust_analyzer",
 	"html",
 	"cssls",
 	"lua_ls",
@@ -238,41 +239,41 @@ lspconfig.solidity.setup({
 	handlers = handlers,
 	capabilities = capabilities,
 })
-lspconfig.rust_analyzer.setup({
-	handlers = handlers,
-	on_attach = on_attach,
-	capabilities = capabilities,
-
-	settings = {
-		["rust_analyzer"] = {
-			check = {
-				allTargets = true,
-				command = "clippy",
-			},
-			cargo = {
-				features = "all",
-			},
-			semanticHighlighting = {
-				punctuation = {
-					enable = true,
-				},
-				--   operator = {
-				--     specialization = {
-				--       enable = true,
-				--     },
-				--   },
-			},
-			lru = {
-				capacity = 256,
-			},
-			typing = {
-				autoClosingAngleBrackets = {
-					enable = true,
-				},
-			},
-		},
-	},
-})
+-- lspconfig.rust_analyzer.setup({
+-- 	handlers = handlers,
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+--
+-- 	settings = {
+-- 		["rust_analyzer"] = {
+-- 			check = {
+-- 				allTargets = true,
+-- 				command = "clippy",
+-- 			},
+-- 			cargo = {
+-- 				features = "all",
+-- 			},
+-- 			semanticHighlighting = {
+-- 				punctuation = {
+-- 					enable = true,
+-- 				},
+-- 				--   operator = {
+-- 				--     specialization = {
+-- 				--       enable = true,
+-- 				--     },
+-- 				--   },
+-- 			},
+-- 			lru = {
+-- 				capacity = 256,
+-- 			},
+-- 			typing = {
+-- 				autoClosingAngleBrackets = {
+-- 					enable = true,
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- })
 lspconfig.pylsp.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,

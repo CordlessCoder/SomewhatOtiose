@@ -1,4 +1,5 @@
-local LSP_EVENT = "BufEnter"
+local LSP_EVENT = "VeryLazy"
+local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml" }
 return {
 
 	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
@@ -67,16 +68,16 @@ return {
 			local opts = { noremap = true, silent = true }
 			-- Normal-mode commands
 			vim.keymap.set("n", "<A-j>", function()
-				MoveLine(1)
+				MoveLine(1, false)
 			end, opts)
 			vim.keymap.set("n", "<A-down>", function()
-				MoveLine(1)
+				MoveLine(1, false)
 			end, opts)
 			vim.keymap.set("n", "<A-up>", function()
-				MoveLine(-1)
+				MoveLine(-1, false)
 			end, opts)
 			vim.keymap.set("n", "<A-k>", function()
-				MoveLine(-1)
+				MoveLine(-1, false)
 			end, opts)
 			vim.keymap.set("n", "<A-left>", function()
 				MoveHChar(-1)
@@ -124,7 +125,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		lazy = true,
-		event = LSP_EVENT,
+		event = "VeryLazy",
 		config = function()
 			require("todo-comments").setup({
 				signs = true, -- show icons in the signs column
@@ -329,7 +330,7 @@ return {
 					treesitter = true,
 					treesitter_context = true,
 					nvimtree = true,
-					-- noice = true,
+					noice = true,
 					native_lsp = {
 						enabled = true,
 						virtual_text = {
@@ -473,6 +474,7 @@ return {
 		"lukas-reineke/indent-blankline.nvim",
 		lazy = true,
 		event = LSP_EVENT,
+		ft = LSP_FILETYPES,
 		config = function()
 			vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75", nocombine = true })
 			vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#E5C07B", nocombine = true })
@@ -495,7 +497,13 @@ return {
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-context", lazy = true, config = true, event = LSP_EVENT },
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		lazy = true,
+		config = true,
+		event = LSP_EVENT,
+		ft = LSP_FILETYPES,
+	},
 
 	{
 		"wakatime/vim-wakatime",
@@ -646,19 +654,122 @@ return {
 	-- 	end,
 	-- 	lazy = true,
 	-- },
-
+	{ "folke/neodev.nvim", opts = {
+		library = { plugins = { "nvim-dap-ui" }, types = true },
+	}, lazy = true },
 	{
-		"simrat39/rust-tools.nvim",
-		enabled = true,
-		dependencies = { "nvim-lspconfig" },
+		"mrcjkb/rustaceanvim",
+		version = "^4",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"mfussenegger/nvim-dap",
+			{
+				"lvimuser/lsp-inlayhints.nvim",
+				cond = vim.version().minor < 10,
+				opts = {},
+			},
+		},
+		ft = { "rust" },
 		config = function()
-			-- -- Disable virtual_text since it's redundant due to lsp_lines.
-			-- vim.diagnostic.config({
-			-- 	virtual_text = false,
-			-- })
-			require("plugins.configs.rust-tools")
+			if vim.version().minor >= 10 then
+				vim.g.rustaceanvim = {
+					-- Plugin configuration
+					tools = {},
+					-- LSP configuration
+					server = {
+						on_attach = function(client, bufnr)
+							-- you can also put keymaps in here
+
+							if vim.version().minor >= 10 then
+								vim.lsp.inlay_hint.enable(0, true)
+							end
+						end,
+						default_settings = {
+							-- rust-analyzer language server configuration
+							["rust-analyzer"] = {},
+						},
+					},
+					-- DAP configuration
+					dap = {},
+				}
+			else
+				vim.g.rustaceanvim = {
+					tools = {
+						hover_actions = {
+							auto_focus = true,
+						},
+					},
+					server = {
+						on_attach = function(client, bufnr)
+							require("lsp-inlayhints").on_attach(client, bufnr)
+						end,
+					},
+				}
+			end
 		end,
-		event = LSP_EVENT,
+	},
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			{ "rcarriga/nvim-dap-ui", opts = {} },
+			{
+				"theHamsta/nvim-dap-virtual-text",
+				opts = {
+					enabled = true, -- enable this plugin (the default)
+					enabled_commands = true, -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
+					highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
+					highlight_new_as_changed = false, -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+					show_stop_reason = true, -- show stop reason when stopped for exceptions
+					commented = false, -- prefix virtual text with comment string
+					only_first_definition = true, -- only show virtual text at first definition (if there are multiple)
+					all_references = false, -- show virtual text on all all references of the variable (not only definitions)
+					clear_on_continue = false, -- clear virtual text on "continue" (might cause flickering when stepping)
+					--- A callback that determines how a variable is displayed or whether it should be omitted
+					--- @param variable Variable https://microsoft.github.io/debug-adapter-protocol/specification#Types_Variable
+					--- @param buf number
+					--- @param stackframe dap.StackFrame https://microsoft.github.io/debug-adapter-protocol/specification#Types_StackFrame
+					--- @param node userdata tree-sitter node identified as variable definition of reference (see `:h tsnode`)
+					--- @param options nvim_dap_virtual_text_options Current options for nvim-dap-virtual-text
+					--- @return string|nil A text how the virtual text should be displayed or nil, if this variable shouldn't be displayed
+					display_callback = function(variable, buf, stackframe, node, options)
+						if options.virt_text_pos == "inline" then
+							return " = " .. variable.value
+						else
+							return variable.name .. " = " .. variable.value
+						end
+					end,
+					-- virt_text_pos = vim.fn.has("nvim-0.10") == 1 and "inline" or "eol",
+					virt_text_pos = "eol",
+
+					-- experimental features:
+					all_frames = false, -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+					virt_lines = false, -- show virtual lines instead of virtual text (will flicker!)
+					virt_text_win_col = nil, -- position the virtual text at a fixed window column (starting from the first text column) ,
+					-- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
+				},
+			},
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+			dap.listeners.before.attach.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				dapui.close()
+			end
+			-- dap.adapters.python = {
+			-- 	type = "executable",
+			-- 	command = os.getenv("HOME") .. "/.virtualenvs/tools/bin/python",
+			-- 	args = { "-m", "debugpy.adapter" },
+			-- }
+		end,
 		lazy = true,
 	},
 	{
@@ -733,6 +844,7 @@ return {
 			require("plugins.configs.null_ls").setup()
 		end,
 		event = LSP_EVENT,
+		ft = LSP_FILETYPES,
 		lazy = true,
 		cmd = { "NullLsLog", "NullLsInfo" },
 		module = true,
@@ -813,8 +925,6 @@ return {
 		end,
 		-- some optional icons
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		lazy = true,
-		event = "BufEnter",
 	},
 	{
 		"andweeb/presence.nvim",
@@ -882,17 +992,21 @@ return {
 			require("plugins.configs.telescope")
 		end,
 		cmd = { "Telescope" },
-		event = "UIEnter",
+		-- event = "UIEnter",
 	},
 
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
+			require("neodev").setup({
+				-- add any options here, or leave empty to use the default settings
+			})
 			require("plugins.configs.lspconfig")
 		end,
 		cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
 		lazy = true,
 		event = LSP_EVENT,
+		ft = LSP_FILETYPES,
 	},
 
 	-- Lazy loading:
@@ -920,6 +1034,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = LSP_EVENT,
+		ft = LSP_FILETYPES,
 		dependencies = { "nvim-treesitter-context" },
 		config = function()
 			require("nvim-treesitter.configs").setup({
