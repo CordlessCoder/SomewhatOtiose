@@ -284,11 +284,11 @@ return {
 					light = "latte",
 					dark = "mocha",
 				},
-				transparent_background = false,
+				transparent_background = true,
 				show_end_of_buffer = true, -- show the '~' characters after the end of buffers
 				term_colors = true,
 				dim_inactive = {
-					enabled = false,
+					enabled = true,
 					shade = "dark",
 					percentage = 0.15,
 				},
@@ -328,9 +328,8 @@ return {
 					leap = true,
 					lsp_trouble = true,
 					treesitter = true,
-					treesitter_context = true,
 					nvimtree = true,
-					noice = true,
+					-- noice = true,
 					native_lsp = {
 						enabled = true,
 						virtual_text = {
@@ -372,10 +371,8 @@ return {
 		config = function()
 			-- load the colorscheme here
 			require("tokyonight").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
 				style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-				-- transparent = true, -- Enable this to disable setting the background color
+				transparent = true, -- Enable this to disable setting the background color
 				terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
 				styles = {
 					-- Style to be applied to different syntax groups
@@ -386,8 +383,8 @@ return {
 					variables = {},
 					types = { bold = true },
 					-- Background styles. Can be "dark", "transparent" or "normal"
-					sidebars = "dark", -- style for sidebars, see below
-					floats = "dark", -- style for floating windows
+					sidebars = "transparent", -- style for sidebars, see below
+					floats = "transparent", -- style for floating windows
 				},
 				sidebars = { "qf", "help", "NvimTree", "nvim_tree", "nvimtree", "tree" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 				day_brightness = 0.4, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
@@ -395,63 +392,11 @@ return {
 				dim_inactive = false, -- dims inactive windows
 				lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
 				on_colors = function(colors)
-					-- local function dump(o)
-					-- 	if type(o) == "table" then
-					-- 		local s = "{ "
-					-- 		for k, v in pairs(o) do
-					-- 			if type(k) ~= "number" then
-					-- 				k = '"' .. k .. '"'
-					-- 			end
-					-- 			s = s .. "[" .. k .. "] = " .. dump(v) .. ","
-					-- 		end
-					-- 		return s .. "} "
-					-- 	else
-					-- 		return tostring(o)
-					-- 	end
-					-- end
-					-- require("notify")(dump(colors))
-
-					-- { ["bg_popup"] = #16161e,["blue7"] = #394b70,["green"] = #9ece6a,["error"] = #db4b4b,["bg_float"] = #16161e,["red"] = #f7768e,["fg_sidebar"] = #a9b1d6,["bg_highlight"] = #292e42,["bg_dark"] = #16161e,["gitSigns"] = { ["change"] = #536c9e,["delete"] = #b2555b,["add"] = #266d6a,} ,["dark3"] = #545c7e,["git"] = { ["change"] = #6183bb,["ignore"] = #545c7e,["delete"] = #914c54,["add"] = #449dab,} ,["dark5"] = #737aa2,["magenta2"] = #ff007c,["bg_sidebar"] = #16161e,["blue2"] = #0db9d7,["fg_gutter"] = #3b4261,["info"] = #0db9d7,["blue1"] = #2ac3de,["blue5"] = #89ddff,["fg"] = #c0caf5,["hint"] = #1abc9c,["diff"] = { ["change"] = #1f2231,["text"] = #394b70,["delete"] = #37222c,["add"] = #20303b,} ,["fg_float"] = #c0caf5,["bg"] = #1a1b26,["orange"] = #ff9e64,["comment"] = #565f89,["bg_statusline"] = #16161e,["blue0"] = #3d59a1,["border"] = #15161e,["green1"] = #73daca,["purple"] = #9d7cd8,["blue6"] = #b4f9f8,["border_highlight"] = #27a1b9,["black"] = #15161e,["warning"] = #e0af68,["fg_dark"] = #a9b1d6,["red1"] = #db4b4b,["cyan"] = #7dcfff,["none"] = NONE,["bg_search"] = #3d59a1,["magenta"] = #bb9af7,["bg_visual"] = #283457,["green2"] = #41a6b5,["blue"] = #7aa2f7,["teal"] = #1abc9c,["terminal_black"] = #414868,["yellow"] = #e0af68,}
-					--
-					-- comments = "#4d5768", -- #4d5768
 					colors.bg = "#12131c"
 					colors.green = "#78dba9"
 					colors.green1 = "#94f7c5"
-					-- colors.hint = "#78dba9"
 					colors.fg_gutter = "#242637"
 					colors.teal = "#73C0C9"
-					-- colors.magenta = "#c68aee"
-					-- contrast = "#101119",
-					-- statusline_bg = "#1b1d2a",
-					-- lighter = "#242637",
-					-- foreground = "#A5B7D5",
-					-- cursorline = "#2c2f44",
-					-- comments = "#343750",
-					-- 	foreground = "#b6beca",
-					-- 	cursorline = "#242931",
-					-- 	comments = "#4d5768",
-					-- 	cursor = "#b6beca",
-					-- 	black = "#242931",
-					-- 	red = "#e05f65",
-					-- 	orange = "#E89777",
-					-- 	yellow = "#f1cf8a",
-					-- 	pink = "#f6c9d4",
-					-- 	green = "#78dba9",
-					-- 	blue = "#70a5eb",
-					-- 	teal = "#73C0C9",
-					-- 	magenta = "#c68aee",
-					-- 	cyan = "#74bee9",
-					-- 	sky = "#91c7e7",
-					-- 	brightblack = "#485263",
-					-- 	brightred = "#e5646a",
-					-- 	brightgreen = "#94f7c5",
-					-- 	brightyellow = "#f6d48f",
-					-- 	brightblue = "#75aaf0",
-					-- 	brightmagenta = "#cb8ff3",
-					-- 	brightcyan = "#79c3ee",
-					-- 	brightwhite = "#e3e6eb",
-					-- 	lavender = "#a9acdb",
-					-- 	accent = "#78dba9",
 				end,
 			})
 			vim.cmd.colorscheme("tokyonight-night")
@@ -498,14 +443,6 @@ return {
 		end,
 	},
 	{
-		"nvim-treesitter/nvim-treesitter-context",
-		lazy = true,
-		config = true,
-		event = LSP_EVENT,
-		ft = LSP_FILETYPES,
-	},
-
-	{
 		"wakatime/vim-wakatime",
 		lazy = true,
 		event = "VeryLazy",
@@ -521,7 +458,7 @@ return {
 	},
 	{
 		"folke/noice.nvim",
-		enabled = true,
+		enabled = false,
 		lazy = true,
 		event = "VeryLazy",
 		config = function()
@@ -546,9 +483,13 @@ return {
 		end,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
 		},
 		cond = vim.g.multigrid ~= 1,
+	},
+	{
+		"rcarriga/nvim-notify",
+		lazy = true,
+		cmd = { "Notifications" },
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
@@ -606,7 +547,6 @@ return {
 
 	{
 		"nvim-neorg/neorg",
-		build = ":Neorg sync-parsers",
 		config = function()
 			require("plugins.configs.neorg")
 		end,
@@ -711,7 +651,9 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
-			{ "rcarriga/nvim-dap-ui", opts = {} },
+			{ "rcarriga/nvim-dap-ui", opts = {}, dependencies = {
+				{ "nvim-neotest/nvim-nio" },
+			} },
 			{
 				"theHamsta/nvim-dap-virtual-text",
 				opts = {
@@ -1035,7 +977,6 @@ return {
 		build = ":TSUpdate",
 		event = LSP_EVENT,
 		ft = LSP_FILETYPES,
-		dependencies = { "nvim-treesitter-context" },
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = {

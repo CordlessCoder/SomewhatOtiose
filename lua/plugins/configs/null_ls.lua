@@ -42,7 +42,8 @@ local sources = {
 	}),
 
 	-- Go
-	b.formatting.goimports_reviser,
+	-- b.formatting.goimports_reviser,
+	b.formatting.gofmt,
 
 	-- PHP :disgust:
 	b.formatting.phpcbf,
