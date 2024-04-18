@@ -3,7 +3,7 @@ local gls = gl.section
 gl.short_line_list = { "LuaTree", "vista", "dbui", "NvimTree" }
 local g = vim.g
 
-local gethl = function(name, t)
+local gethl = function(name)
 	local present, highlight = pcall(vim.api.nvim_get_hl, 0, { name = name })
 	-- require("notify").notify(string.format("%s: %s", name, vim.inspect(highlight)))
 	if present then
@@ -78,8 +78,7 @@ elseif tokyo_present then
 		color8 = tokyo.dark5,
 	}
 else
-	local hl = {}
-	hl = gethl("Normal", hl)
+	local hl = gethl("Normal")
 	local fgcolor = tohex(hl.fg)
 	local bgcolor
 	if hl.bg ~= nil then
@@ -286,7 +285,31 @@ gls.left[13] = {
 		highlight = { colors.color2, colors.bg },
 	},
 }
+local git_blame = nil
 gls.right[1] = {
+	GitBlame = {
+		provider = function()
+			local present
+			if git_blame == nil then
+				present, git_blame = pcall(require, "gitblame")
+				if not present then
+					git_blame = false
+					return ""
+				end
+			end
+
+			return git_blame.get_current_blame_text()
+		end,
+		condition = function()
+			if git_blame == false then
+				return true
+			end
+
+			return git_blame == nil or git_blame.is_blame_text_available
+		end,
+	},
+}
+gls.right[2] = {
 	FileFormat = {
 		provider = "FileFormat",
 		separator = "▋",
@@ -297,7 +320,7 @@ gls.right[1] = {
 		highlight = { colors.purple, colors.gray, "bold" },
 	},
 }
-gls.right[2] = {
+gls.right[3] = {
 	LineInfo = {
 		provider = "LineColumn",
 		separator = " | ",
@@ -305,7 +328,7 @@ gls.right[2] = {
 		highlight = { colors.grey, colors.gray },
 	},
 }
-gls.right[3] = {
+gls.right[4] = {
 	PerCent = {
 		provider = "LinePercent",
 		separator = "",
@@ -313,7 +336,7 @@ gls.right[3] = {
 		highlight = { colors.bg, colors.color4, "bold" },
 	},
 }
-gls.right[4] = {
+gls.right[5] = {
 	ScrollBar = {
 		provider = "ScrollBar",
 		highlight = { colors.color4, colors.bg },

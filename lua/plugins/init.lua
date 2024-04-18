@@ -6,6 +6,30 @@ return {
 	-- -- the colorscheme should be available when starting Neovim
 	-- { "unblevable/quick-scope", lazy = true, event = LSP_EVENT },
 	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		lazy = true,
+		keys = {
+			{ "<C-g>s", mode = "i" },
+			{ "<C-g>S", mode = "i" },
+			{ "ys", mode = "n" },
+			{ "yss", mode = "n" },
+			{ "yS", mode = "n" },
+			{ "ySS", mode = "n" },
+			{ "S", mode = "v" },
+			{ "gS", mode = "v" },
+			{ "ds", mode = "n" },
+			{ "cs", mode = "n" },
+			{ "cS", mode = "n" },
+		},
+		-- event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
+	{
 		"jiaoshijie/undotree",
 		config = true,
 		lazy = true,
@@ -142,7 +166,7 @@ return {
 					HACK = { icon = " ", color = "warning" },
 					WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
 					PERF = { icon = "󰅒 ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-					SAFE = { icon = " ", color = "hint", alt = { "SAFETY", "safety", "safe" } },
+					SAFE = { icon = " ", color = "hint", alt = { "SAFETY", "safety", "safe", "Safety" } },
 					TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
 				},
 				-- gui_style = {
@@ -161,7 +185,7 @@ return {
 					before = "", -- "fg" or "bg" or empty
 					keyword = "wide", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
 					after = "fg", -- "fg" or "bg" or empty
-					pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+					pattern = { [[#\s*<(KEYWORDS)\s*]], [[.*<(KEYWORDS)\s*:]] }, -- pattern or table of patterns, used for highlighting (vim regex)
 					comments_only = true, -- uses treesitter to match keywords in comments only
 					max_line_len = 400, -- ignore lines longer than this
 					exclude = {}, -- list of file types to exclude highlighting
@@ -187,7 +211,7 @@ return {
 					},
 					-- regex that will be used to match keywords.
 					-- don't replace the (KEYWORDS) placeholder
-					pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+					pattern = [[\b(KEYWORDS)]], -- ripgrep regex
 					-- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
 				},
 			})
@@ -325,7 +349,7 @@ return {
 					gitsigns = true,
 					telescope = true,
 					notify = true,
-					leap = true,
+					-- leap = true,
 					lsp_trouble = true,
 					treesitter = true,
 					nvimtree = true,
@@ -550,7 +574,7 @@ return {
 		config = function()
 			require("plugins.configs.neorg")
 		end,
-		dependencies = { { "nvim-lua/plenary.nvim" } },
+		dependencies = { { "nvim-lua/plenary.nvim", "vhyrro/luarocks.nvim" } },
 		lazy = true,
 		cmd = { "Neorg" },
 		ft = "norg",
@@ -810,18 +834,54 @@ return {
 	-- 		vim.cmd("let g:sneak#label = 1")
 	-- 	end,
 	-- },
-	{
-		"ggandor/leap.nvim",
-		lazy = true,
-		keys = { { "s", mode = "n" } },
-		config = function()
-			vim.api.nvim_set_hl(0, "LeapLabelPrimary", { fg = vim.g.terminal_color_1 or "red" })
-			vim.api.nvim_set_hl(0, "LeapBackdrop", { fg = "grey" })
-			require("leap").add_default_mappings()
-		end,
-	},
+	-- {
+	-- 	"ggandor/leap.nvim",
+	-- 	lazy = true,
+	-- 	keys = { { "s", mode = "n" } },
+	-- 	config = function()
+	-- 		vim.api.nvim_set_hl(0, "LeapLabelPrimary", { fg = vim.g.terminal_color_1 or "red" })
+	-- 		vim.api.nvim_set_hl(0, "LeapBackdrop", { fg = "grey" })
+	-- 		require("leap").add_default_mappings()
+	-- 	end,
+	-- },
 
-	{ "f-person/git-blame.nvim", lazy = true, event = "VeryLazy", opts = { enabled = false } },
+	{
+		"f-person/git-blame.nvim",
+		lazy = true,
+		opts = { enabled = false },
+		keys = {
+			"<leader>gb",
+			desc = "Toggle git blame display",
+		},
+		config = function()
+			vim.keymap.set("n", "<leader>gb", function()
+				require("gitblame").toggle()
+
+				local present, galaxyline = pcall(require, "galaxyline")
+				if present then
+					galaxyline.load_galaxyline()
+				end
+			end)
+
+			vim.g.gitblame_display_virtual_text = 0
+			vim.g.gitblame_enabled = false
+			require("gitblame").setup({
+				delay = 0,
+			})
+		end,
+		cmd = {
+			"GitBlameToggle",
+			"GitBlameEnable",
+			"GitBlameDisable",
+			"GitBlameCopySHA",
+			"GitBlameCopyCommitURL",
+			"GitBlameOpenFileURL",
+			"GitBlameCopyFileURL",
+		},
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+	},
 
 	-- The tree file manager
 	{

@@ -54,11 +54,7 @@ local mappings = {
 		["<S-Tab>"] = { "<", "󰉵   Unindent selected lines" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.range_code_action()<CR>", "Perform code action on selection" },
 	},
-	t = {
-		-- ["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
-		-- ["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
-		-- ["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
-	},
+	t = {},
 	n = {
 		["<leader>h"] = {
 			function()
@@ -311,7 +307,6 @@ local mappings = {
 			end,
 			"DAPui toggle",
 		},
-		["<leader>gb"] = { "<cmd>GitBlameToggle<CR>", "Toggle git blame" },
 		["<leader>a"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>n"] = { "<cmd>NvimTreeToggle <CR>", "   toggle nvimtree" },
