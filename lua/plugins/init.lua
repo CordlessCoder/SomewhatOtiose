@@ -1,10 +1,6 @@
 local LSP_EVENT = "VeryLazy"
-local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml" }
+local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php" }
 return {
-
-	-- { "github/copilot.vim", lazy = true, event = "VeryLazy" },
-	-- -- the colorscheme should be available when starting Neovim
-	-- { "unblevable/quick-scope", lazy = true, event = LSP_EVENT },
 	{
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -65,7 +61,7 @@ return {
 		config = function()
 			require("urlview").setup({ default_picker = "telescope" })
 		end,
-		-- dependencies = { "telescope.nvim" },
+		dependencies = { "telescope.nvim" },
 	},
 	{
 		"barrett-ruth/live-server.nvim",
@@ -142,14 +138,13 @@ return {
 	{
 		"folke/trouble.nvim",
 		lazy = true,
-		event = "VeryLazy",
 		config = true,
 		cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
 	},
 	{
 		"folke/todo-comments.nvim",
 		lazy = true,
-		event = "VeryLazy",
+		ft = LSP_FILETYPES,
 		config = function()
 			require("todo-comments").setup({
 				signs = true, -- show icons in the signs column
@@ -271,31 +266,6 @@ return {
 		end,
 	},
 	{
-		"rebelot/kanagawa.nvim",
-		enabled = false,
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("kanagawa").setup({
-				compile = false, -- enable compiling the colorscheme
-				undercurl = true, -- enable undercurls
-				commentStyle = { italic = true },
-				functionStyle = {},
-				keywordStyle = { italic = true },
-				statementStyle = { bold = true },
-				typeStyle = {},
-				transparent = false, -- do not set background color
-				dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-				terminalColors = true, -- define vim.g.terminal_color_{0,17}
-				background = { -- map the value of 'background' option to a theme
-					dark = "wave", -- try "dragon" !
-					-- light = "wave",
-				},
-			})
-			vim.cmd.colorscheme("kanagawa")
-		end,
-	},
-	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		enabled = true,
@@ -376,17 +346,6 @@ return {
 			vim.api.nvim_set_hl(0, "@lsp.typemod.variable.mutable", { italic = true })
 		end,
 	},
-
-	{
-		"metalelf0/jellybeans-nvim",
-		enabled = false,
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			vim.cmd.colorscheme("jellybeans-nvim")
-		end,
-		dependencies = { "rktjmp/lush.nvim" },
-	},
 	{
 		"folke/tokyonight.nvim",
 		enabled = false,
@@ -426,23 +385,10 @@ return {
 			vim.cmd.colorscheme("tokyonight-night")
 		end,
 	},
-	{
-		"windwp/nvim-autopairs",
-		enabled = false,
-		lazy = true,
-		event = "BufEnter",
-		config = function()
-			require("nvim-autopairs").setup()
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			local cmp = require("cmp")
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-		end,
-	},
 
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		lazy = true,
-		event = LSP_EVENT,
 		ft = LSP_FILETYPES,
 		config = function()
 			vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75", nocombine = true })
@@ -483,8 +429,7 @@ return {
 	{
 		"folke/noice.nvim",
 		enabled = false,
-		lazy = true,
-		event = "VeryLazy",
+		lazy = false,
 		config = function()
 			require("noice").setup({
 				lsp = {
@@ -530,45 +475,27 @@ return {
 	},
 
 	{
+		enabled = false,
 		"romgrk/barbar.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		lazy = true,
-		event = "BufEnter",
+		lazy = false,
 		config = function()
 			require("plugins.configs.barbar")
 		end,
 	},
 	{
 		"numToStr/FTerm.nvim",
+		lazy = true,
 		config = function()
 			vim.keymap.set("n", "<A-x>", function()
 				require("FTerm").toggle()
 			end)
 			vim.keymap.set("t", "<A-x>", function()
-				vim.require("FTerm").toggle()
+				require("FTerm").toggle()
 			end)
-			vim.keymap.set("t", "<A-x>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 		end,
+		keys = { { "<A-x>", mode = "n" }, { "<A-x>", mode = "t" } },
 	},
-	{
-		"akinsho/toggleterm.nvim",
-		enabled = false,
-		lazy = true,
-		cmd = {
-			"ToggleTerm",
-			"ToggleTermToggleAll",
-			"TermExec",
-			"ToggleTermSendCurrentLine",
-			"ToggleTermSendVisualLines",
-			"ToggleTermSendVisualSelection",
-			"ToggleTermSetName",
-		},
-		keys = { "<A-v>" },
-		config = function()
-			require("plugins.configs.toggleterm")
-		end,
-	},
-
 	{
 		"nvim-neorg/neorg",
 		config = function()
@@ -582,7 +509,6 @@ return {
 	{
 		"numToStr/Comment.nvim",
 		lazy = true,
-		event = "InsertEnter",
 		cmd = {
 			"CommentToggle",
 		},
@@ -600,14 +526,6 @@ return {
 		end,
 	},
 
-	-- {
-	-- "dstein64/vim-startuptime",
-	-- -- lazy-load on a command
-	-- cmd = "StartupTime",
-	-- },
-
-	-- you can use the VeryLazy event for things that can
-	-- load later and are not important for the initial UI
 	{ "stevearc/dressing.nvim", event = "VeryLazy", lazy = true },
 
 	-- {
@@ -734,18 +652,28 @@ return {
 			dap.listeners.before.event_exited.dapui_config = function()
 				dapui.close()
 			end
-			-- dap.adapters.python = {
-			-- 	type = "executable",
-			-- 	command = os.getenv("HOME") .. "/.virtualenvs/tools/bin/python",
-			-- 	args = { "-m", "debugpy.adapter" },
-			-- }
 		end,
+		cmd = {
+			"DapContinue",
+			"DapLoadLaunchJSON",
+			"DapRestartFrame",
+			"DapSetLogLevel",
+			"DapShowLog",
+			"DapStepInto",
+			"DapStepOut",
+			"DapStepOver",
+			"DapTerminate",
+			"DapToggleBreakpoint",
+			"DapToggleRepl",
+			"DapVirtualTextDisable",
+			"DapVirtualTextEnable",
+			"DapVirtualTextForceRefresh",
+			"DapVirtualTextToggle",
+		},
 		lazy = true,
 	},
 	{
 		"monaqa/dial.nvim",
-		-- lazy-load on keys
-		-- mode is `n` by default. For more advanced options, check the section on key mappings
 		keys = { "<C-a>", "<C-x>" },
 		lazy = true,
 	},
@@ -813,11 +741,9 @@ return {
 		config = function()
 			require("plugins.configs.null_ls").setup()
 		end,
-		event = LSP_EVENT,
-		ft = LSP_FILETYPES,
 		lazy = true,
+		ft = LSP_FILETYPES,
 		cmd = { "NullLsLog", "NullLsInfo" },
-		module = true,
 		keys = { { "<leader>cf", mode = "n" } },
 	},
 
@@ -852,11 +778,7 @@ return {
 	{
 		"f-person/git-blame.nvim",
 		lazy = true,
-		opts = { enabled = false },
-		keys = {
-			"<leader>gb",
-			desc = "Toggle git blame display",
-		},
+		opts = { enabled = "<leader>gb", desc = "Toggle git blame display" },
 		config = function()
 			vim.keymap.set("n", "<leader>gb", function()
 				require("gitblame").toggle()
@@ -925,11 +847,10 @@ return {
 	{
 		"glepnir/galaxyline.nvim",
 		branch = "main",
-		-- your statusline
 		config = function()
 			require("plugins.configs.galaxyline")
 		end,
-		-- some optional icons
+		lazy = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
@@ -947,27 +868,22 @@ return {
 		end,
 		event = "VeryLazy",
 		lazy = true,
+		enabled = false,
 	},
-
-	-- { "rstacruz/vim-closer", lazy = true, event = "BufEnter" },
-	-- { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-	-- { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-	-- { "hrsh7th/cmp-path", event = "InsertEnter" },
-	-- { "hrsh7th/cmp-cmdline", event = "InsertEnter" },
-	-- { "L3MON4D3/LuaSnip", event = "InsertEnter" },
 
 	{
 		"saecki/crates.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("crates").setup()
+			require("crates").setup({})
 		end,
 		ft = "toml",
-		-- event = "InsertEnter",
 		lazy = true,
 	},
 	{
 		"hrsh7th/nvim-cmp",
+		lazy = true,
+		ft = LSP_FILETYPES,
 		-- load cmp on InsertEnter
 		event = "InsertEnter",
 		config = function()
@@ -1009,9 +925,9 @@ return {
 			})
 			require("plugins.configs.lspconfig")
 		end,
-		cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
+		event = nil,
 		lazy = true,
-		event = LSP_EVENT,
+		cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
 		ft = LSP_FILETYPES,
 	},
 
@@ -1040,7 +956,6 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		event = LSP_EVENT,
 		ft = LSP_FILETYPES,
 		config = function()
 			require("nvim-treesitter.configs").setup({
@@ -1077,7 +992,4 @@ return {
 		end,
 		lazy = true,
 	},
-
-	-- you can use a custom url to fetch a plugin
-	-- { url = "git@github.com:folke/noice.nvim.git" },
 }

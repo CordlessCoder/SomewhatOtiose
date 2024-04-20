@@ -1,10 +1,13 @@
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
-local present, notify = pcall(require, "notify")
-if not present then
-	notify = function(obj)
+local lazy_load = require("config.utils.lazy_load")
+local notify = lazy_load("notify", function()
+	return function(obj)
 		print(vim.inspect(obj))
 	end
+end)
+notify = function(obj)
+	notify()(obj)
 end
 local on_attach = function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false

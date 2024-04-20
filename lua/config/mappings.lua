@@ -1,9 +1,11 @@
-local telescope = require("telescope")
-local telescope_builtin = require("telescope.builtin")
-local present, notify = pcall(require, "notify")
-if not present then
-	notify = vim.print
-end
+local lazy_load = require("config.utils.lazy_load")
+
+local telescope = lazy_load("telescope")
+local telescope_builtin = lazy_load("telescope.builtin")
+local notify = lazy_load("notify", function()
+	return vim.print
+end)
+
 local function live_grep_from_project_git_root()
 	local function is_git_repo()
 		vim.fn.system("git rev-parse --is-inside-work-tree")
@@ -23,7 +25,7 @@ local function live_grep_from_project_git_root()
 			cwd = get_git_root(),
 		}
 	end
-	telescope_builtin.live_grep(opts)
+	telescope_builtin().live_grep(opts)
 end
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true, silent = true }
@@ -72,6 +74,12 @@ local mappings = {
 			end,
 			"Toggle inlayhints",
 		},
+		["<leader>g"] = {
+			function()
+				telescope_builtin().git_files()
+			end,
+			"Search git files",
+		},
 		["<leader>ng"] = {
 			function()
 				local neogit = require("neogit")
@@ -112,7 +120,7 @@ local mappings = {
 					-- map("i", "<C-e>", "<up>", { noremap = false })
 					-- map("i", "<C-i>", "<right>", { noremap = false })
 				end
-				notify(string.format("Colemak binds: %s", vim.g.colemak))
+				notify()(string.format("Colemak binds: %s", vim.g.colemak))
 			end,
 			"Toggle Colemak-DH bindings",
 		},
@@ -129,43 +137,43 @@ local mappings = {
 		},
 		["<leader>sr"] = {
 			function()
-				telescope_builtin.oldfiles()
+				telescope_builtin().oldfiles()
 			end,
 			"Fuzzy find recently opened files",
 		},
 		["<leader>sg"] = {
 			function()
-				telescope_builtin.git_files()
+				telescope_builtin().git_files()
 			end,
 			"Fuzzy search git files",
 		},
 		["<leader>se"] = {
 			function()
-				telescope_builtin.live_grep()
+				telescope_builtin().live_grep()
 			end,
 			"Fuzzy find using live grep",
 		},
 		["<leader>b"] = {
 			function()
-				telescope_builtin.buffers()
+				telescope_builtin().buffers()
 			end,
 			"Fuzzy find buffers",
 		},
 		["<leader>sf"] = {
 			function()
-				telescope_builtin.find_files()
+				telescope_builtin().find_files()
 			end,
 			"Fuzzy find files",
 		},
 		["<leader>f"] = {
 			function()
-				telescope_builtin.find_files()
+				telescope_builtin().find_files()
 			end,
 			"Fuzzy find files",
 		},
 		["<leader>pf"] = {
 			function()
-				telescope_builtin.find_files({ cwd = ".." })
+				telescope_builtin().find_files({ cwd = ".." })
 			end,
 			"Fuzzy find files in parent directory",
 		},
@@ -183,43 +191,43 @@ local mappings = {
 		-- },
 		["<leader>tn"] = {
 			function()
-				telescope.extensions.notify.notify()
+				telescope().extensions.notify.notify()
 			end,
 			"Show notifications",
 		},
 		["<leader>te"] = {
 			function()
-				telescope.extensions.emoji.emoji()
+				telescope().extensions.emoji.emoji()
 			end,
 			"Show emoji picker",
 		},
 		["<leader>tu"] = {
 			function()
-				telescope.extensions.undo.undo()
+				telescope().extensions.undo.undo()
 			end,
 			"Show undo history",
 		},
 		["gd"] = {
 			function()
-				telescope_builtin.lsp_definitions()
+				telescope_builtin().lsp_definitions()
 			end,
 			"Go to definition",
 		},
 		["gi"] = {
 			function()
-				telescope_builtin.lsp_implementations()
+				telescope_builtin().lsp_implementations()
 			end,
 			"Go to implementations",
 		},
 		["gr"] = {
 			function()
-				telescope_builtin.lsp_references()
+				telescope_builtin().lsp_references()
 			end,
 			"Go to definition",
 		},
 		["gt"] = {
 			function()
-				telescope_builtin.type_definitions()
+				telescope_builtin().type_definitions()
 			end,
 			"Go to definition",
 		},
@@ -389,7 +397,7 @@ local mappings = {
 		},
 		-- ["gz"] = {
 		-- 	"<cmd> UrlView <CR>",
-		-- 	"Open URL list in Telescope",
+		-- 	"Open URL list in Telescope()",
 		-- },
 		-- ["gx"] = {
 		-- 	function()
@@ -418,5 +426,6 @@ local mappings = {
 		},
 	},
 }
-local util = require("config.utils.mapping")
-util.apply_map(mappings)
+
+local apply_map = require("config.utils.apply_map")
+apply_map(mappings)

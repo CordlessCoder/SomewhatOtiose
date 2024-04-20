@@ -40,7 +40,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
 	callback = function(ev)
-		vim.cmd.LspStart()
 		local present, _ = pcall(require, "colorizer")
 		if present then
 			vim.cmd.ColorizerAttachToBuffer()

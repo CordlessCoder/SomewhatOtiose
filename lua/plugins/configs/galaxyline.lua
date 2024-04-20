@@ -1,3 +1,4 @@
+local isloaded = require("config.utils.isloaded")
 local gl = require("galaxyline")
 local gls = gl.section
 gl.short_line_list = { "LuaTree", "vista", "dbui", "NvimTree" }
@@ -274,27 +275,25 @@ gls.left[13] = {
 		highlight = { colors.color2, colors.bg },
 	},
 }
-local git_blame = nil
+local git_blame = function()
+	if isloaded("git-blame.nvim") then
+		return require("gitblame")
+	end
+	return {
+		is_blame_text_available = function()
+			return false
+		end,
+	}
+end
 gls.right[1] = {
 	GitBlame = {
 		provider = function()
 			local present
-			if git_blame == nil then
-				present, git_blame = pcall(require, "gitblame")
-				if not present then
-					git_blame = false
-					return ""
-				end
-			end
 
-			return git_blame.get_current_blame_text()
+			return git_blame().get_current_blame_text()
 		end,
 		condition = function()
-			if git_blame == false then
-				return true
-			end
-
-			return git_blame == nil or git_blame.is_blame_text_available
+			return git_blame().is_blame_text_available()
 		end,
 	},
 }
