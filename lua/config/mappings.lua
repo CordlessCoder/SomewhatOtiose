@@ -174,6 +174,12 @@ local mappings = {
 			end,
 			"Fuzzy find using live grep",
 		},
+		["<leader>sd"] = {
+			function()
+				telescope_builtin().lsp_document_symbols()
+			end,
+			"Fuzzy find workspace symbols",
+		},
 		["<leader>sb"] = {
 			function()
 				telescope_builtin().buffers()
@@ -253,31 +259,96 @@ local mappings = {
 			"Go to definition",
 		},
 		["<leader>tt"] = { "<Cmd>TroubleToggle<CR>", "Toggle the Trouble panel" },
-		["<leader>tw"] = { "<Cmd>Trouble workspace_diagnostics<CR>", "Show workspace diagnostics in Trouble" },
-		["<leader>td"] = { "<Cmd>Trouble document_diagnostics<CR>", "Show document diagnostics in Trouble" },
+		["<leader>twd"] = { "<Cmd>Trouble workspace_diagnostics<CR>", "Show workspace diagnostics in Trouble" },
 		["<leader>tq"] = { "<Cmd>TodoQuickFix<CR>", "Show todos in Trouble" },
-		["<leader>std"] = { "<Cmd>Trouble lsp_definitions<CR>", "Show LSP definitions in a Trouble panel" },
-		["<leader>sti"] = { "<Cmd>Trouble lsp_implementations<CR>", "Show LSP implementations in a Trouble panel" },
-		["<leader>str"] = { "<Cmd>Trouble lsp_references<CR>", "Show LSP references in a Trouble panel" },
-		["<leader>stt"] = { "<Cmd>Trouble lsp_type_defitions<CR>", "Show LSP type defitions in a Trouble panel" },
+		["<leader>td"] = { "<Cmd>Trouble lsp_definitions<CR>", "Show LSP definitions in a Trouble panel" },
 		-- ["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		-- ["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
 		-- ["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },
-		["<A-b>"] = { "<Cmd>BufferPick<CR>", "Magic puffer-picking" },
-		["<A-p>"] = { "<Cmd>BufferPin<CR>", "Pin/unpin buffer" },
-		["<A-c>"] = { "<Cmd>BufferClose<CR>", "Close buffer" },
-		["<A-1>"] = { "<Cmd>BufferGoto 1<CR>", "Go to the first buffer" },
-		["<A-2>"] = { "<Cmd>BufferGoto 2<CR>", "Go to the second buffer" },
-		["<A-3>"] = { "<Cmd>BufferGoto 3<CR>", "Go to the third buffer" },
-		["<A-4>"] = { "<Cmd>BufferGoto 4<CR>", "Go to the fourth buffer" },
-		["<A-5>"] = { "<Cmd>BufferGoto 5<CR>", "Go to the fifth buffer" },
-		["<A-6>"] = { "<Cmd>BufferGoto 6<CR>", "Go to the sixth buffer" },
-		["<A-7>"] = { "<Cmd>BufferGoto 7<CR>", "Go to the seventh buffer" },
-		["<A-8>"] = { "<Cmd>BufferGoto 8<CR>", "Go to the eighth buffer" },
-		["<A-9>"] = { "<Cmd>BufferGoto 9<CR>", "Go to the ninth buffer" },
-		["<A-0>"] = { "<Cmd>BufferLast<CR>", "Go to last buffer" },
-		["<A-,>"] = { "<Cmd>BufferMovePrevious<CR>", "Move buffer back" },
-		["<A-.>"] = { "<Cmd>BufferMoveNext<CR>", "Move buffer back" },
+		["<A-1>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 1)
+			end,
+			"Go to the first buffer",
+		},
+		["<A-2>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 2)
+			end,
+			"Go to the second buffer",
+		},
+		["<A-3>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 3)
+			end,
+			"Go to the third buffer",
+		},
+		["<A-4>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 4)
+			end,
+			"Go to the fourth buffer",
+		},
+		["<A-5>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 5)
+			end,
+			"Go to the fifth buffer",
+		},
+		["<A-6>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 6)
+			end,
+			"Go to the sixth buffer",
+		},
+		["<A-7>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 7)
+			end,
+			"Go to the seventh buffer",
+		},
+		["<A-8>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 8)
+			end,
+			"Go to the eighth buffer",
+		},
+		["<A-9>"] = {
+			function()
+				require("cokeline.mappings").by_index("focus", 9)
+			end,
+			"Go to the ninth buffer",
+		},
+		["<A-0>"] = {
+			function()
+				local function get_bufs_loaded()
+					local bufs_loaded = {}
+
+					for i, buf_hndl in ipairs(vim.api.nvim_list_bufs()) do
+						if vim.api.nvim_buf_is_loaded(buf_hndl) then
+							bufs_loaded[i] = buf_hndl
+						end
+					end
+
+					return bufs_loaded
+				end
+				local count = #get_bufs_loaded()
+				require("cokeline.mappings").by_index("focus", count)
+			end,
+			"Go to last buffer",
+		},
+		["<A-,>"] = {
+			function()
+				require("cokeline.mappings").by_step("switch", -1)
+			end,
+			"Move buffer back",
+		},
+		["<A-.>"] = {
+			function()
+				require("cokeline.mappings").by_step("switch", 1)
+			end,
+			"Move buffer forward",
+		},
 		["<Tab>"] = {
 			function()
 				vim.cmd.bnext()
