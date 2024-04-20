@@ -58,6 +58,15 @@ local mappings = {
 	},
 	t = {},
 	n = {
+		["<leader>cb"] = {
+			function()
+				vim.api.nvim_buf_delete(0, {
+					force = false,
+					unload = false,
+				})
+			end,
+			"Close current buffer",
+		},
 		["<leader>h"] = {
 			function()
 				if vim.version().minor < 10 then
@@ -80,7 +89,7 @@ local mappings = {
 			end,
 			"Search git files",
 		},
-		["<leader>ng"] = {
+		["<leader>og"] = {
 			function()
 				local neogit = require("neogit")
 				neogit.open({ kind = "vsplit" })
@@ -262,8 +271,30 @@ local mappings = {
 		["<A-0>"] = { "<Cmd>BufferLast<CR>", "Go to last buffer" },
 		["<A-,>"] = { "<Cmd>BufferMovePrevious<CR>", "Move buffer back" },
 		["<A-.>"] = { "<Cmd>BufferMoveNext<CR>", "Move buffer back" },
-		["<Tab>"] = { "<Cmd>BufferNext<CR>", "󰉶   Next Buffer" },
-		["<S-Tab>"] = { "<Cmd>BufferPrevious<CR>", "󰉵   Prev Buffer" },
+		["<Tab>"] = {
+			function()
+				vim.cmd.bnext()
+			end,
+			"󰉶   Next Buffer",
+		},
+		["<S-Tab>"] = {
+			function()
+				vim.cmd.bprevious()
+			end,
+			"󰉵   Prev Buffer",
+		},
+		["<C-t>"] = {
+			function()
+				vim.cmd.tabnext()
+			end,
+			"󰉶   Next tab",
+		},
+		["<C-T>"] = {
+			function()
+				vim.cmd.tabprevious()
+			end,
+			"󰉵   Prev tab",
+		},
 		["<c-space>"] = {
 			function()
 				vim.lsp.buf.hover()

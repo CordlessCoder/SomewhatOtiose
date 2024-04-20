@@ -2,6 +2,13 @@ local LSP_EVENT = "VeryLazy"
 local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php" }
 return {
 	{
+		"tiagovla/scope.nvim",
+		lazy = false,
+		config = function()
+			require("scope").setup({})
+		end,
+	},
+	{
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		lazy = true,
@@ -475,7 +482,7 @@ return {
 	},
 
 	{
-		enabled = false,
+		enabled = true,
 		"romgrk/barbar.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		lazy = false,
@@ -909,9 +916,15 @@ return {
 			"debugloop/telescope-undo.nvim",
 			"xiyaowong/telescope-emoji.nvim",
 			"jvgrootveld/telescope-zoxide",
+			"tiagovla/scope.nvim",
 		},
 		config = function()
 			require("plugins.configs.telescope")
+			local telescope = require("telescope")
+			telescope.load_extension("scope")
+			telescope.load_extension("undo")
+			telescope.load_extension("emoji")
+			telescope.load_extension("zoxide")
 		end,
 		cmd = { "Telescope" },
 		-- event = "UIEnter",

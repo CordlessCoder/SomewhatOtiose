@@ -136,7 +136,7 @@ local bg_buffer = function()
 	return colors.lgray
 end
 
-gls.left[1] = {
+gls.left[#gls.left + 1] = {
 	FirstElement = {
 		provider = function()
 			return "🮈"
@@ -144,7 +144,7 @@ gls.left[1] = {
 		highlight = { colors.color4, colors.bg },
 	},
 }
-gls.left[2] = {
+gls.left[#gls.left + 1] = {
 	ViMode = {
 		provider = function()
 			local alias =
@@ -164,7 +164,7 @@ gls.left[2] = {
 		highlight = { colors.inverted_fg, colors.color4, "bold" },
 	},
 }
-gls.left[3] = {
+gls.left[#gls.left + 1] = {
 	FileIcon = {
 		provider = "FileTypeName",
 		condition = buffer_not_empty,
@@ -179,7 +179,7 @@ gls.left[3] = {
 	},
 }
 
-gls.left[4] = {
+gls.left[#gls.left + 1] = {
 	FileName = {
 		provider = { "FileName", "FileSize" },
 		condition = buffer_not_empty,
@@ -190,7 +190,7 @@ gls.left[4] = {
 	},
 }
 
-gls.left[5] = {
+gls.left[#gls.left + 1] = {
 	GitIcon = {
 		provider = function()
 			return "󰊢 "
@@ -205,7 +205,7 @@ gls.left[5] = {
 	},
 }
 
-gls.left[6] = {
+gls.left[#gls.left + 1] = {
 	GitBranch = {
 		provider = "GitBranch",
 		condition = buffer_not_empty,
@@ -219,7 +219,7 @@ local checkwidth = function()
 end
 
 local curbg = colors.bg
-gls.left[7] = {
+gls.left[#gls.left + 1] = {
 	DiffAdd = {
 		provider = "DiffAdd",
 		condition = checkwidth,
@@ -227,7 +227,7 @@ gls.left[7] = {
 		highlight = { colors.color4, curbg },
 	},
 }
-gls.left[8] = {
+gls.left[#gls.left + 1] = {
 	DiffModified = {
 		provider = "DiffModified",
 		condition = checkwidth,
@@ -235,7 +235,7 @@ gls.left[8] = {
 		highlight = { colors.color2, curbg },
 	},
 }
-gls.left[9] = {
+gls.left[#gls.left + 1] = {
 	DiffRemove = {
 		provider = "DiffRemove",
 		condition = checkwidth,
@@ -243,7 +243,7 @@ gls.left[9] = {
 		highlight = { colors.color1, curbg },
 	},
 }
-gls.left[10] = {
+gls.left[#gls.left + 1] = {
 	LeftEnd = {
 		condition = buffer_not_empty,
 		provider = function()
@@ -254,21 +254,21 @@ gls.left[10] = {
 		highlight = { colors.fg, colors.bg },
 	},
 }
-gls.left[11] = {
+gls.left[#gls.left + 1] = {
 	DiagnosticError = {
 		provider = "DiagnosticError",
 		icon = "  ",
 		highlight = { colors.color1, colors.bg },
 	},
 }
-gls.left[12] = {
+gls.left[#gls.left + 1] = {
 	Space = {
 		provider = function()
 			return " "
 		end,
 	},
 }
-gls.left[13] = {
+gls.left[#gls.left + 1] = {
 	DiagnosticWarn = {
 		provider = "DiagnosticWarn",
 		icon = "  ",
@@ -285,7 +285,19 @@ local git_blame = function()
 		end,
 	}
 end
-gls.right[1] = {
+-- gls.mid[#gls.mid + 1] = {
+-- 	BufList = {
+-- 		provider = function()
+-- 			local bufs = vim.api.nvim_list_bufs()
+-- 			local line = table.concat(bufs, " ")
+-- 			return line
+-- 		end,
+-- 		-- condition = function()
+-- 		-- 	return git_blame().is_blame_text_available()
+-- 		-- end,
+-- 	},
+-- }
+gls.right[#gls.right + 1] = {
 	GitBlame = {
 		provider = function()
 			local present
@@ -297,7 +309,7 @@ gls.right[1] = {
 		end,
 	},
 }
-gls.right[2] = {
+gls.right[#gls.right + 1] = {
 	FileFormat = {
 		provider = "FileFormat",
 		-- separator = "▋",
@@ -308,7 +320,7 @@ gls.right[2] = {
 		highlight = { colors.purple, colors.bg, "bold" },
 	},
 }
-gls.right[3] = {
+gls.right[#gls.right + 1] = {
 	LineInfo = {
 		provider = "LineColumn",
 		separator = " | ",
@@ -316,7 +328,7 @@ gls.right[3] = {
 		highlight = { colors.grey, colors.bg },
 	},
 }
-gls.right[4] = {
+gls.right[#gls.right + 1] = {
 	PerCent = {
 		provider = "LinePercent",
 		separator = "",
@@ -324,7 +336,7 @@ gls.right[4] = {
 		highlight = { colors.inverted_fg, colors.color4, "bold" },
 	},
 }
-gls.right[5] = {
+gls.right[#gls.right + 1] = {
 	ScrollBar = {
 		provider = "ScrollBar",
 		highlight = { colors.color4, colors.bg },

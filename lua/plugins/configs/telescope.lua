@@ -62,6 +62,3 @@ telescope.setup({
 		tags = { fname_width = 100 },
 	},
 })
-telescope.load_extension("undo")
-telescope.load_extension("emoji")
-telescope.load_extension("zoxide")
