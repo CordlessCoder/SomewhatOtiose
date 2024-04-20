@@ -298,7 +298,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		enabled = false,
+		enabled = true,
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -389,7 +389,7 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
-		enabled = true,
+		enabled = false,
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -623,6 +623,7 @@ return {
 	}, lazy = true },
 	{
 		"mrcjkb/rustaceanvim",
+		lazy = true,
 		version = "^4",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -645,7 +646,10 @@ return {
 							-- you can also put keymaps in here
 
 							if vim.version().minor >= 10 then
-								vim.lsp.inlay_hint.enable(0, true)
+								local success, _ = pcall(vim.lsp.inlay_hint.enable, true)
+								if not success then
+									vim.lsp.inlay_hint.enable(0, true)
+								end
 							end
 						end,
 						default_settings = {
@@ -1021,6 +1025,7 @@ return {
 	-- Plugins can have post-install/update hooks
 	{
 		"iamcco/markdown-preview.nvim",
+		lazy = true,
 		run = "cd app && yarn install",
 		cmd = "MarkdownPreview",
 		init = function()

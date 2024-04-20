@@ -64,7 +64,11 @@ local mappings = {
 				end
 				local hint = vim.lsp.inlay_hint
 				local enabled = hint.is_enabled(0)
-				hint.enable(0, not enabled)
+
+				local success, _ = pcall(vim.lsp.inlay_hint.enable, not enabled)
+				if not success then
+					vim.lsp.inlay_hint.enable(0, not enabled)
+				end
 			end,
 			"Toggle inlayhints",
 		},

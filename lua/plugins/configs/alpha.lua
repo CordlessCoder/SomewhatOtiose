@@ -73,7 +73,9 @@ options.buttons = {
 		button("h", "  Rust Shell   ", "<cmd>:term irust <CR> :tabonly <CR> i"),
 		-- button("SPC t h", "  Themes       ", ":Telescope themes<CR>"),
 		button("s", "  Settings     ", ":e ~/.config/nvim/init.lua|:cd %:p:h <CR>"),
-		button("u", "󰚰  Update Plugins", ":Lazy update <CR>"),
+		button("u", "󰚰  Update Plugins", function()
+			require("lazy").update()
+		end),
 		button("q", "󰅚  Exit         ", ":qa!<CR>"),
 	},
 	opts = {

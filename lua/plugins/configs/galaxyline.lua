@@ -17,21 +17,6 @@ local tohex = function(color)
 	return string.format("#%x", color)
 end
 
--- local function dump(o)
--- 	if type(o) == "table" then
--- 		local s = "{ "
--- 		for k, v in pairs(o) do
--- 			if type(k) ~= "number" then
--- 				k = '"' .. k .. '"'
--- 			end
--- 			s = s .. "[" .. k .. "] = " .. dump(v) .. ","
--- 		end
--- 		return s .. "} "
--- 	else
--- 		return tostring(o)
--- 	end
--- end
-
 -- Extracting highlight colors from the current colorscheme
 local decay_present, decay = pcall(require, "decay.core")
 local tokyo_present, tokyo = pcall(require, "tokyonight.colors")
@@ -45,6 +30,7 @@ if decay_present then
 
 	colors = {
 		bg = decay.background,
+		inverted_fg = decay.background,
 		fg = decay.foreground,
 		black = decay.black,
 		gray = decay.brightblack,
@@ -64,6 +50,7 @@ elseif tokyo_present then
 	-- { ["none"] = NONE,["green"] = #78dba9,["bg"] = #12131c,["gitSigns"] = { ["add"] = #266d6a,["delete"] = #b2555b,["change"] = #536c9e,} ,["cyan"] = #7dcfff,["magenta"] = #bb9af7,["blue"] = #7aa2f7,["git"] = { ["add"] = #449dab,["change"] = #6183bb,["delete"] = #914c54,["ignore"] = #545c7e,} ,["bg_statusline"] = #16161e,["bg_highlight"] = #292e42,["green2"] = #41a6b5,["info"] = #0db9d7,["purple"] = #9d7cd8,["blue6"] = #b4f9f8,["magenta2"] = #ff007c,["bg_search"] = #3d59a1,["terminal_black"] = #414868,["bg_visual"] = #283457,["black"] = #15161e,["bg_popup"] = #16161e,["border_highlight"] = #27a1b9,["bg_float"] = #16161e,["blue0"] = #3d59a1,["hint"] = #1abc9c,["warning"] = #e0af68,["error"] = #db4b4b,["teal"] = #73C0C9,["red1"] = #db4b4b,["orange"] = #ff9e64,["bg_sidebar"] = #16161e,["border"] = #15161e,["diff"] = { ["add"] = #20303b,["change"] = #1f2231,["delete"] = #37222c,["text"] = #394b70,} ,["comment"] = #565f89,["fg_float"] = #c0caf5,["yellow"] = #e0af68,["fg_sidebar"] = #a9b1d6,["blue7"] = #394b70,["bg_dark"] = #16161e,["red"] = #f7768e,["dark3"] = #545c7e,["fg_dark"] = #a9b1d6,["dark5"] = #737aa2,["fg"] = #c0caf5,["blue1"] = #2ac3de,["blue5"] = #89ddff,["fg_gutter"] = #242637,["blue2"] = #0db9d7,["green1"] = #94f7c5,}
 	colors = {
 		bg = tokyo.bg,
+		inverted_fg = tokyo.background,
 		fg = tokyo.fg,
 		black = tokyo.black,
 		gray = tokyo.bg_highlight,
@@ -81,43 +68,45 @@ else
 	local hl = gethl("Normal")
 	local fgcolor = tohex(hl.fg)
 	local bgcolor
-	if hl.bg ~= nil then
-		bgcolor = tohex(hl.bg)
-	else
-		bgcolor = "NONE"
-	end
-	hl = gethl("CursorColumn", hl)
+	hl = gethl("CursorColumn")
 	local gray = tohex(hl.bg)
-	hl = gethl("NonText", hl)
+	hl = gethl("NonText")
 	local lgray = tohex(hl.fg)
-	hl = gethl("Directory", hl)
+	hl = gethl("Directory")
 	local blue = tohex(hl.fg)
-	hl = gethl("String", hl)
+	hl = gethl("String")
 	local green = tohex(hl.fg)
-	hl = gethl("ErrorMsg", hl)
+	hl = gethl("ErrorMsg")
 	local red
 	if hl.fg ~= nil then
 		red = tohex(hl.fg)
 	elseif hl.bg ~= nil then
 		red = tohex(hl.bg)
 	else
-		hl = gethl("Error", hl)
+		hl = gethl("Error")
 		red = tohex(hl.bg)
 	end
-	hl = gethl("Statement", hl)
+	hl = gethl("Statement")
 	local purple = tohex(hl.fg)
-	hl = gethl("Constant", hl)
+	hl = gethl("Constant")
 	local orange = tohex(hl.fg)
-	hl = gethl("Special", hl)
+	hl = gethl("Special")
 	local cyan = tohex(hl.fg)
-	hl = gethl("LspReferenceText", hl) or gethl("Normal", hl)
+	hl = gethl("LspReferenceText") or gethl("Normal")
 	local color7 = tohex(hl.bg)
-	hl = gethl("Comment", hl)
+	hl = gethl("Comment")
 	local color8 = tohex(hl.fg)
+	if hl.bg ~= nil then
+		bgcolor = tohex(hl.bg)
+	else
+		bgcolor = "NONE"
+		inverted_fg = gray
+	end
 
 	colors = {
 		bg = bgcolor,
 		fg = fgcolor,
+		inverted_fg = inverted_fg,
 		black = g.terminal_color_0 or bgcolor,
 		gray = gray,
 		lgray = lgray,
@@ -149,9 +138,9 @@ end
 gls.left[1] = {
 	FirstElement = {
 		provider = function()
-			return "▋"
+			return "🮈"
 		end,
-		highlight = { colors.bg, colors.color4 },
+		highlight = { colors.color4, colors.bg },
 	},
 }
 gls.left[2] = {
@@ -166,12 +155,12 @@ gls.left[2] = {
 			colors.color4,
 			function()
 				if buffer_not_empty() then
-					return colors.gray
+					return colors.bg
 				end
 				return colors.color4
 			end,
 		},
-		highlight = { colors.bg, colors.color4, "bold" },
+		highlight = { colors.inverted_fg, colors.color4, "bold" },
 	},
 }
 gls.left[3] = {
@@ -219,7 +208,7 @@ gls.left[6] = {
 	GitBranch = {
 		provider = "GitBranch",
 		condition = buffer_not_empty,
-		highlight = { colors.bg, colors.fg },
+		highlight = { colors.inverted_fg, colors.fg },
 	},
 }
 
@@ -312,20 +301,20 @@ gls.right[1] = {
 gls.right[2] = {
 	FileFormat = {
 		provider = "FileFormat",
-		separator = "▋",
-		separator_highlight = {
-			colors.bg,
-			colors.gray,
-		},
-		highlight = { colors.purple, colors.gray, "bold" },
+		-- separator = "▋",
+		-- separator_highlight = {
+		-- 	colors.bg,
+		-- 	colors.gray,
+		-- },
+		highlight = { colors.purple, colors.bg, "bold" },
 	},
 }
 gls.right[3] = {
 	LineInfo = {
 		provider = "LineColumn",
 		separator = " | ",
-		separator_highlight = { colors.color6, colors.gray },
-		highlight = { colors.grey, colors.gray },
+		separator_highlight = { colors.color6, colors.bg },
+		highlight = { colors.grey, colors.bg },
 	},
 }
 gls.right[4] = {
@@ -333,7 +322,7 @@ gls.right[4] = {
 		provider = "LinePercent",
 		separator = "",
 		separator_highlight = { colors.color4, colors.bg },
-		highlight = { colors.bg, colors.color4, "bold" },
+		highlight = { colors.inverted_fg, colors.color4, "bold" },
 	},
 }
 gls.right[5] = {
@@ -343,32 +332,120 @@ gls.right[5] = {
 	},
 }
 
+-- gls.short_line_left[1] = {
+-- 	FirstElement = {
+-- 		provider = function()
+-- 			return "▋"
+-- 		end,
+-- 		highlight = { colors.black, colors.color4 },
+-- 	},
+-- }
+-- gls.short_line_left[2] = {
+-- 	BufferType = {
+-- 		provider = "FileTypeName",
+-- 		separator = "▋",
+--
+-- 		separator_highlight = {
+-- 			colors.color4,
+-- 			colors.bg,
+-- 		},
+-- 		highlight = { colors.fg, colors.color4, "bold" },
+-- 	},
+-- }
+--
+-- gls.short_line_right[1] = {
+-- 	BufferIcon = {
+-- 		provider = "BufferIcon",
+-- 		separator = "▋",
+-- 		separator_highlight = { colors.bg, colors.bg },
+-- 		highlight = { colors.inverted_fg, colors.bg },
+-- 	},
+-- }
 gls.short_line_left[1] = {
 	FirstElement = {
 		provider = function()
-			return "▋"
+			return "🮈"
 		end,
-		highlight = { colors.black, colors.color4 },
+		highlight = { colors.color4, colors.bg },
 	},
 }
 gls.short_line_left[2] = {
-	BufferType = {
-		provider = "FileTypeName",
-		separator = "▋",
+	ViModeShort = {
+		provider = function()
+			local alias = { n = "N", i = "I", c = "C", v = "V", V = "VL", [""] = "VB" }
+			return alias[vim.fn.mode()]
+		end,
+		highlight = { colors.inverted_fg, colors.color4, "bold" },
 
+		separator = "",
 		separator_highlight = {
 			colors.color4,
 			colors.bg,
 		},
-		highlight = { colors.bg, colors.color4, "bold" },
 	},
 }
 
+gls.short_line_left[4] = {
+	FileName = {
+		provider = { "FileName", "FileSize" },
+		condition = buffer_not_empty,
+		-- separator = "▍",
+		-- separator_highlight = { colors.bg, colors.lgray },
+
+		highlight = { colors.fg, colors.bg },
+	},
+}
+
+gls.short_line_left[5] = {
+	DiffAdd = {
+		provider = "DiffAdd",
+		condition = checkwidth,
+		icon = " ",
+		highlight = { colors.color4, curbg },
+	},
+}
+gls.short_line_left[6] = {
+	DiffModified = {
+		provider = "DiffModified",
+		condition = checkwidth,
+		icon = " ",
+		highlight = { colors.color2, curbg },
+	},
+}
+gls.short_line_left[7] = {
+	DiffRemove = {
+		provider = "DiffRemove",
+		condition = checkwidth,
+		icon = " ",
+		highlight = { colors.color1, curbg },
+	},
+}
+gls.short_line_left[9] = {
+	DiagnosticError = {
+		provider = "DiagnosticError",
+		icon = "  ",
+		highlight = { colors.color1, colors.bg },
+	},
+}
+gls.short_line_left[10] = {
+	Space = {
+		provider = function()
+			return " "
+		end,
+	},
+}
+gls.short_line_left[11] = {
+	DiagnosticWarn = {
+		provider = "DiagnosticWarn",
+		icon = "  ",
+		highlight = { colors.color2, colors.bg },
+	},
+}
 gls.short_line_right[1] = {
-	BufferIcon = {
-		provider = "BufferIcon",
-		separator = "▋",
-		separator_highlight = { colors.bg, colors.lgray },
-		highlight = { colors.bg, colors.lgray },
+	LineInfo = {
+		provider = "LineColumn",
+		separator = " | ",
+		separator_highlight = { colors.color6, colors.bg },
+		highlight = { colors.grey, colors.bg },
 	},
 }
