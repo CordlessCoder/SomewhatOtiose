@@ -8,7 +8,9 @@ opt.confirm = true
 opt.tabstop = 4
 opt.expandtab = true
 opt.shiftwidth = 4
-opt.autochdir = true
+
+-- opt.autochdir = true
+
 opt.mousemodel = "extend"
 g.instant_username = "CordlessCoder"
 g.python3_host_prog = "/usr/bin/python3"

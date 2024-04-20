@@ -58,6 +58,18 @@ local mappings = {
 	},
 	t = {},
 	n = {
+		["<leader>bf"] = {
+			function()
+				require("cokeline.mappings").pick("focus")
+			end,
+			"Pick buffer to focus",
+		},
+		["<leader>bc"] = {
+			function()
+				require("cokeline.mappings").pick("close")
+			end,
+			"Pick buffer to close",
+		},
 		["<leader>cb"] = {
 			function()
 				vim.api.nvim_buf_delete(0, {
@@ -140,7 +152,7 @@ local mappings = {
 			end,
 			"Toggle vim spell",
 		},
-		["<leader>sbg"] = {
+		["<leader>sfg"] = {
 			live_grep_from_project_git_root,
 			"Fuzzy find from project's git root",
 		},
@@ -162,7 +174,7 @@ local mappings = {
 			end,
 			"Fuzzy find using live grep",
 		},
-		["<leader>b"] = {
+		["<leader>sb"] = {
 			function()
 				telescope_builtin().buffers()
 			end,
@@ -244,7 +256,6 @@ local mappings = {
 		["<leader>tw"] = { "<Cmd>Trouble workspace_diagnostics<CR>", "Show workspace diagnostics in Trouble" },
 		["<leader>td"] = { "<Cmd>Trouble document_diagnostics<CR>", "Show document diagnostics in Trouble" },
 		["<leader>tq"] = { "<Cmd>TodoQuickFix<CR>", "Show todos in Trouble" },
-		["<leader>e"] = { "<Cmd>NvimTreeFocus<CR>", "Focus NvimTree" },
 		["<leader>std"] = { "<Cmd>Trouble lsp_definitions<CR>", "Show LSP definitions in a Trouble panel" },
 		["<leader>sti"] = { "<Cmd>Trouble lsp_implementations<CR>", "Show LSP implementations in a Trouble panel" },
 		["<leader>str"] = { "<Cmd>Trouble lsp_references<CR>", "Show LSP references in a Trouble panel" },
@@ -255,10 +266,6 @@ local mappings = {
 		["<A-b>"] = { "<Cmd>BufferPick<CR>", "Magic puffer-picking" },
 		["<A-p>"] = { "<Cmd>BufferPin<CR>", "Pin/unpin buffer" },
 		["<A-c>"] = { "<Cmd>BufferClose<CR>", "Close buffer" },
-		["<leader>cbp"] = { "<Cmd>BufferCloseAllButPinned<CR>", "Close all buffers, only leaving the pinned" },
-		["<leader>cbc"] = { "<Cmd>BufferCloseAllButCurrent<CR>", "Close all buffers, only leaving the current" },
-		["<leader>cbl"] = { "<Cmd>BufferCloseBuffersLeft<CR>", "Close all buffers to the left" },
-		["<leader>cbh"] = { "<Cmd>BufferCloseBuffersRight<CR>", "Close all buffers to the right" },
 		["<A-1>"] = { "<Cmd>BufferGoto 1<CR>", "Go to the first buffer" },
 		["<A-2>"] = { "<Cmd>BufferGoto 2<CR>", "Go to the second buffer" },
 		["<A-3>"] = { "<Cmd>BufferGoto 3<CR>", "Go to the third buffer" },
