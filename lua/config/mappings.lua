@@ -357,7 +357,6 @@ local mappings = {
 			end,
 			"DAPui toggle",
 		},
-		["<leader>a"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Perform code action" },
 		["<leader>n"] = { "<cmd>NvimTreeToggle <CR>", "   toggle nvimtree" },
 		["<C-n>"] = { "<cmd>execute 'normal <Plug>(VM-Find-Under)' <CR>", "   toggle nvimtree" },

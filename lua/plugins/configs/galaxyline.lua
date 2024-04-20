@@ -51,7 +51,7 @@ elseif tokyo_present then
 	-- { ["none"] = NONE,["green"] = #78dba9,["bg"] = #12131c,["gitSigns"] = { ["add"] = #266d6a,["delete"] = #b2555b,["change"] = #536c9e,} ,["cyan"] = #7dcfff,["magenta"] = #bb9af7,["blue"] = #7aa2f7,["git"] = { ["add"] = #449dab,["change"] = #6183bb,["delete"] = #914c54,["ignore"] = #545c7e,} ,["bg_statusline"] = #16161e,["bg_highlight"] = #292e42,["green2"] = #41a6b5,["info"] = #0db9d7,["purple"] = #9d7cd8,["blue6"] = #b4f9f8,["magenta2"] = #ff007c,["bg_search"] = #3d59a1,["terminal_black"] = #414868,["bg_visual"] = #283457,["black"] = #15161e,["bg_popup"] = #16161e,["border_highlight"] = #27a1b9,["bg_float"] = #16161e,["blue0"] = #3d59a1,["hint"] = #1abc9c,["warning"] = #e0af68,["error"] = #db4b4b,["teal"] = #73C0C9,["red1"] = #db4b4b,["orange"] = #ff9e64,["bg_sidebar"] = #16161e,["border"] = #15161e,["diff"] = { ["add"] = #20303b,["change"] = #1f2231,["delete"] = #37222c,["text"] = #394b70,} ,["comment"] = #565f89,["fg_float"] = #c0caf5,["yellow"] = #e0af68,["fg_sidebar"] = #a9b1d6,["blue7"] = #394b70,["bg_dark"] = #16161e,["red"] = #f7768e,["dark3"] = #545c7e,["fg_dark"] = #a9b1d6,["dark5"] = #737aa2,["fg"] = #c0caf5,["blue1"] = #2ac3de,["blue5"] = #89ddff,["fg_gutter"] = #242637,["blue2"] = #0db9d7,["green1"] = #94f7c5,}
 	colors = {
 		bg = tokyo.bg,
-		inverted_fg = tokyo.background,
+		inverted_fg = (tokyo.bg == "NONE" and tokyo.black) or tokyo.bg,
 		fg = tokyo.fg,
 		black = tokyo.black,
 		gray = tokyo.bg_highlight,
@@ -66,42 +66,44 @@ elseif tokyo_present then
 		color8 = tokyo.dark5,
 	}
 else
-	local hl = gethl("Normal")
-	local fgcolor = tohex(hl.fg)
+	local hl = gethl("Normal") or {}
+	local fgcolor = tohex(hl.fg or 0xffffff)
 	local bgcolor
-	hl = gethl("CursorColumn")
-	local gray = tohex(hl.bg)
-	hl = gethl("NonText")
-	local lgray = tohex(hl.fg)
-	hl = gethl("Directory")
-	local blue = tohex(hl.fg)
-	hl = gethl("String")
-	local green = tohex(hl.fg)
-	hl = gethl("ErrorMsg")
+	hl = gethl("CursorColumn") or {}
+	local gray = tohex(hl.bg or 0x666666)
+	hl = gethl("NonText") or {}
+	local lgray = tohex(hl.fg or 0x888888)
+	hl = gethl("Directory") or {}
+	local blue = tohex(hl.fg or 0x2222ff)
+	hl = gethl("String") or {}
+	local green = tohex(hl.fg or 0x22ff22)
+	hl = gethl("ErrorMsg") or {}
 	local red
 	if hl.fg ~= nil then
 		red = tohex(hl.fg)
-	elseif hl.bg ~= nil then
+	elseif hl.bg then
 		red = tohex(hl.bg)
 	else
-		hl = gethl("Error")
-		red = tohex(hl.bg)
+		red = gethl("Error").bg or gethl("DiffDelete").bg
 	end
-	hl = gethl("Statement")
+	red = red or 0xFF2222
+	hl = gethl("Statement") or {}
 	local purple = tohex(hl.fg)
-	hl = gethl("Constant")
+	hl = gethl("Constant") or {}
 	local orange = tohex(hl.fg)
-	hl = gethl("Special")
+	hl = gethl("Special") or {}
 	local cyan = tohex(hl.fg)
-	hl = gethl("LspReferenceText") or gethl("Normal")
-	local color7 = tohex(hl.bg)
-	hl = gethl("Comment")
+
+	local color7 = tohex(gethl("LspReferenceText").bg or gethl("Question").fg)
+	hl = gethl("Comment") or {}
 	local color8 = tohex(hl.fg)
+	local inverted_fg
 	if hl.bg ~= nil then
-		bgcolor = tohex(hl.bg)
+		bgcolor = tohex(hl.bg) or {}
+		inverted_fg = bgcolor
 	else
 		bgcolor = "NONE"
-		inverted_fg = gray
+		inverted_fg = g.terminal_color_0 or tohex(tonumber(string.sub(gray, 2), 16) / 2)
 	end
 
 	colors = {

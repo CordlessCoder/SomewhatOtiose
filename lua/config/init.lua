@@ -3,6 +3,8 @@ local g = vim.g
 
 require("config.mappings")
 
+vim.opt.winblend = 20
+
 opt.relativenumber = true
 opt.confirm = true
 opt.tabstop = 4
@@ -27,7 +29,6 @@ if g.neovide then
 end
 
 g.rust_clip_command = "xclip -selection clipboard"
-g.gitblame_enabled = 0
 -- opt.guifont = "FiraCode Nerd Font Mono:h14"
 -- opt.guifont = "JetBrainsMono Nerd Font:h14"
 opt.guifont = "JetBrainsMono Nerd Font Mono:h15"

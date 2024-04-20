@@ -2,6 +2,106 @@ local LSP_EVENT = "VeryLazy"
 local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php" }
 return {
 	{
+		"stevearc/aerial.nvim",
+		lazy = true,
+		cmd = {
+			"AerialToggle",
+			"AerialOpen",
+			"AerialOpenAll",
+			"AerialClose",
+			"AerialCloseAll",
+			"AerialNext",
+			"AerialPrev",
+			"AerialGo",
+			"AerialInfo",
+			"AerialNavToggle",
+			"AerialNavOpen",
+			"AerialNavClose",
+		},
+		config = function()
+			require("aerial").setup({
+				backends = { "lsp", "treesitter", "markdown", "asciidoc", "man" },
+
+				keymaps = {
+					["?"] = "actions.show_help",
+					["g?"] = "actions.show_help",
+					["<CR>"] = "actions.jump",
+					["<2-LeftMouse>"] = "actions.jump",
+					["<C-v>"] = "actions.jump_vsplit",
+					["<C-s>"] = "actions.jump_split",
+					["p"] = "actions.scroll",
+					["<C-j>"] = "actions.down_and_scroll",
+					["<C-k>"] = "actions.up_and_scroll",
+					["{"] = "actions.prev",
+					["}"] = "actions.next",
+					["[["] = "actions.prev_up",
+					["]]"] = "actions.next_up",
+					["q"] = "actions.close",
+					["o"] = "actions.tree_toggle",
+					["za"] = "actions.tree_toggle",
+					["O"] = "actions.tree_toggle_recursive",
+					["zA"] = "actions.tree_toggle_recursive",
+					["l"] = "actions.tree_open",
+					["zo"] = "actions.tree_open",
+					["L"] = "actions.tree_open_recursive",
+					["zO"] = "actions.tree_open_recursive",
+					["h"] = "actions.tree_close",
+					["zc"] = "actions.tree_close",
+					["H"] = "actions.tree_close_recursive",
+					["zC"] = "actions.tree_close_recursive",
+					["zr"] = "actions.tree_increase_fold_level",
+					["zR"] = "actions.tree_open_all",
+					["zm"] = "actions.tree_decrease_fold_level",
+					["zM"] = "actions.tree_close_all",
+					["zx"] = "actions.tree_sync_folds",
+					["zX"] = "actions.tree_sync_folds",
+				},
+				lazy_load = false,
+
+				-- Disable aerial on files with this many lines
+				disable_max_lines = 100000,
+
+				-- Disable aerial on files this size or larger (in bytes)
+				disable_max_size = 1024 * 1024 * 8,
+
+				-- Set default symbol icons to use patched font icons (see https://www.nerdfonts.com/)
+				-- "auto" will set it to true if nvim-web-devicons or lspkind-nvim is installed.
+				nerd_font = true,
+
+				treesitter = {
+					-- How long to wait (in ms) after a buffer change before updating
+					update_delay = 50,
+				},
+
+				markdown = {
+					-- How long to wait (in ms) after a buffer change before updating
+					update_delay = 50,
+				},
+
+				asciidoc = {
+					-- How long to wait (in ms) after a buffer change before updating
+					update_delay = 50,
+				},
+
+				man = {
+					-- How long to wait (in ms) after a buffer change before updating
+					update_delay = 50,
+				},
+			})
+			vim.keymap.set("n", "<leader>ao", function()
+				require("aerial").open()
+			end)
+			vim.keymap.set("n", "<leader>at", function()
+				require("telescope").load_extension("aerial")
+				require("telescope").extensions.aerial.aerial()
+			end)
+			vim.keymap.set("n", "<leader>ac", function()
+				require("aerial").close()
+			end)
+		end,
+		keys = { "<leader>ao", "<leader>at", "<leader>ac" },
+	},
+	{
 		"tiagovla/scope.nvim",
 		lazy = false,
 		config = function()
@@ -15,10 +115,10 @@ return {
 		config = function()
 			local harpoon = require("harpoon")
 			harpoon:setup()
-			vim.keymap.set("n", "<leader>a", function()
+			vim.keymap.set("n", "<leader>ha", function()
 				harpoon:list():add()
 			end)
-			vim.keymap.set("n", "<leader>e", function()
+			vim.keymap.set("n", "<leader>hc", function()
 				harpoon.ui:toggle_quick_menu(harpoon:list())
 			end)
 
@@ -45,8 +145,8 @@ return {
 		end,
 		lazy = true,
 		keys = {
-			"<leader>a",
-			"<leader>e",
+			"<leader>ha",
+			"<leader>hc",
 			"<leader>hn>",
 			"<leader>he>",
 			"<leader>hi>",
@@ -123,69 +223,6 @@ return {
 		config = true,
 		lazy = true,
 		cmd = { "LiveServerStart", "LiveServerStop" },
-	},
-	{
-		"fedepujol/move.nvim",
-		lazy = true,
-		cmd = { "MoveLine", "MoveBlock", "MoveHChar", "MoveHBlock", "MoveWord" },
-		keys = { "<A-h>", "<A-j>", "<A-k>", "<A-l>", "<A-down>", "<A-up>", "<A-right>", "<A-left>" },
-		config = function()
-			local move_vert = require("move.core.vert")
-			local move_hor = require("move.core.horiz")
-
-			local MoveLine = move_vert.moveLine
-			local MoveBlock = move_vert.moveBlock
-			local MoveHChar = move_hor.horzChar
-			local MoveHBlock = move_hor.horzBlock
-			local MoveWord = move_hor.horzWord
-
-			local opts = { noremap = true, silent = true }
-			-- Normal-mode commands
-			vim.keymap.set("n", "<A-j>", function()
-				MoveLine(1, false)
-			end, opts)
-			vim.keymap.set("n", "<A-down>", function()
-				MoveLine(1, false)
-			end, opts)
-			vim.keymap.set("n", "<A-up>", function()
-				MoveLine(-1, false)
-			end, opts)
-			vim.keymap.set("n", "<A-k>", function()
-				MoveLine(-1, false)
-			end, opts)
-			vim.keymap.set("n", "<A-left>", function()
-				MoveHChar(-1)
-			end, opts)
-			vim.keymap.set("n", "<A-h>", function()
-				MoveHChar(-1)
-			end, opts)
-			vim.keymap.set("n", "<A-right>", function()
-				MoveHChar(1)
-			end, opts)
-			vim.keymap.set("n", "<A-l>", function()
-				MoveHChar(1)
-			end, opts)
-			vim.keymap.set("n", "<leader>wf", function()
-				MoveWord(1)
-			end, opts)
-			vim.keymap.set("n", "<leader>wb", function()
-				MoveWord(-1)
-			end, opts)
-			-- Visual-mode commands
-			vim.keymap.set("v", "<A-j>", function()
-				MoveBlock(1)
-			end, opts)
-			vim.keymap.set("v", "<A-k>", function()
-				MoveBlock(-1)
-			end, opts)
-
-			vim.keymap.set("v", "<A-l>", function()
-				MoveHBlock(1)
-			end, opts)
-			vim.keymap.set("v", "<A-h>", function()
-				MoveHBlock(-1)
-			end, opts)
-		end,
 	},
 	-- { "nathom/filetype.nvim", lazy = false, priority = 100 },
 	{ "ThePrimeagen/vim-be-good", lazy = true, cmd = { "VimBeGood" } },
@@ -317,12 +354,15 @@ return {
 					-- 	accent = "#78dba9",
 				},
 			})
+			if vim.g.neovide then
+				vim.api.nvim_set_hl(0, "Normal", { background = vim.g.terminal_color_0 })
+			end
 		end,
 	},
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		enabled = true,
+		enabled = false,
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -377,6 +417,10 @@ return {
 					lsp_trouble = true,
 					treesitter = true,
 					nvimtree = true,
+					mason = true,
+					neogit = true,
+					dap = true,
+					harpoon = true,
 					-- noice = true,
 					native_lsp = {
 						enabled = true,
@@ -398,11 +442,14 @@ return {
 			})
 			vim.cmd.colorscheme("catppuccin")
 			vim.api.nvim_set_hl(0, "@lsp.typemod.variable.mutable", { italic = true })
+			if vim.g.neovide then
+				vim.api.nvim_set_hl(0, "Normal", { background = vim.g.terminal_color_0 })
+			end
 		end,
 	},
 	{
 		"folke/tokyonight.nvim",
-		enabled = false,
+		enabled = true,
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -437,6 +484,9 @@ return {
 				end,
 			})
 			vim.cmd.colorscheme("tokyonight-night")
+			if vim.g.neovide then
+				vim.api.nvim_set_hl(0, "Normal", { background = vim.g.terminal_color_0 })
+			end
 		end,
 	},
 
@@ -666,6 +716,9 @@ return {
 			vim.keymap.set("t", "<A-x>", function()
 				require("FTerm").toggle()
 			end)
+			require("FTerm").setup({
+				blend = 20,
+			})
 		end,
 		keys = { { "<A-x>", mode = "n" }, { "<A-x>", mode = "t" } },
 	},
