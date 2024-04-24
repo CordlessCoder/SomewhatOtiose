@@ -210,7 +210,7 @@ gls.left[#gls.left + 1] = {
 gls.left[#gls.left + 1] = {
 	GitBranch = {
 		provider = "GitBranch",
-		condition = buffer_not_empty,
+		condition = buffer_not_empty, -- TODO: Hide when not in repo
 		highlight = { colors.inverted_fg, colors.fg },
 	},
 }

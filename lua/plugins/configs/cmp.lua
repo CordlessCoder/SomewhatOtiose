@@ -1,14 +1,4 @@
-local present, cmp = pcall(require, "cmp")
-
-if not present then
-	return
-end
--- local load = { "luasnip", "crates" }
--- for _, r in pairs(load) do
--- require(r)
--- end
-
--- require("base46").load_highlight "cmp"
+local cmp = require("cmp")
 
 vim.o.completeopt = "menu,menuone,noselect"
 
@@ -25,37 +15,27 @@ local function border(hl_name)
 	}
 end
 
-local cmp_window = require("cmp.utils.window")
-
-cmp_window.info_ = cmp_window.info
-cmp_window.info = function(self)
-	local info = self:info_()
-	info.scrollable = false
-	return info
-end
-
-local options = {
-	window = {
-		completion = {
-			border = border("CmpBorder"),
-			winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
-		},
-		documentation = {
-			border = border("CmpDocBorder"),
-		},
+cmp.setup({
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "nvim_lua" },
+		{ name = "luasnip" },
+		{ name = "crates" },
+		{ name = "neorg" },
+		{ name = "path" },
+		{ name = "buffer" },
 	},
 	snippet = {
 		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
+			vim.snippet.expand(args.body)
 		end,
 	},
-	-- formatting = {
-	-- format = function(_, vim_item)
-	-- local icons = require("nvchad_ui.icons").lspkind
-	-- vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
-	-- return vim_item
-	-- end,
-	-- }
+	window = {
+		completion = {
+			scrollbar = false,
+			border = border("CmpBorder"),
+		},
+	},
 	mapping = {
 		["<C-p>"] = cmp.mapping.select_prev_item(),
 		["<C-n>"] = cmp.mapping.select_next_item(),
@@ -94,18 +74,32 @@ local options = {
 			"s",
 		}),
 	},
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "nvim_lua" },
-		{ name = "crates" },
-		{ name = "neorg" },
-		{ name = "luasnip" },
-		{ name = "path" },
-		{ name = "buffer" },
-	},
-}
+})
 
--- check for any override
--- options = require("core.utils").load_override(options, "hrsh7th/nvim-cmp")
-
-cmp.setup(options)
+-- local cmp_window = require("cmp.utils.window")
+--
+-- cmp_window.info_ = cmp_window.info
+-- cmp_window.info = function(self)
+-- 	local info = self:info_()
+-- 	info.scrollable = false
+-- 	return info
+-- end
+--
+-- local options = {
+-- 	window = {
+-- 		completion = {
+-- 			border = border("CmpBorder"),
+-- 			winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+-- 		},
+-- 		documentation = {
+-- 			border = border("CmpDocBorder"),
+-- 		},
+-- 	},
+-- 	snippet = {
+-- 		expand = function(args)
+-- 			require("luasnip").lsp_expand(args.body)
+-- 		end,
+-- 	},
+-- }
+--
+-- cmp.setup(options)

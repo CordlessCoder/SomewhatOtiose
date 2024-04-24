@@ -1,6 +1,11 @@
-local LSP_EVENT = "VeryLazy"
+-- local LSP_EVENT = "VeryLazy"
 local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php" }
 return {
+	{
+		"rstacruz/vim-closer",
+		lazy = true,
+		event = "InsertEnter",
+	},
 	{
 		"stevearc/aerial.nvim",
 		lazy = true,
@@ -421,7 +426,7 @@ return {
 					neogit = true,
 					dap = true,
 					harpoon = true,
-					-- noice = true,
+					noice = false,
 					native_lsp = {
 						enabled = true,
 						virtual_text = {
@@ -592,13 +597,13 @@ return {
 
 			require("cokeline").setup({
 				sidebar = {
-					filetype = { "NvimTree", "neo-tree" },
+					filetype = { "NvimTree", "neo-tree", "undotree" },
 					components = {
 						{
 							text = function(buf)
 								return buf.filetype
 							end,
-							fg = yellow,
+							fg = vim.g.terminal_color_3,
 							bg = function()
 								return get_hex("NvimTreeNormal", "bg")
 							end,
@@ -727,7 +732,7 @@ return {
 		config = function()
 			require("plugins.configs.neorg")
 		end,
-		dependencies = { { "nvim-lua/plenary.nvim", "vhyrro/luarocks.nvim" } },
+		dependencies = { { "nvim-lua/plenary.nvim", { "vhyrro/luarocks.nvim", config = true } } },
 		lazy = true,
 		cmd = { "Neorg" },
 		ft = "norg",
@@ -1118,7 +1123,6 @@ return {
 		-- these dependencies will only be loaded when cmp loads
 		-- dependencies are always lazy-loaded unless specified otherwise
 		dependencies = {
-			"rstacruz/vim-closer",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",

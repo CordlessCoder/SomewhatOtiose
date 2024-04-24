@@ -351,13 +351,23 @@ local mappings = {
 		},
 		["<Tab>"] = {
 			function()
-				vim.cmd.bnext()
+				local present, cokeline = pcall(require, "cokeline.mappings")
+				if present then
+					cokeline.by_step("focus", 1)
+				else
+					vim.cmd.bnext()
+				end
 			end,
 			"󰉶   Next Buffer",
 		},
 		["<S-Tab>"] = {
 			function()
-				vim.cmd.bprevious()
+				local present, cokeline = pcall(require, "cokeline.mappings")
+				if present then
+					cokeline.by_step("focus", -1)
+				else
+					vim.cmd.bnext()
+				end
 			end,
 			"󰉵   Prev Buffer",
 		},
