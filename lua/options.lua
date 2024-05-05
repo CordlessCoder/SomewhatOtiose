@@ -7,7 +7,7 @@ opt.showmode = false
 opt.clipboard = "unnamedplus"
 opt.cursorline = true
 
-vim.o.spell = true
+vim.o.spell = false
 vim.o.spelllang = "en_us,en_gb,en_ca"
 
 -- -- Colorscheme

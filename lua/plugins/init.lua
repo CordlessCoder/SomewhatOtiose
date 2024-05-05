@@ -1,5 +1,5 @@
 -- local LSP_EVENT = "VeryLazy"
-local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php" }
+local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php", "bash" }
 return {
 	{
 		"rstacruz/vim-closer",
@@ -905,8 +905,63 @@ return {
 	},
 	{
 		"monaqa/dial.nvim",
-		keys = { "<C-a>", "<C-x>" },
+		keys = {
+			{ "<C-a>", mode = "n" },
+			{ "<C-x>", mode = "n" },
+			{ "g<C-a>", mode = "n" },
+			{ "g<C-x>", mode = "n" },
+			{ "<C-a>", mode = "v" },
+			{ "<C-x>", mode = "v" },
+			{ "g<C-a>", mode = "v" },
+			{ "g<C-x>", mode = "v" },
+		},
 		lazy = true,
+		config = function()
+			local augend = require("dial.augend")
+			require("dial.config").augends:register_group({
+				default = {
+					augend.hexcolor.new({
+						case = "lower",
+					}),
+					augend.integer.alias.decimal_int,
+					augend.integer.alias.hex,
+					augend.date.alias["%Y/%m/%d"],
+					augend.constant.alias.bool,
+					augend.semver.alias.semver,
+				},
+				visual = {
+					augend.integer.alias.decimal,
+					augend.integer.alias.hex,
+					augend.date.alias["%Y/%m/%d"],
+					augend.constant.alias.alpha,
+					augend.constant.alias.Alpha,
+				},
+			})
+			vim.keymap.set("n", "<C-a>", function()
+				require("dial.map").manipulate("increment", "normal")
+			end)
+			vim.keymap.set("n", "<C-x>", function()
+				require("dial.map").manipulate("decrement", "normal")
+			end)
+			vim.keymap.set("n", "g<C-a>", function()
+				require("dial.map").manipulate("increment", "gnormal")
+			end)
+			vim.keymap.set("n", "g<C-x>", function()
+				require("dial.map").manipulate("decrement", "gnormal")
+			end)
+			vim.keymap.set("v", "<C-a>", function()
+				require("dial.map").manipulate("increment", "visual")
+			end)
+			vim.keymap.set("v", "<C-x>", function()
+				require("dial.map").manipulate("decrement", "visual")
+			end)
+			vim.keymap.set("v", "g<C-a>", function()
+				require("dial.map").manipulate("increment", "gvisual")
+			end)
+			vim.keymap.set("v", "g<C-x>", function()
+				require("dial.map").manipulate("decrement", "gvisual")
+			end)
+		end,
 	},
 
 	{
@@ -1193,8 +1248,29 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		ft = LSP_FILETYPES,
+		cmd = {
+			"TSUpdateSync",
+			"TSBufEnable",
+			"TSBufDisable",
+			"TSBufToggle",
+			"TSConfigInfo",
+			"TSDisable",
+			"TSEditQuery",
+			"TSEditQueryUserAfter",
+			"TSEnable",
+			"TSInstall",
+			"TSInstallFromGrammar",
+			"TSInstallInfo",
+			"TSInstallSync",
+			"TSModuleInfo",
+			"TSToggle",
+			"TSUninstall",
+			"TSUpdate",
+			"TSUpdateSync",
+		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
+				indent = { enable = true },
 				highlight = {
 					enable = true,
 				},
