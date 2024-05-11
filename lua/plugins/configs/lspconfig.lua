@@ -40,14 +40,14 @@ local function preview_location_callback(_, result)
 	if result == nil or vim.tbl_isempty(result) then
 		return nil
 	end
-	vim.lsp.util.preview_location(result[1])
+	vim.lsp.util.preview_location(result[1], {})
 end
 
 local function goto_location_callback(_, result)
 	if result == nil or vim.tbl_isempty(result) then
 		return nil
 	end
-	vim.lsp.util.jump_to_location(result[1], { offset_encoding = vim.lsp.util._get_offset_encoding() })
+	vim.lsp.util.jump_to_location(result[1], vim.lsp.util._get_offset_encoding(0))
 end
 
 function PeekDefinition()
@@ -97,11 +97,11 @@ local function goto_definition(split_cmd)
 			vim.cmd(split_cmd)
 		end
 
-		if vim.tbl_islist(result) then
+		if vim.islist(result) then
 			lutil.jump_to_location(result[1])
 
 			if result > 1 then
-				lutil.set_qflist(lutil.locations_to_items(result))
+				lutil.set_qflist(lutil.locations_to_items(result, vim.lsp.util._get_offset_encoding(0)))
 				api.nvim_command("copen")
 				api.nvim_command("wincmd p")
 			end

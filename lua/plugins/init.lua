@@ -1,5 +1,5 @@
 -- local LSP_EVENT = "VeryLazy"
-local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php", "bash" }
+local LSP_FILETYPES = { "rust", "lua", "python", "c", "c++", "javascript", "toml", "php", "bash", "kdl" }
 return {
 	{
 		"rstacruz/vim-closer",
