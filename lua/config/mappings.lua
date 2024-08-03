@@ -86,9 +86,9 @@ local mappings = {
 					return
 				end
 				local hint = vim.lsp.inlay_hint
-				local enabled = hint.is_enabled(0)
+				local enabled = hint.is_enabled({ bufnr = 0 })
 
-				local success, _ = pcall(vim.lsp.inlay_hint.enable, not enabled)
+				local success, _ = pcall(vim.lsp.inlay_hint.enable, not enabled, {})
 				if not success then
 					vim.lsp.inlay_hint.enable(0, not enabled)
 				end
@@ -258,10 +258,6 @@ local mappings = {
 			end,
 			"Go to definition",
 		},
-		["<leader>tt"] = { "<Cmd>TroubleToggle<CR>", "Toggle the Trouble panel" },
-		["<leader>twd"] = { "<Cmd>Trouble workspace_diagnostics<CR>", "Show workspace diagnostics in Trouble" },
-		["<leader>tq"] = { "<Cmd>TodoQuickFix<CR>", "Show todos in Trouble" },
-		["<leader>td"] = { "<Cmd>Trouble lsp_definitions<CR>", "Show LSP definitions in a Trouble panel" },
 		-- ["<A-x>"] = { "<Cmd>ToggleTerm direction=float<CR>", "Open floating terminal" },
 		-- ["<A-t>"] = { "<Cmd>ToggleTerm direction=vertical<CR>", "Open vertical terminal" },
 		-- ["<A-y>"] = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Open horizontal terminal" },

@@ -4,7 +4,7 @@ if not present then
 	return
 end
 
-local ASCII_hl = "CursorLineNr"
+local ASCII_hl = "Normal"
 local SHORTCUT_hl = "CursorLineNr"
 local TEXT_hl = "Function"
 

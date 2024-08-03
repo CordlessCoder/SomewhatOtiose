@@ -172,6 +172,7 @@ local servers = {
 	"tailwindcss",
 	"wgsl_analyzer",
 	"hls",
+	"jsonls",
 	-- "solidity_ls",
 }
 
