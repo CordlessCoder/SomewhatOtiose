@@ -14,6 +14,8 @@ local LSP_FILETYPES = {
 	"fish",
 	"go",
 	"c#",
+	"vb",
+	"cs",
 	"json",
 	"jsonc",
 }
@@ -111,18 +113,28 @@ return {
 					update_delay = 50,
 				},
 			})
-			vim.keymap.set("n", "<leader>ao", function()
-				require("aerial").open()
-			end)
-			vim.keymap.set("n", "<leader>at", function()
-				require("telescope").load_extension("aerial")
-				require("telescope").extensions.aerial.aerial()
-			end)
-			vim.keymap.set("n", "<leader>ac", function()
-				require("aerial").close()
-			end)
 		end,
-		keys = { "<leader>ao", "<leader>at", "<leader>ac" },
+		keys = {
+			{
+				"<leader>ao",
+				function()
+					require("aerial").open()
+				end,
+			},
+			{
+				"<leader>at",
+				function()
+					require("telescope").load_extension("aerial")
+					require("telescope").extensions.aerial.aerial()
+				end,
+			},
+			{
+				"<leader>ac",
+				function()
+					require("aerial").close()
+				end,
+			},
+		},
 	},
 	{
 		"tiagovla/scope.nvim",
@@ -138,44 +150,59 @@ return {
 		config = function()
 			local harpoon = require("harpoon")
 			harpoon:setup()
-			vim.keymap.set("n", "<leader>ha", function()
-				harpoon:list():add()
-			end)
-			vim.keymap.set("n", "<leader>hc", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list())
-			end)
-
-			vim.keymap.set("n", "<leader>hn", function()
-				harpoon:list():select(1)
-			end)
-			vim.keymap.set("n", "<leader>he", function()
-				harpoon:list():select(2)
-			end)
-			vim.keymap.set("n", "<leader>hi", function()
-				harpoon:list():select(3)
-			end)
-			vim.keymap.set("n", "<leader>ho", function()
-				harpoon:list():select(4)
-			end)
-
-			-- Toggle previous & next buffers stored within Harpoon list
-			vim.keymap.set("n", "<C-P>", function()
-				harpoon:list():prev()
-			end)
-			vim.keymap.set("n", "<C-L>", function()
-				harpoon:list():next()
-			end)
 		end,
 		lazy = true,
 		keys = {
-			"<leader>ha",
-			"<leader>hc",
-			"<leader>hn>",
-			"<leader>he>",
-			"<leader>hi>",
-			"<leader>ho>",
-			"<C-P>",
-			"<C-L>",
+			{
+				"<leader>ha",
+				function()
+					require("harpoon"):list():add()
+				end,
+			},
+			{
+				"<leader>hc",
+				function()
+					local harpoon = require("harpoon")
+					harpoon.ui:toggle_quick_menu(harpoon:list())
+				end,
+			},
+			{
+				"<leader>hn>",
+				function()
+					require("harpoon"):list():select(1)
+				end,
+			},
+			{
+				"<leader>he>",
+				function()
+					require("harpoon"):list():select(2)
+				end,
+			},
+			{
+				"<leader>hi>",
+				function()
+					require("harpoon"):list():select(3)
+				end,
+			},
+			{
+				"<leader>ho>",
+				function()
+					require("harpoon"):list():select(4)
+				end,
+			},
+			{
+				-- Toggle previous & next buffers stored within require("harpoon") list
+				"<C-P>",
+				function()
+					require("harpoon"):list():prev()
+				end,
+			},
+			{
+				"<C-L>",
+				function()
+					require("harpoon"):list():next()
+				end,
+			},
 		},
 	},
 	{
@@ -416,7 +443,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		enabled = false,
+		enabled = true,
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -503,7 +530,7 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
-		enabled = true,
+		enabled = false,
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -536,6 +563,7 @@ return {
 					colors.fg_gutter = "#242637"
 					colors.teal = "#73C0C9"
 				end,
+				on_highlights = function(highlights, colors) end,
 			})
 			vim.cmd.colorscheme("tokyonight-night")
 			if vim.g.neovide then
@@ -763,18 +791,23 @@ return {
 	{
 		"numToStr/FTerm.nvim",
 		lazy = true,
-		config = function()
-			vim.keymap.set("n", "<A-x>", function()
-				require("FTerm").toggle()
-			end)
-			vim.keymap.set("t", "<A-x>", function()
-				require("FTerm").toggle()
-			end)
-			require("FTerm").setup({
-				blend = 20,
-			})
-		end,
-		keys = { { "<A-x>", mode = "n" }, { "<A-x>", mode = "t" } },
+		opts = { blend = 20 },
+		keys = {
+			{
+				"<A-x>",
+				mode = "n",
+				function()
+					require("FTerm").toggle()
+				end,
+			},
+			{
+				"<A-x>",
+				mode = "t",
+				function()
+					require("FTerm").toggle()
+				end,
+			},
+		},
 	},
 	{
 		"nvim-neorg/neorg",
@@ -955,14 +988,62 @@ return {
 	{
 		"monaqa/dial.nvim",
 		keys = {
-			{ "<C-a>", mode = "n" },
-			{ "<C-x>", mode = "n" },
-			{ "g<C-a>", mode = "n" },
-			{ "g<C-x>", mode = "n" },
-			{ "<C-a>", mode = "v" },
-			{ "<C-x>", mode = "v" },
-			{ "g<C-a>", mode = "v" },
-			{ "g<C-x>", mode = "v" },
+			{
+				"<C-a>",
+				mode = "n",
+				function()
+					require("dial.map").manipulate("increment", "normal")
+				end,
+			},
+			{
+				"<C-x>",
+				mode = "n",
+				function()
+					require("dial.map").manipulate("decrement", "normal")
+				end,
+			},
+			{
+				"g<C-a>",
+				mode = "n",
+				function()
+					require("dial.map").manipulate("increment", "gnormal")
+				end,
+			},
+			{
+				"g<C-x>",
+				mode = "n",
+				function()
+					require("dial.map").manipulate("decrement", "gnormal")
+				end,
+			},
+			{
+				"<C-a>",
+				mode = "v",
+				function()
+					require("dial.map").manipulate("increment", "visual")
+				end,
+			},
+			{
+				"<C-x>",
+				mode = "v",
+				function()
+					require("dial.map").manipulate("decrement", "visual")
+				end,
+			},
+			{
+				"g<C-a>",
+				mode = "v",
+				function()
+					require("dial.map").manipulate("increment", "gvisual")
+				end,
+			},
+			{
+				"g<C-x>",
+				mode = "v",
+				function()
+					require("dial.map").manipulate("decrement", "gvisual")
+				end,
+			},
 		},
 		lazy = true,
 		config = function()
@@ -986,34 +1067,11 @@ return {
 					augend.constant.alias.Alpha,
 				},
 			})
-			vim.keymap.set("n", "<C-a>", function()
-				require("dial.map").manipulate("increment", "normal")
-			end)
-			vim.keymap.set("n", "<C-x>", function()
-				require("dial.map").manipulate("decrement", "normal")
-			end)
-			vim.keymap.set("n", "g<C-a>", function()
-				require("dial.map").manipulate("increment", "gnormal")
-			end)
-			vim.keymap.set("n", "g<C-x>", function()
-				require("dial.map").manipulate("decrement", "gnormal")
-			end)
-			vim.keymap.set("v", "<C-a>", function()
-				require("dial.map").manipulate("increment", "visual")
-			end)
-			vim.keymap.set("v", "<C-x>", function()
-				require("dial.map").manipulate("decrement", "visual")
-			end)
-			vim.keymap.set("v", "g<C-a>", function()
-				require("dial.map").manipulate("increment", "gvisual")
-			end)
-			vim.keymap.set("v", "g<C-x>", function()
-				require("dial.map").manipulate("decrement", "gvisual")
-			end)
 		end,
 	},
 
 	{
+		enabled = false,
 		"folke/zen-mode.nvim",
 		opts = {
 			-- your configuration comes here
@@ -1069,18 +1127,86 @@ return {
 		cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
 		lazy = true,
 	},
-
 	{
-		"jose-elias-alvarez/null-ls.nvim",
-		dependencies = { "nvim-lspconfig" },
+		"mfussenegger/nvim-lint",
 		config = function()
-			require("plugins.configs.null_ls").setup()
+			require("lint").linters_by_ft = {
+				markdown = { "vale" },
+				bash = { "shellcheck" },
+				sh = { "shellcheck" },
+				fish = { "fish" },
+				python = { "flake8" },
+				go = { "golangcilint" },
+				c = { "clangtidy" },
+				cpp = { "clangtidy" },
+			}
+		end,
+		init = function()
+			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+				callback = function()
+					-- try_lint without arguments runs the linters defined in `linters_by_ft`
+					-- for the current filetype
+					require("lint").try_lint()
+				end,
+			})
 		end,
 		lazy = true,
-		ft = LSP_FILETYPES,
-		cmd = { "NullLsLog", "NullLsInfo" },
-		keys = { { "<leader>cf", mode = "n" } },
 	},
+	{
+		"stevearc/conform.nvim",
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					rust = { "rustfmt" },
+					python = { "black" },
+					go = { "gofmt" },
+					markdown = { "mdformat" },
+					javascript = { "prettier" },
+					bash = { "shfmt" },
+					c = { "clang_format" },
+					cpp = { "clang_format" },
+					toml = { "taplo" },
+				},
+				formatters = {
+					clang_format = {
+						prepend_args = {
+							"-style={BasedOnStyle: LLVM, IndentWidth: 4, ColumnLimit: 120, AlignConsecutiveAssignments: Consecutive, AlignConsecutiveDeclarations: Consecutive, AlignConsecutiveMacros: Consecutive, AlignEscapedNewlines: Left, AlignOperands: AlignAfterOperator}",
+						},
+					},
+				},
+				format_on_save = {
+					-- These options will be passed to conform.format()
+					timeout_ms = 500,
+					lsp_format = "fallback",
+				},
+			})
+		end,
+		keys = {
+			{
+				mode = "n",
+				"<leader>cf",
+				function()
+					require("conform").format()
+				end,
+			},
+		},
+		event = "BufWritePre",
+		lazy = true,
+		ft = LSP_FILETYPES,
+		cmd = { "ConformInfo" },
+	},
+	-- {
+	-- 	"jose-elias-alvarez/null-ls.nvim",
+	-- 	dependencies = { "nvim-lspconfig" },
+	-- 	config = function()
+	-- 		require("plugins.configs.null_ls").setup()
+	-- 	end,
+	-- 	lazy = true,
+	-- 	ft = LSP_FILETYPES,
+	-- 	cmd = { "NullLsLog", "NullLsInfo" },
+	-- 	keys = { { "<leader>cf", mode = "n" } },
+	-- },
 
 	{
 		"goolord/alpha-nvim",
