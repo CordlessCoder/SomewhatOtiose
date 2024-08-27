@@ -20,7 +20,7 @@ local LSP_FILETYPES = {
 	"jsonc",
 }
 return {
-	"https://github.com/b0o/SchemaStore.nvim",
+	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true, ft = { "json", "jsonc" } },
 	{
 		"rstacruz/vim-closer",
 		lazy = true,
@@ -1474,6 +1474,7 @@ return {
 					"rust",
 					"fish",
 				},
+				auto_install = true,
 			})
 			-- vim.cmd.TSEnable("highlight")
 		end,
