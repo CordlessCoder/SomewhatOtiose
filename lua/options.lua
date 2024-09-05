@@ -10,38 +10,12 @@ opt.cursorline = true
 vim.o.spell = false
 vim.o.spelllang = "en_us,en_gb,en_ca"
 
--- -- Colorscheme
--- vim.cmd.colorscheme("habamax")
---
--- g.terminal_color_0 = "#1c1c1c"
--- g.terminal_color_1 = "#d75f5f"
--- g.terminal_color_2 = "#87af87"
--- g.terminal_color_3 = "#afaf87"
--- g.terminal_color_4 = "#5f87af"
--- g.terminal_color_5 = "#af87af"
--- g.terminal_color_6 = "#5f8787"
--- g.terminal_color_7 = "#9e9e9e"
--- g.terminal_color_8 = "#767676"
--- g.terminal_color_9 = "#d7875f"
--- g.terminal_color_10 = "#afd7af"
--- g.terminal_color_11 = "#d7d787"
--- g.terminal_color_12 = "#87afd7"
--- g.terminal_color_13 = "#d7afd7"
--- g.terminal_color_14 = "#87afaf"
--- g.terminal_color_15 = "#bcbcbc"
-
 local tab_widths = {
 	haskell = 2,
 	html = 2,
 	css = 2,
 }
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "kdl",
-	callback = function(ev)
-		vim.opt_local.commentstring = "//%s"
-	end,
-})
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
 	callback = function(ev)
