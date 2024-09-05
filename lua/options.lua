@@ -10,8 +10,6 @@ opt.cursorline = true
 vim.o.spell = false
 vim.o.spelllang = "en_us,en_gb,en_ca"
 
-vim.o.laststatus = 3
-
 local tab_widths = {
 	haskell = 2,
 	html = 2,
