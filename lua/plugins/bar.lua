@@ -6,7 +6,6 @@ return {
 			require("scope").setup({})
 		end,
 	},
-
 	{
 		"willothy/nvim-cokeline",
 		dependencies = {
@@ -14,6 +13,10 @@ return {
 			"nvim-tree/nvim-web-devicons", -- If you want devicons
 			"stevearc/resession.nvim", -- Optional, for persistent history
 		},
+		init = function()
+			-- set an empty tabline until cokeline loads
+			vim.o.tabline = " "
+		end,
 		config = function()
 			local get_hex = require("cokeline.hlgroups").get_hl_attr
 			local is_picking_focus = require("cokeline.mappings").is_picking_focus
@@ -124,6 +127,7 @@ return {
 				},
 			})
 		end,
-		lazy = false,
+		lazy = vim.fn.argc(-1) == 0, -- lazy load only if we're looking at alpha-nvim on startup
+		event = "VeryLazy",
 	},
 }
