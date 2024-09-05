@@ -15,7 +15,7 @@ return {
 		opts = function()
 			vim.o.laststatus = 3
 
-			local opts = {
+			return {
 				options = {
 					theme = "auto",
 					globalstatus = vim.o.laststatus == 3,
