@@ -32,6 +32,8 @@ vim.o.spelllang = "en_us,en_gb,en_ca"
 
 local tab_widths = {
 	haskell = 2,
+	html = 2,
+	css = 2,
 }
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -52,12 +54,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.bo.shiftwidth = 4
 		vim.bo.expandtab = true
 
-		for ft, w in pairs(tab_widths) do
-			if ft == ev.match then
-				vim.bo.tabstop = w
-				vim.bo.softtabstop = w
-				vim.bo.shiftwidth = w
-			end
+		local w = tab_widths[ev.match]
+		if w ~= nil then
+			vim.bo.tabstop = w
+			vim.bo.softtabstop = w
+			vim.bo.shiftwidth = w
 		end
 	end,
 })
