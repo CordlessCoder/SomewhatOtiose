@@ -59,6 +59,13 @@ return {
 					quickfix = { fname_width = 100 },
 					tags = { fname_width = 100 },
 				},
+				extensions = {
+					emoji = {
+						action = function(emoji)
+							vim.api.nvim_put({ emoji.value }, "c", false, true)
+						end,
+					},
+				},
 			})
 			ts.load_extension("undo")
 			ts.load_extension("emoji")
@@ -97,7 +104,7 @@ return {
 				desc = "Show undo history",
 			},
 			{
-				"<leader>sfg",
+				"<leader>sR",
 				function()
 					local function is_git_repo()
 						vim.fn.system("git rev-parse --is-inside-work-tree")
@@ -122,46 +129,39 @@ return {
 				desc = "Fuzzy find from project's git root",
 			},
 			{
-				"<leader>sr",
+				"<leader>tr",
 				function()
 					require("telescope.builtin").oldfiles()
 				end,
 				desc = "Fuzzy find recently opened files",
 			},
 			{
-				"<leader>sg",
+				"<leader>tg",
 				function()
 					require("telescope.builtin").git_files()
 				end,
 				desc = "Fuzzy search git files",
 			},
 			{
-				"<leader>se",
+				"<leader>tl",
 				function()
 					require("telescope.builtin").live_grep()
 				end,
 				desc = "Fuzzy find using live grep",
 			},
 			{
-				"<leader>sd",
+				"<leader>td",
 				function()
 					require("telescope.builtin").lsp_document_symbols()
 				end,
 				desc = "Fuzzy find workspace symbols",
 			},
 			{
-				"<leader>sb",
+				"<leader>tb",
 				function()
 					require("telescope.builtin").buffers()
 				end,
 				desc = "Fuzzy find buffers",
-			},
-			{
-				"<leader>sf",
-				function()
-					require("telescope.builtin").find_files()
-				end,
-				desc = "Fuzzy find files",
 			},
 			{
 				"<leader>f",
@@ -171,7 +171,7 @@ return {
 				desc = "Fuzzy find files",
 			},
 			{
-				"<leader>pf",
+				"<leader>tp",
 				function()
 					require("telescope.builtin").find_files({ cwd = ".." })
 				end,
@@ -204,13 +204,6 @@ return {
 					require("telescope.builtin").type_definitions()
 				end,
 				desc = "Go to definition",
-			},
-			{
-				"<leader>g",
-				function()
-					require("telescope.builtin").git_files()
-				end,
-				desc = "Search git files",
 			},
 		},
 	},
