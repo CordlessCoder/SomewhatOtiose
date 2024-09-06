@@ -32,6 +32,7 @@ return {
 	},
 	{
 		"numToStr/FTerm.nvim",
+		enabled = false,
 		lazy = true,
 		opts = { blend = 20 },
 		keys = {
