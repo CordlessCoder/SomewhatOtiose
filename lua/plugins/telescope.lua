@@ -76,7 +76,7 @@ return {
 		-- event = "UIEnter",
 		keys = {
 			{
-				"<leader>sz",
+				"<leader>tz",
 				function()
 					require("telescope").extensions.zoxide.list()
 				end,

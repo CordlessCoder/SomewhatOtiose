@@ -92,19 +92,29 @@ return {
 			function()
 				require("aerial").open()
 			end,
+			desc = "Open aerial",
 		},
 		{
 			"<leader>at",
 			function()
+				require("aerial").toggle()
+			end,
+			desc = "Toggle aerial",
+		},
+		{
+			"<leader>ta",
+			function()
 				require("telescope").load_extension("aerial")
 				require("telescope").extensions.aerial.aerial()
 			end,
+			desc = "Telescope search aerial",
 		},
 		{
 			"<leader>ac",
 			function()
 				require("aerial").close()
 			end,
+			desc = "Close aerial",
 		},
 	},
 }
