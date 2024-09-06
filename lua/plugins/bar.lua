@@ -5,11 +5,11 @@ return {
 			"nvim-lua/plenary.nvim", -- Required for v0.4.0+
 			"nvim-tree/nvim-web-devicons", -- If you want devicons
 			"stevearc/resession.nvim", -- Optional, for persistent history
-            {
-                "tiagovla/scope.nvim",
-                lazy = true,
-                opts = {}
-            },
+			{
+				"tiagovla/scope.nvim",
+				lazy = true,
+				opts = {},
+			},
 		},
 		init = function()
 			-- set an empty tabline until cokeline loads
@@ -19,7 +19,7 @@ return {
 			local get_hex = require("cokeline.hlgroups").get_hl_attr
 			local is_picking_focus = require("cokeline.mappings").is_picking_focus
 			local is_picking_close = require("cokeline.mappings").is_picking_close
-			local getdiagnostics = require("config.utils.getdiagnostics")
+			-- local getdiagnostics = require("config.utils.getdiagnostics")
 
 			require("cokeline").setup({
 				sidebar = {
@@ -29,7 +29,6 @@ return {
 							text = function(buf)
 								return buf.filetype
 							end,
-							fg = vim.g.terminal_color_3,
 							bg = function()
 								return get_hex("NvimTreeNormal", "bg")
 							end,
@@ -40,10 +39,14 @@ return {
 
 				default_hl = {
 					fg = function(buffer)
-						return buffer.is_focused and get_hex("ColorColumn", "bg") or get_hex("Normal", "fg")
+						return (not (is_picking_focus() or is_picking_close()) and buffer.is_focused)
+								and get_hex("ColorColumn", "bg")
+							or get_hex("Normal", "fg")
 					end,
 					bg = function(buffer)
-						return buffer.is_focused and get_hex("Normal", "fg") or get_hex("ColorColumn", "bg")
+						return (not (is_picking_focus() or is_picking_close()) and buffer.is_focused)
+								and get_hex("Normal", "fg")
+							or get_hex("ColorColumn", "bg")
 					end,
 				},
 
@@ -80,21 +83,20 @@ return {
 						underline = function(buffer)
 							return buffer.is_hovered and not buffer.is_focused
 						end,
-						fg = function(buffer)
-							local total = getdiagnostics(buffer.number, { min = "INFO", max = "ERROR" })
-							if total == 0 then
-								return buffer.is_focused and get_hex("ColorColumn", "bg") or get_hex("Normal", "fg")
-							end
-							if getdiagnostics(buffer.number, "ERROR") > 0 then
-								return "ErrorMsg"
-							end
-							if getdiagnostics(buffer.number, "WARN") > 0 then
-								return "WarningMsg"
-							end
-							return "Character"
-						end,
+						-- fg = function(buffer)
+						-- 	local total = getdiagnostics(buffer.number, { min = "INFO", max = "ERROR" })
+						-- 	if total == 0 then
+						-- 		return buffer.is_focused and get_hex("ColorColumn", "bg") or get_hex("Normal", "fg")
+						-- 	end
+						-- 	if getdiagnostics(buffer.number, "ERROR") > 0 then
+						-- 		return "ErrorMsg"
+						-- 	end
+						-- 	if getdiagnostics(buffer.number, "WARN") > 0 then
+						-- 		return "WarningMsg"
+						-- 	end
+						-- 	return "Character"
+						-- end,
 					},
-
 					{
 						text = function(buffer)
 							local harpoon = require("harpoon")

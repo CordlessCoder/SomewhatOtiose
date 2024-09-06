@@ -59,7 +59,7 @@ return {
 				show_end_of_buffer = true, -- show the '~' characters after the end of buffers
 				term_colors = true,
 				dim_inactive = {
-					enabled = true,
+					enabled = false,
 					shade = "dark",
 					percentage = 0.15,
 				},
@@ -89,22 +89,26 @@ return {
 				-- 	}
 				-- end,
 				integrations = {
-					-- barbar = true,
 					barbecue = false,
 					alpha = true,
 					cmp = true,
 					gitsigns = true,
-					telescope = true,
+					telescope = { enabled = true },
 					notify = true,
-					-- leap = true,
 					lsp_trouble = true,
 					treesitter = true,
+					treesitter_context = true,
 					nvimtree = true,
 					mason = true,
 					neogit = true,
 					dap = true,
 					harpoon = true,
 					noice = false,
+					markdown = true,
+					aerial = true,
+					dap_ui = true,
+					indent_blankline = true,
+					nvim_surround = true,
 					native_lsp = {
 						enabled = true,
 						virtual_text = {

@@ -23,25 +23,25 @@ return {
 				end,
 			},
 			{
-				"<leader>hn>",
+				"<leader>hn",
 				function()
 					require("harpoon"):list():select(1)
 				end,
 			},
 			{
-				"<leader>he>",
+				"<leader>he",
 				function()
 					require("harpoon"):list():select(2)
 				end,
 			},
 			{
-				"<leader>hi>",
+				"<leader>hi",
 				function()
 					require("harpoon"):list():select(3)
 				end,
 			},
 			{
-				"<leader>ho>",
+				"<leader>ho",
 				function()
 					require("harpoon"):list():select(4)
 				end,
