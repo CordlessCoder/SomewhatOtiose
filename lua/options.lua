@@ -19,21 +19,12 @@ local tab_widths = {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
 	callback = function(ev)
-		local present, _ = pcall(require, "colorizer")
-		if present then
-			vim.cmd.ColorizerAttachToBuffer()
-		end
-		vim.bo.tabstop = 4
-		vim.bo.softtabstop = 4
-		vim.bo.shiftwidth = 4
 		vim.bo.expandtab = true
 
-		local w = tab_widths[ev.match]
-		if w ~= nil then
-			vim.bo.tabstop = w
-			vim.bo.softtabstop = w
-			vim.bo.shiftwidth = w
-		end
+		local w = tab_widths[ev.match] or 4
+		vim.bo.tabstop = w
+		vim.bo.softtabstop = w
+		vim.bo.shiftwidth = w
 	end,
 })
 

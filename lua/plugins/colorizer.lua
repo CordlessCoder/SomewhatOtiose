@@ -10,4 +10,14 @@ return {
 		})
 		require("colorizer").attach_to_buffer(0, {})
 	end,
+
+	keys = {
+		{
+			"<leader>cc",
+			function()
+				vim.cmd.ColorizerToggle()
+			end,
+			desc = "󰌁   Toggle colorizer",
+		},
+	},
 }

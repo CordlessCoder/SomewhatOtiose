@@ -169,7 +169,6 @@ local mappings = {
 		["<C-S>"] = { "<cmd> wa <CR>", "󰆔   Save all files" },
 		-- ["<C-t>"] = { "<cmd> tabedit <CR>", "New tab" },
 		["<A-n>"] = { "<cmd> tabn <CR>", "next tab" },
-		["<leader>cc"] = { "<cmd> ColorizerToggle <CR>", "󰌁   Toggle colorizer" },
 		["<C-left>"] = { "<C-w>h", "Focus window to the left" },
 		["<C-h>"] = { "<C-w>h", "Focus window to the left" },
 		["<C-down>"] = { "<C-w>j", "Focus window downwards" },
