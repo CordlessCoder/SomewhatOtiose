@@ -1,17 +1,15 @@
 return {
 	{
-		"tiagovla/scope.nvim",
-		lazy = false,
-		config = function()
-			require("scope").setup({})
-		end,
-	},
-	{
 		"willothy/nvim-cokeline",
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- Required for v0.4.0+
 			"nvim-tree/nvim-web-devicons", -- If you want devicons
 			"stevearc/resession.nvim", -- Optional, for persistent history
+            {
+                "tiagovla/scope.nvim",
+                lazy = true,
+                opts = {}
+            },
 		},
 		init = function()
 			-- set an empty tabline until cokeline loads
