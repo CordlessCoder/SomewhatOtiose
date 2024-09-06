@@ -1,9 +1,30 @@
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
-		{ "rcarriga/nvim-dap-ui", opts = {}, dependencies = {
-			{ "nvim-neotest/nvim-nio" },
-		} },
+		{
+			"rcarriga/nvim-dap-ui",
+			opts = {},
+			dependencies = {
+				{ "nvim-neotest/nvim-nio" },
+			},
+			keys = {
+				{
+					"<leader>dt",
+					function()
+						require("dapui").toggle()
+					end,
+					desc = "DAPui toggle",
+				},
+				{
+					"<leader>e",
+					function()
+						require("dapui").eval()
+					end,
+					desc = "Evaluate selection",
+					mode = "v",
+				},
+			},
+		},
 		{
 			"theHamsta/nvim-dap-virtual-text",
 			opts = {
@@ -73,6 +94,43 @@ return {
 		"DapVirtualTextEnable",
 		"DapVirtualTextForceRefresh",
 		"DapVirtualTextToggle",
+	},
+	keys = {
+		{
+			"<leader>dc",
+			function()
+				require("dap").continue()
+			end,
+			desc = "DAP continue",
+		},
+		{
+			"<leader>db",
+			function()
+				require("dap").toggle_breakpoint()
+			end,
+			desc = "DAP toggle breakpoint",
+		},
+		{
+			"<leader>do",
+			function()
+				require("dap").step_over()
+			end,
+			desc = "DAP step over",
+		},
+		{
+			"<leader>di",
+			function()
+				require("dap").step_into()
+			end,
+			desc = "DAP step in",
+		},
+		{
+			"<leader>dr",
+			function()
+				require("dap").repl.toggle()
+			end,
+			desc = "DAP repl",
+		},
 	},
 	lazy = true,
 }

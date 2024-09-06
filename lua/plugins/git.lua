@@ -10,6 +10,15 @@ return {
 		config = true,
 		lazy = true,
 		cmd = { "Neogit" },
+		keys = {
+			{
+				"<leader>og",
+				function()
+					require("neogit").open({ kind = "vsplit" })
+				end,
+				desc = "Open NeoGit",
+			},
+		},
 	},
 	{
 		"f-person/git-blame.nvim",

@@ -94,30 +94,16 @@ return {
 				dotfiles = true,
 			},
 		})
-
-		-- Bufferline api on resize
-		local nvim_tree_events = require("nvim-tree.events")
-		local present, bufferline_api = pcall(require, "bufferline.api")
-		if not present then
-			return
-		end
-
-		local function get_tree_size()
-			return require("nvim-tree.view").View.width
-		end
-
-		nvim_tree_events.subscribe("TreeOpen", function()
-			bufferline_api.set_offset(get_tree_size() + 1)
-		end)
-
-		nvim_tree_events.subscribe("Resize", function()
-			bufferline_api.set_offset(get_tree_size() + 1)
-		end)
-
-		nvim_tree_events.subscribe("TreeClose", function()
-			bufferline_api.set_offset(0)
-		end)
 	end,
-	cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse", "NvimTreeOpen", "NvimTreeClose" },
-	lazy = true,
+	-- cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse", "NvimTreeOpen", "NvimTreeClose" },
+	lazy = false,
+	keys = {
+		{
+			"<leader>n",
+			function()
+				require("nvim-tree.api").tree.toggle()
+			end,
+			desc = "Toggle nvim-tree",
+		},
+	},
 }

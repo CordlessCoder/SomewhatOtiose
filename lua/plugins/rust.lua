@@ -7,6 +7,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"mfussenegger/nvim-dap",
 			{
+				lazy = true,
 				"lvimuser/lsp-inlayhints.nvim",
 				cond = vim.version().minor < 10,
 				opts = {},
@@ -21,8 +22,6 @@ return {
 					-- LSP configuration
 					server = {
 						on_attach = function(client, bufnr)
-							-- you can also put keymaps in here
-
 							if vim.version().minor >= 10 then
 								local success, _ = pcall(vim.lsp.inlay_hint.enable, true)
 								if not success then
@@ -54,13 +53,10 @@ return {
 			end
 		end,
 	},
-
 	{
 		"saecki/crates.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("crates").setup({})
-		end,
+		opts = {},
 		ft = "toml",
 		lazy = true,
 	},

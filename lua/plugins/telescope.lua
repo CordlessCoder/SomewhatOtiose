@@ -11,9 +11,8 @@ return {
 			"tiagovla/scope.nvim",
 		},
 		config = function()
-			local telescope = require("telescope")
-
-			telescope.setup({
+			local ts = require("telescope")
+			ts.setup({
 				defaults = {
 					border = true,
 					borderchars = {
@@ -61,12 +60,151 @@ return {
 					tags = { fname_width = 100 },
 				},
 			})
-			telescope.load_extension("undo")
-			telescope.load_extension("emoji")
-			telescope.load_extension("zoxide")
-			telescope.load_extension("scope")
+			ts.load_extension("undo")
+			ts.load_extension("emoji")
+			ts.load_extension("zoxide")
+			ts.load_extension("scope")
 		end,
 		cmd = { "Telescope" },
 		-- event = "UIEnter",
+		keys = {
+			{
+				"<leader>tn",
+				function()
+					require("telescope").extensions.notify.notify()
+				end,
+				desc = "Show notifications",
+			},
+			{
+				"<leader>te",
+				function()
+					require("telescope").extensions.emoji.emoji()
+				end,
+				desc = "Show emoji picker",
+			},
+			{
+				"<leader>tu",
+				function()
+					require("telescope").extensions.undo.undo()
+				end,
+				desc = "Show undo history",
+			},
+			{
+				"<leader>sfg",
+				function()
+					local function is_git_repo()
+						vim.fn.system("git rev-parse --is-inside-work-tree")
+
+						return vim.v.shell_error == 0
+					end
+
+					local function get_git_root()
+						local dot_git_path = vim.fn.finddir(".git", ".;")
+						return vim.fn.fnamemodify(dot_git_path, ":h")
+					end
+
+					local opts = {}
+
+					if is_git_repo() then
+						opts = {
+							cwd = get_git_root(),
+						}
+					end
+					require("telescope.builtin").live_grep(opts)
+				end,
+				desc = "Fuzzy find from project's git root",
+			},
+			{
+				"<leader>sr",
+				function()
+					require("telescope.builtin").oldfiles()
+				end,
+				desc = "Fuzzy find recently opened files",
+			},
+			{
+				"<leader>sg",
+				function()
+					require("telescope.builtin").git_files()
+				end,
+				desc = "Fuzzy search git files",
+			},
+			{
+				"<leader>se",
+				function()
+					require("telescope.builtin").live_grep()
+				end,
+				desc = "Fuzzy find using live grep",
+			},
+			{
+				"<leader>sd",
+				function()
+					require("telescope.builtin").lsp_document_symbols()
+				end,
+				desc = "Fuzzy find workspace symbols",
+			},
+			{
+				"<leader>sb",
+				function()
+					require("telescope.builtin").buffers()
+				end,
+				desc = "Fuzzy find buffers",
+			},
+			{
+				"<leader>sf",
+				function()
+					require("telescope.builtin").find_files()
+				end,
+				desc = "Fuzzy find files",
+			},
+			{
+				"<leader>f",
+				function()
+					require("telescope.builtin").find_files()
+				end,
+				desc = "Fuzzy find files",
+			},
+			{
+				"<leader>pf",
+				function()
+					require("telescope.builtin").find_files({ cwd = ".." })
+				end,
+				desc = "Fuzzy find files in parent directory",
+			},
+			{
+				"gd",
+				function()
+					require("telescope.builtin").lsp_definitions()
+				end,
+				desc = "Go to definition",
+			},
+			{
+				"gi",
+				function()
+					require("telescope.builtin").lsp_implementations()
+				end,
+				desc = "Go to implementations",
+			},
+			{
+				"gr",
+				function()
+					require("telescope.builtin").lsp_references()
+				end,
+				desc = "Go to definition",
+			},
+			{
+				"gt",
+				function()
+					require("telescope.builtin").type_definitions()
+				end,
+				desc = "Go to definition",
+			},
+			{
+				"<leader>g",
+				function()
+					require("telescope.builtin").git_files()
+				end,
+				desc = "Search git files",
+			},
+		},
 	},
 }

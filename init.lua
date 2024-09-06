@@ -27,7 +27,7 @@ require("lazy").setup("plugins", {
 	defaults = {
 		lazy = true,
 	},
-	-- concurrency = 20, ---@type number limit the maximum amount of concurrent tasks
+	-- concurrency = 8, ---@type number limit the maximum amount of concurrent tasks
 	change_detection = {
 		-- automatically check for config file changes and reload the ui
 		enabled = false,

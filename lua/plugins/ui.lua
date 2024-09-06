@@ -73,6 +73,15 @@ return {
 		},
 		lazy = true,
 		cmd = { "ZenMode" },
+		keys = {
+			{
+				"<C-g>",
+				function()
+					require("zen-mode").toggle()
+				end,
+				desc = "Focus mode",
+			},
+		},
 	},
 	{
 		"folke/twilight.nvim",

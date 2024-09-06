@@ -129,5 +129,117 @@ return {
 		end,
 		lazy = vim.fn.argc(-1) == 0, -- lazy load only if we're looking at alpha-nvim on startup
 		event = "VeryLazy",
+		keys = {
+			{
+				"<leader>bf",
+				function()
+					require("cokeline.mappings").pick("focus")
+				end,
+				desc = "Pick buffer to focus",
+			},
+			{
+				"<leader>bc",
+				function()
+					require("cokeline.mappings").pick("close")
+				end,
+				desc = "Pick buffer to close",
+			},
+			{
+				"<A-1>",
+				function()
+					require("cokeline.mappings").by_index("focus", 1)
+				end,
+				desc = "Go to the first buffer",
+			},
+			{
+				"<A-2>",
+				function()
+					require("cokeline.mappings").by_index("focus", 2)
+				end,
+				desc = "Go to the second buffer",
+			},
+			{
+				"<A-3>",
+				function()
+					require("cokeline.mappings").by_index("focus", 3)
+				end,
+				desc = "Go to the third buffer",
+			},
+			{
+				"<A-4>",
+				function()
+					require("cokeline.mappings").by_index("focus", 4)
+				end,
+				desc = "Go to the fourth buffer",
+			},
+			{
+				"<A-5>",
+				function()
+					require("cokeline.mappings").by_index("focus", 5)
+				end,
+				desc = "Go to the fifth buffer",
+			},
+			{
+				"<A-6>",
+				function()
+					require("cokeline.mappings").by_index("focus", 6)
+				end,
+				desc = "Go to the sixth buffer",
+			},
+			{
+				"<A-7>",
+				function()
+					require("cokeline.mappings").by_index("focus", 7)
+				end,
+				desc = "Go to the seventh buffer",
+			},
+			{
+				"<A-8>",
+				function()
+					require("cokeline.mappings").by_index("focus", 8)
+				end,
+				desc = "Go to the eighth buffer",
+			},
+			{
+				"<A-9>",
+				function()
+					require("cokeline.mappings").by_index("focus", 9)
+				end,
+				desc = "Go to the ninth buffer",
+			},
+			{
+				"<A-0>",
+				function()
+					local function get_bufs_loaded()
+						local bufs_loaded = {}
+
+						for i, buf_hndl in ipairs(vim.api.nvim_list_bufs()) do
+							if vim.api.nvim_buf_is_loaded(buf_hndl) then
+								bufs_loaded[i] = buf_hndl
+							end
+						end
+
+						return bufs_loaded
+					end
+					local count = #get_bufs_loaded()
+					require("cokeline.mappings").by_index("focus", count)
+				end,
+				desc = "Go to last buffer",
+			},
+			{
+				"<A-,>",
+				function()
+					require("cokeline.mappings").by_step("switch", -1)
+				end,
+				desc = "Move buffer back",
+			},
+			{
+				"<A-.>",
+				function()
+					require("cokeline.mappings").by_step("switch", 1)
+				end,
+				desc = "Move buffer forward",
+			},
+		},
 	},
 }
