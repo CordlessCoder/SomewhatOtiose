@@ -69,6 +69,13 @@ return {
 		-- event = "UIEnter",
 		keys = {
 			{
+				"<leader>sz",
+				function()
+					require("telescope").extensions.zoxide.list()
+				end,
+				desc = "Fuzzy find paths in zoxide",
+			},
+			{
 				"<leader>tn",
 				function()
 					require("telescope").extensions.notify.notify()
