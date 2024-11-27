@@ -96,7 +96,7 @@ return {
 		})
 	end,
 	-- cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse", "NvimTreeOpen", "NvimTreeClose" },
-	lazy = false,
+	lazy = true,
 	keys = {
 		{
 			"<leader>n",

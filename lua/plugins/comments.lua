@@ -2,7 +2,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		lazy = true,
-		ft = LSP_FILETYPES,
+		event = "VeryLazy",
 		config = function()
 			require("todo-comments").setup({
 				signs = true, -- show icons in the signs column

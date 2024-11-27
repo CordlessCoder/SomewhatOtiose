@@ -127,11 +127,8 @@ return {
 					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 				},
 			})
-			vim.cmd.colorscheme("catppuccin")
+			vim.cmd.colorscheme("catppuccin-mocha")
 			vim.api.nvim_set_hl(0, "@lsp.typemod.variable.mutable", { italic = true })
-			if vim.g.neovide then
-				vim.api.nvim_set_hl(0, "Normal", { background = vim.g.terminal_color_0 })
-			end
 		end,
 	},
 	{

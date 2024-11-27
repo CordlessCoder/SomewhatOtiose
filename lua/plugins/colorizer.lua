@@ -13,7 +13,7 @@ return {
 
 	keys = {
 		{
-			"<leader>cc",
+			"<leader>ct",
 			function()
 				vim.cmd.ColorizerToggle()
 			end,

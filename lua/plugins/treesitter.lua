@@ -23,6 +23,9 @@ return {
 		"TSUpdate",
 		"TSUpdateSync",
 	},
+	config = function(_, opts)
+		require("nvim-treesitter.configs").setup(opts)
+	end,
 	opts = {
 		highlight = { enable = true },
 		indent = { enable = true },
@@ -51,15 +54,7 @@ return {
 			"rust",
 			"fish",
 			"c",
-		},
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = "<C-space>",
-				node_incremental = "<C-space>",
-				scope_incremental = false,
-				node_decremental = "<bs>",
-			},
+			"svelte",
 		},
 		textobjects = {
 			move = {
