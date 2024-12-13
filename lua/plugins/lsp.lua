@@ -149,7 +149,7 @@ return {
 		}
 
 		local servers = {
-			"typst_lsp",
+			"tinymist",
 			"pylsp",
 			"html",
 			"cssls",
@@ -230,6 +230,18 @@ return {
 					IncludePrereleases = true,
 				},
 			},
+		})
+		lspconfig.tinymist.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			handlers = handlers,
+
+			root_dir = function(filename, bufnr)
+				-- local rev = string.reverse(filename)
+				-- local from_end = string.find(rev, "/") or 0
+				-- return string.sub(filename, 1, string.len(filename) - from_end)
+				return vim.fn.getcwd()
+			end,
 		})
 		lspconfig.asm_lsp.setup({
 			on_attach = on_attach,

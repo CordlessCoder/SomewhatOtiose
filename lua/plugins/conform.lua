@@ -26,9 +26,20 @@ return {
 			formatters_by_ft = formatters_by_ft,
 			formatters = {
 				clang_format = {
-					prepend_args = {
-						"-style={BasedOnStyle: LLVM, IndentWidth: 4, ColumnLimit: 120, AlignConsecutiveAssignments: Consecutive, AlignConsecutiveDeclarations: Consecutive, AlignConsecutiveMacros: Consecutive, AlignEscapedNewlines: Left, AlignOperands: AlignAfterOperator}",
-					},
+					prepend_args = function(self, ctx)
+						if
+							vim.fn.filereadable(ctx.dirname .. "/.clang-format")
+							or vim.fn.filereadable(ctx.dirname .. "/_clang-format")
+						then
+							return {
+								"-style=file",
+							}
+						end
+						return {
+
+							"-style={Language: Cpp, BasedOnStyle: LLVM, IndentWidth: 4, MaxEmptyLinesToKeep: 2, ColumnLimit: 200, PenaltyBreakAssignment: 2, PenaltyReturnTypeOnItsOwnLine: 200, PointerAlignment: Left}",
+						}
+					end,
 				},
 			},
 			format_on_save = {
