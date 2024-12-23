@@ -28,15 +28,14 @@ return {
 				clang_format = {
 					prepend_args = function(self, ctx)
 						if
-							vim.fn.filereadable(ctx.dirname .. "/.clang-format")
-							or vim.fn.filereadable(ctx.dirname .. "/_clang-format")
+							vim.fn.filereadable(ctx.dirname .. "/.clang-format") == 1
+							or vim.fn.filereadable(ctx.dirname .. "/_clang-format") == 1
 						then
 							return {
 								"-style=file",
 							}
 						end
 						return {
-
 							"-style={Language: Cpp, BasedOnStyle: LLVM, IndentWidth: 4, MaxEmptyLinesToKeep: 2, ColumnLimit: 200, PenaltyBreakAssignment: 2, PenaltyReturnTypeOnItsOwnLine: 200, PointerAlignment: Left}",
 						}
 					end,

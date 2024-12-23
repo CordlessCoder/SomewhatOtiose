@@ -54,7 +54,7 @@ return {
 			-- 	},
 			-- },
 			--
-			-- max_concurrent_installers = 10,
+			max_concurrent_installers = 10,
 		})
 	end,
 	cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonLog", "MasonUninstall", "MasonUninstallAll" },
