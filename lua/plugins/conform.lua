@@ -13,6 +13,7 @@ local formatters_by_ft = {
 	toml = { "taplo" },
 	html = { "prettier" },
 	css = { "prettier" },
+	sql = { "sleek" },
 }
 local filetypes = {}
 for ft, _ in pairs(formatters_by_ft) do
@@ -26,7 +27,7 @@ return {
 			formatters_by_ft = formatters_by_ft,
 			formatters = {
 				clang_format = {
-					prepend_args = function(self, ctx)
+					prepend_args = function(_, ctx)
 						if
 							vim.fn.filereadable(ctx.dirname .. "/.clang-format") == 1
 							or vim.fn.filereadable(ctx.dirname .. "/_clang-format") == 1
