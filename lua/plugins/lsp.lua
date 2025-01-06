@@ -16,6 +16,10 @@ return {
 			local bufopts = { noremap = true, silent = true, buffer = bufnr }
 			client.server_capabilities.documentFormattingProvider = false
 			client.server_capabilities.documentRangeFormattingProvider = false
+			client.server_capabilities.foldingRange = {
+				dynamicRegistration = false,
+				lineFoldingOnly = true,
+			}
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 			vim.keymap.set("n", "<C-space>", vim.lsp.buf.hover, bufopts)
 			vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)

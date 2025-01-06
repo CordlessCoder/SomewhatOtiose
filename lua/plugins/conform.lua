@@ -1,7 +1,7 @@
 local formatters_by_ft = {
 	lua = { "stylua" },
 	rust = { "rustfmt", "leptosfmt" },
-	python = { "black" },
+	python = { "ruff" },
 	go = { "gofmt", "goimports-reviser" },
 	markdown = { "mdsf" },
 	javascript = { "prettier" },
@@ -13,7 +13,7 @@ local formatters_by_ft = {
 	toml = { "taplo" },
 	html = { "prettier" },
 	css = { "prettier" },
-	sql = { "sleek" },
+	-- sql = { "pg_format" },
 }
 local filetypes = {}
 for ft, _ in pairs(formatters_by_ft) do
