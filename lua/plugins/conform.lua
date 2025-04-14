@@ -1,7 +1,7 @@
 local formatters_by_ft = {
 	lua = { "stylua" },
-	rust = { "rustfmt", "leptosfmt" },
-	python = { "ruff" },
+	rust = { "rustfmt" },
+	python = { "ruff_format" },
 	go = { "gofmt", "goimports-reviser" },
 	markdown = { "mdsf" },
 	javascript = { "prettier" },

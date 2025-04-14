@@ -22,4 +22,5 @@ return {
 		})
 	end,
 	lazy = true,
+	ft = { "go", "python", "c", "c++", "fish", "bash" },
 }

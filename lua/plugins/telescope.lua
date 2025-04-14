@@ -104,6 +104,13 @@ return {
 				desc = "Show undo history",
 			},
 			{
+				"<leader>ts",
+				function()
+					require("telescope.builtin").spell_suggest()
+				end,
+				desc = "Fuzzy find spell suggestions",
+			},
+			{
 				"<leader>sR",
 				function()
 					local function is_git_repo()
