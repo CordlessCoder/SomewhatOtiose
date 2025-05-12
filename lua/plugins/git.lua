@@ -27,14 +27,9 @@ return {
 		config = function()
 			vim.keymap.set("n", "<leader>gb", function()
 				require("gitblame").toggle()
-
-				local present, galaxyline = pcall(require, "galaxyline")
-				if present then
-					galaxyline.load_galaxyline()
-				end
 			end)
 
-			vim.g.gitblame_display_virtual_text = 0
+			vim.g.gitblame_display_virtual_text = 1
 			vim.g.gitblame_enabled = false
 			require("gitblame").setup({
 				delay = 0,
