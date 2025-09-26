@@ -34,3 +34,5 @@ g.rust_clip_command = "xclip -selection clipboard"
 opt.guifont = "JetBrainsMono Nerd Font Mono:h15"
 -- vim.cmd "set langmap=fpgjluyrstdneikFPGJLUYRSTDNEIKoO;ertyuiosdfgjklnERTYUIOSDFGJKLNpP"
 -- vim.cmd "set langnoremap"
+
+require("config.lsp")
