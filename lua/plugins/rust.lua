@@ -1,8 +1,8 @@
 return {
 	{
 		"mrcjkb/rustaceanvim",
-		lazy = true,
-		version = "^4",
+		lazy = false,
+		version = "^6",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"mfussenegger/nvim-dap",
