@@ -23,6 +23,7 @@ end
 return {
 	"stevearc/conform.nvim",
 	config = function()
+		vim.g.autoformat = true -- Sets up the default value to be true
 		require("conform").setup({
 			formatters_by_ft = formatters_by_ft,
 			formatters = {
@@ -42,11 +43,12 @@ return {
 					end,
 				},
 			},
-			format_on_save = {
-				-- These options will be passed to conform.format()
-				timeout_ms = 500,
-				lsp_format = "fallback",
-			},
+			format_on_save = function(bufnr)
+				if vim.g.disable_autoformat then
+					return
+				end
+				return { timeout_ms = 500, lsp_format = "fallback" }
+			end,
 		})
 	end,
 	keys = {

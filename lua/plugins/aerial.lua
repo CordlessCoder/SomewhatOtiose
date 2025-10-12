@@ -102,14 +102,6 @@ return {
 			desc = "Toggle aerial",
 		},
 		{
-			"<leader>ta",
-			function()
-				require("telescope").load_extension("aerial")
-				require("telescope").extensions.aerial.aerial()
-			end,
-			desc = "Telescope search aerial",
-		},
-		{
 			"<leader>ac",
 			function()
 				require("aerial").close()

@@ -1,4 +1,5 @@
 return {
+	enabled = false,
 	"goolord/alpha-nvim",
 	lazy = vim.fn.argc(-1) ~= 0, -- don't load if opening a file from cmdline
 	cmd = { "Alpha" },

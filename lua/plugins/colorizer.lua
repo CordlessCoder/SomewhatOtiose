@@ -1,16 +1,14 @@
 return {
-	"NvChad/nvim-colorizer.lua",
+	"catgoose/nvim-colorizer.lua",
 	lazy = true,
-	event = "VeryLazy",
+	event = "BufReadPre",
 	config = function()
 		require("colorizer").setup({
 			html = {
 				mode = "background",
 			},
 		})
-		require("colorizer").attach_to_buffer(0, {})
 	end,
-
 	keys = {
 		{
 			"<leader>ct",

@@ -1,9 +1,3 @@
-local lazy_load = require("config.utils.lazy_load")
-
-local notify = lazy_load("notify", function()
-	return vim.print
-end)
-
 local mappings = {
 	i = {
 		["<C-h>"] = { "<left>", "Move with HJKL in insert mode" },
@@ -20,7 +14,7 @@ local mappings = {
 			function()
 				local success = pcall(vim.lsp.buf.range_code_action)
 				if not success then
-					notify()("No code action available")
+					Snacks.notify("No code action available")
 				end
 			end,
 			"Perform code action on selection",
@@ -94,7 +88,7 @@ local mappings = {
 					-- map("i", "<C-e>", "<up>", { noremap = false })
 					-- map("i", "<C-i>", "<right>", { noremap = false })
 				end
-				notify()(string.format("Colemak binds: %s", vim.g.colemak))
+				Snacks.notify(string.format("Colemak binds: %s", vim.g.colemak))
 			end,
 			"Toggle Colemak-DH bindings",
 		},

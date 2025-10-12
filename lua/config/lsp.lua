@@ -1,13 +1,3 @@
-local lazy_load = require("config.utils.lazy_load")
-local notify_inner = lazy_load("notify", function()
-	return function(obj)
-		print(vim.inspect(obj))
-	end
-end)
-local notify = function(obj)
-	notify_inner()(obj)
-end
-
 local function goto_definition(split_cmd)
 	local lutil = vim.lsp.util
 	local log = require("vim.lsp.log")
@@ -139,7 +129,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
 	vim.keymap.set("n", "<leader>wl", function()
-		notify(vim.lsp.buf.list_workspace_folders())
+		Snacks.notify(vim.lsp.buf.list_workspace_folders())
 	end, bufopts)
 
 	-- util.load_mappings("lspconfig", { buffer = bufnr })
