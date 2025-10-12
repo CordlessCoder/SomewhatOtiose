@@ -423,7 +423,7 @@ return {
 			desc = "Select Scratch Buffer",
 		},
 		{
-			"<leader>tn",
+			"<leader>fn",
 			function()
 				Snacks.notifier.show_history()
 			end,
@@ -537,6 +537,22 @@ return {
 				Snacks.toggle.inlay_hints():map("<leader>uh")
 				Snacks.toggle.indent():map("<leader>ug")
 				Snacks.toggle.dim():map("<leader>uD")
+
+				vim.g.autoformat = false
+
+				Snacks.toggle
+					.new({
+						id = "Format on Save",
+						name = "Format on Save",
+						get = function()
+							return vim.g.autoformat
+						end,
+						set = function(_)
+							vim.g.autoformat = not vim.g.autoformat
+						end,
+					})
+					:map("<leader>uf")
+				vim.g.autoformat = false
 			end,
 		})
 	end,

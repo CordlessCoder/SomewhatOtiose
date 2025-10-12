@@ -30,22 +30,6 @@ local mappings = {
 			end,
 			"Close current buffer",
 		},
-		["<leader>h"] = {
-			function()
-				if vim.version().minor < 10 then
-					require("lsp-inlayhints").toggle()
-					return
-				end
-				local hint = vim.lsp.inlay_hint
-				local enabled = hint.is_enabled({ bufnr = 0 })
-
-				local success, _ = pcall(vim.lsp.inlay_hint.enable, not enabled, {})
-				if not success then
-					vim.lsp.inlay_hint.enable(0, not enabled)
-				end
-			end,
-			"Toggle inlayhints",
-		},
 		["<leader>``"] = {
 			function()
 				local function map(mode, lhs, rhs, opts)
