@@ -93,7 +93,10 @@ return {
 					alpha = true,
 					cmp = true,
 					gitsigns = true,
-					snacks = true,
+					snacks = {
+						enabled = true,
+						indent_scope_color = "lavender",
+					},
 					lsp_trouble = true,
 					treesitter = true,
 					treesitter_context = true,
