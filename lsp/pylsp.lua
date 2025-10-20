@@ -1,5 +1,6 @@
 return {
 	filetypes = { "python" },
+	cmd = { "pylsp" },
 	settings = {
 		pylsp = {
 			plugins = {
