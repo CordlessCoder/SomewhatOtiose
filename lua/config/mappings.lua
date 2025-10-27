@@ -76,13 +76,6 @@ local mappings = {
 			end,
 			"Toggle Colemak-DH bindings",
 		},
-		["<leader>st"] = {
-			function()
-				vim.o.spell = not vim.o.spell
-				print("spell: " .. tostring(vim.o.spell))
-			end,
-			"Toggle vim spell",
-		},
 		["cr"] = {
 			function()
 				vim.lsp.buf.rename()
