@@ -16,6 +16,13 @@ local tab_widths = {
 	css = 2,
 }
 
+-- Highlight after yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
 	callback = function(ev)
