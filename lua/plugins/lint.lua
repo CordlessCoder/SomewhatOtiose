@@ -6,7 +6,7 @@ return {
 			bash = { "shellcheck" },
 			sh = { "shellcheck" },
 			fish = { "fish" },
-			python = { "ruff", "mypy" },
+			python = { "ruff" },
 			go = { "golangcilint" },
 			c = { "clangtidy" },
 			cpp = { "clangtidy" },
