@@ -6,7 +6,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 	},
 	opts = {
-		-- lsp_keymaps = false,
+		lsp_keymaps = false,
 		-- other options
 		lsp_cfg = true, -- use go.nvim will setup gopls
 	},

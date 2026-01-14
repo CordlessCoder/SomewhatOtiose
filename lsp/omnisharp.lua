@@ -1,6 +1,6 @@
 return {
-	cmd = { "omnisharp" },
-	filetypes = { "csharp" },
+	cmd = { "OmniSharp" },
+	filetypes = { "csharp", "cs" },
 	settings = {
 		FormattingOptions = {
 			-- Enables support for reading code style, naming convention and analyzer
@@ -39,4 +39,10 @@ return {
 			IncludePrereleases = true,
 		},
 	},
+    root_dir = vim.fs.root(
+      0, 
+      function(name, path)
+        return name:match('%.sln$') ~= nil
+      end
+    )
 }
