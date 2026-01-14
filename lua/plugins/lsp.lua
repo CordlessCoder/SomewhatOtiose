@@ -4,32 +4,6 @@ return {
 	config = function()
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities.offsetEncoding = { "utf-16" }
-
-		local servers = {
-			"tinymist",
-			"pylsp",
-			"html",
-			"cssls",
-			"lua_ls",
-			"emmet_ls",
-			"bashls",
-			"ts_ls",
-			-- "ccls",
-			"clangd",
-			"jdtls",
-			"taplo",
-			"gopls",
-			"solidity",
-			"zls",
-			"marksman",
-			-- "crystalline",
-			"kotlin_language_server",
-			-- "wgsl_analyzer",
-			-- "hls",
-			"jsonls",
-			"svelte",
-			-- "solidity_ls",
-		}
 	end,
 	lazy = true,
 	cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
