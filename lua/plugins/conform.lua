@@ -37,7 +37,7 @@ return {
 							}
 						end
 						return {
-							"-style={Language: Cpp, BasedOnStyle: LLVM, IndentWidth: 4, MaxEmptyLinesToKeep: 2, ColumnLimit: 200, PenaltyBreakAssignment: 2, PenaltyReturnTypeOnItsOwnLine: 200, PointerAlignment: Left}",
+							"-style={Language: Cpp, BasedOnStyle: LLVM, IndentWidth: 4, MaxEmptyLinesToKeep: 2, ColumnLimit: 200, PenaltyBreakAssignment: 2, PenaltyReturnTypeOnItsOwnLine: 200, PointerAlignment: Right}",
 						}
 					end,
 				},
