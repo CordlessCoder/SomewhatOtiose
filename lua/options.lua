@@ -4,11 +4,15 @@ local g = vim.g
 -- opt.laststatus = 3 -- global statusline
 opt.showmode = false
 
+opt.cmdheight = 1 -- global statusline
+
 opt.clipboard = "unnamedplus"
 opt.cursorline = true
 
 vim.o.spell = false
 vim.o.spelllang = "en_us,en_gb,en_ca"
+
+vim.g.cmp_enabled = true
 
 local tab_widths = {
 	haskell = 2,

@@ -522,6 +522,17 @@ return {
 				end
 
 				-- Create some toggle mappings
+				Snacks.toggle
+					.option("cmp_enabled", {
+						name = "Autocomplete",
+						get = function()
+							return vim.g.cmp_enabled
+						end,
+						set = function(_)
+							vim.g.cmp_enabled = not vim.g.cmp_enabled
+						end,
+					}, { global = true })
+					:map("<leader>ua")
 				Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
 				Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
 				Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")

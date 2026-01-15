@@ -22,6 +22,9 @@ return {
 		end
 
 		cmp.setup({
+			enabled = function()
+				return vim.g.cmp_enabled;
+			end,
 			sources = {
 				{ name = "nvim_lsp" },
 				{ name = "nvim_lua" },
