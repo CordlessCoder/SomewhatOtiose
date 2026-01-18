@@ -23,9 +23,9 @@ return {
 		"TSUpdate",
 		"TSUpdateSync",
 	},
-	config = function(_, opts)
-		require("nvim-treesitter.configs").setup(opts)
-	end,
+	-- config = function(_, opts)
+	-- 	require("nvim-treesitter.configs").setup(opts)
+	-- end,
 	opts = {
 		highlight = { enable = true },
 		indent = { enable = true },
