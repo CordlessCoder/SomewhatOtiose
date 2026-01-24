@@ -2,16 +2,10 @@ return {
 	{
 		"mrcjkb/rustaceanvim",
 		lazy = true,
-		version = "^6",
+		version = "^7",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"mfussenegger/nvim-dap",
-			{
-				lazy = true,
-				"lvimuser/lsp-inlayhints.nvim",
-				cond = vim.version().minor < 10,
-				opts = {},
-			},
 		},
 		ft = { "rust" },
 		config = function()

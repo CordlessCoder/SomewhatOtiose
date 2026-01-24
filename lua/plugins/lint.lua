@@ -8,8 +8,6 @@ return {
 			fish = { "fish" },
 			python = { "ruff" },
 			go = { "golangcilint" },
-			c = { "clangtidy" },
-			cpp = { "clangtidy" },
 		}
 	end,
 	init = function()
