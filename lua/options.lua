@@ -9,10 +9,10 @@ opt.cmdheight = 1 -- global statusline
 opt.clipboard = "unnamedplus"
 opt.cursorline = true
 
-vim.o.spell = false
-vim.o.spelllang = "en_us,en_gb,en_ca"
+opt.spell = false
+opt.spelllang = "en_us,en_gb,en_ca"
 
-vim.g.cmp_enabled = true
+g.cmp_enabled = true
 
 local tab_widths = {
 	haskell = 2,
@@ -22,9 +22,9 @@ local tab_widths = {
 
 -- Highlight after yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
